@@ -132,7 +132,11 @@ exports.exportGuild = async (guild) => {
     });
     //Roles
     var roles = (await guild.roles.fetch()).cache.array();
-    structure.roles = roles.map(g_r => {
+    structure.roles = roles.filter(r => {
+        if (r.managed)
+            return false;
+        return true;
+    }).map(g_r => {
         let r = new structures_1.RoleStructure();
         r.color = g_r.hexColor;
         r.hoist = g_r.hoist;
