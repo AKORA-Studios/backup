@@ -192,3 +192,24 @@ export const exportGuild = async (guild: Guild) => {
 
     return structure;
 }
+
+
+
+export const importGuild = (obj: object): GuildStructure => {
+    var structure = new GuildStructure();
+
+    for(var i in obj) {
+        structure[i] = obj[i];
+    }
+
+    return structure;
+}
+
+/**
+ * Asign Values of b to Object A
+ */
+export const assignValues = (a, b) => {
+    for(var i in a)
+        a[i] = b[i];
+    return a;
+}

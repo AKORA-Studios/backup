@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.exportGuild = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.colors = void 0;
+exports.assignValues = exports.importGuild = exports.exportGuild = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 exports.colors = {
@@ -158,4 +158,19 @@ exports.exportGuild = async (guild) => {
         return c;
     });
     return structure;
+};
+exports.importGuild = (obj) => {
+    var structure = new structures_1.GuildStructure();
+    for (var i in obj) {
+        structure[i] = obj[i];
+    }
+    return structure;
+};
+/**
+ * Asign Values of b to Object A
+ */
+exports.assignValues = (a, b) => {
+    for (var i in a)
+        a[i] = b[i];
+    return a;
 };

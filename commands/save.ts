@@ -1,4 +1,4 @@
-import { newEmb, exportGuild, colors } from '../typescript/utilities';
+import { newEmb, exportGuild, importGuild, colors } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import { MessageAttachment } from 'discord.js';
 //let a = new module();
@@ -38,6 +38,5 @@ module.exports = new Command({
 
         msg.channel.send(emb);
         msg.channel.send(attachment);
-        //msg.client.emit("guildMemberAdd", msg.member)
     }
 );

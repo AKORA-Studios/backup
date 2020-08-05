@@ -31,5 +31,4 @@ module.exports = new classes_1.Command({
     var attachment = new discord_js_1.MessageAttachment(buffer, 'backup.json');
     msg.channel.send(emb);
     msg.channel.send(attachment);
-    //msg.client.emit("guildMemberAdd", msg.member)
 });
