@@ -155,7 +155,7 @@ exports.exportGuild = async (guild) => {
         c.name = g_c.id;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
-        c.position = g_c.position;
+        c.position = g_c.calculatedPosition;
         c.type = g_c.type;
         return c;
     });
