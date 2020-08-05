@@ -11,8 +11,8 @@ module.exports = new classes_1.Command({
     description: 'qwq',
     module_type: 'misc',
     triggers: ['save', 'save-guild'],
-    user_permissions: [],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: ['ADMINISTRATOR'],
+    bot_permissions: ['ADMINISTRATOR']
 }, async (msg, args) => {
     var emb = utilities_1.newEmb(msg).setTitle("Exported Guild as JSON file").setColor(utilities_1.colors.success), json_structure = await utilities_1.exportGuild(msg.guild), minimal = false, text = "";
     //JSON Formatting
@@ -26,7 +26,7 @@ module.exports = new classes_1.Command({
         text = JSON.stringify(json_structure, null, 4);
         emb.setFooter("Exported with pretty formatting");
     }
-    //Preparing for senbing
+    //Preparing for sending
     var buffer = Buffer.from(text, 'utf8');
     var attachment = new discord_js_1.MessageAttachment(buffer, 'backup.json');
     msg.channel.send(emb);

@@ -10,8 +10,8 @@ module.exports = new Command({
     description: 'qwq',
     module_type: 'misc',
     triggers: ['save', 'save-guild'],
-    user_permissions: [],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: ['ADMINISTRATOR'],
+    bot_permissions: ['ADMINISTRATOR']
 },
 
     async (msg, args) => {
@@ -31,7 +31,7 @@ module.exports = new Command({
             emb.setFooter("Exported with pretty formatting");
         }
 
-        //Preparing for senbing
+        //Preparing for sending
         var buffer = Buffer.from(text, 'utf8');
         var attachment = new MessageAttachment(buffer, 'backup.json')
 
