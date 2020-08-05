@@ -5,11 +5,11 @@ import { MessageAttachment, Message, Collection } from 'discord.js';
 
 module.exports = new Command({
     name: 'save',
-    syntax: 'save [minimal]',
+    syntax: 'show [minimal]',
     args: false,
     description: 'qwq',
     module_type: 'misc',
-    triggers: ['save', 'save-guild'],
+    triggers: ['show'],
     user_permissions: ['ADMINISTRATOR'],
     bot_permissions: ['ADMINISTRATOR']
 },
@@ -23,13 +23,11 @@ module.exports = new Command({
         var collector = msg.channel.createMessageCollector(
             (m: Message) => m.author.id == msg.author.id,
             {
-                time: 10000,
+                time: 30000,
             }
         );
 
-        collector.on('collect', async (collected: Collection<string, Message>) => {
-            var m = collected.last();
-
+        collector.on('collect', async (m) => {
             //Canceling
             if (m.content.toLowerCase().includes("cancel")) {
                 m.reply("Action canceled")
@@ -50,14 +48,16 @@ module.exports = new Command({
 
             //Parsing
             try {
+                console.log(text)
                 var json = JSON.parse(text);
 
 
                 var buffer = Buffer.from(JSON.stringify(json, null, 4), 'utf8');
-                var attachment = new MessageAttachment(buffer, 'backup.json');
+                var att = new MessageAttachment(buffer, 'qwq.json');
 
-                msg.channel.send(attachment);
+                msg.channel.send(att);
             } catch (err) {
+                console.log(err);
                 return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."))
             }
         })

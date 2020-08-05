@@ -6,11 +6,11 @@ const discord_js_1 = require("discord.js");
 //let a = new module();
 module.exports = new classes_1.Command({
     name: 'save',
-    syntax: 'save [minimal]',
+    syntax: 'show [minimal]',
     args: false,
     description: 'qwq',
     module_type: 'misc',
-    triggers: ['save', 'save-guild'],
+    triggers: ['show'],
     user_permissions: ['ADMINISTRATOR'],
     bot_permissions: ['ADMINISTRATOR']
 }, async (msg, args) => {
@@ -19,10 +19,9 @@ module.exports = new classes_1.Command({
     emb.setTitle("Please send me your JSON File uwu").setDescription("*Write* `cancel` *to abort*").setFooter("I will wait 10 Seconds");
     await msg.channel.send(emb);
     var collector = msg.channel.createMessageCollector((m) => m.author.id == msg.author.id, {
-        time: 10000,
+        time: 30000,
     });
-    collector.on('collect', async (collected) => {
-        var m = collected.last();
+    collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
             m.reply("Action canceled");
@@ -41,12 +40,14 @@ module.exports = new classes_1.Command({
             text = (await streamToString(file)) + "";
         //Parsing
         try {
+            console.log(text);
             var json = JSON.parse(text);
             var buffer = Buffer.from(JSON.stringify(json, null, 4), 'utf8');
-            var attachment = new discord_js_1.MessageAttachment(buffer, 'backup.json');
-            msg.channel.send(attachment);
+            var att = new discord_js_1.MessageAttachment(buffer, 'qwq.json');
+            msg.channel.send(att);
         }
         catch (err) {
+            console.log(err);
             return m.channel.send(utilities_1.newEmb(m).setColor(utilities_1.colors.error).setTitle("There was an error parsing your file ._."));
         }
     });
