@@ -28,7 +28,6 @@ export class GuildStructure {
 export class ChannelStructure {
     id: string;
     name: string;
-    position: number;
     type: Exclude<keyof typeof ChannelType, 'dm' | 'group' | 'unknown'>;
     permissionsLocked: boolean;
     permissionOverwrites: Array<PermissionOverwrites>;
@@ -40,7 +39,6 @@ export class RoleStructure {
     color: string;//hex
     hoist: boolean;
     mentionable: boolean;
-    position: number;
     permissions: Array<PermissionString>;
 }
 

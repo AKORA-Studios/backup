@@ -158,7 +158,7 @@ export const exportGuild = async (guild: Guild) => {
     });
 
     //Roles
-    var roles = (await guild.roles.fetch()).cache.array();
+    var roles = (await guild.roles.fetch()).cache.array().sort((a, b) => a.position - b.position);
     structure.roles = roles.filter(r => {
         if (r.managed) return false;
 
@@ -172,13 +172,12 @@ export const exportGuild = async (guild: Guild) => {
         r.mentionable = g_r.mentionable;
         r.name = g_r.name;
         r.permissions = g_r.permissions.toArray();
-        r.position = g_r.position;
 
         return r;
     });
 
     //Channels
-    var channels = guild.channels.cache.array();
+    var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
     structure.channels = channels.map(g_c => {
         let c = new ChannelStructure();
 
@@ -186,7 +185,6 @@ export const exportGuild = async (guild: Guild) => {
         c.name = g_c.id;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
-        c.position = g_c.calculatedPosition;
         c.type = g_c.type;
 
         return c;
