@@ -1,4 +1,5 @@
 import { newEmb, importGuild, colors } from '../typescript/utilities';
+import { get } from 'https';
 import { Command } from "../typescript/classes";
 import { MessageAttachment, Message, Collection } from 'discord.js';
 //let a = new module();
@@ -17,7 +18,7 @@ module.exports = new Command({
     async (msg, args) => {
         //Getting the file from the User
         var emb = newEmb(msg).setColor(colors.info);
-        emb.setTitle("Please send me your JSON File uwu").setDescription("*Write* `cancel` *to abort*").setFooter("I will wait 10 Seconds");
+        emb.setTitle("Please send me your JSON File uwu").setDescription("*Write* `cancel` *to abort*").setFooter("I will wait 30 Seconds");
         await msg.channel.send(emb)
 
         var collector = msg.channel.createMessageCollector(
@@ -40,25 +41,39 @@ module.exports = new Command({
             //Getting File
             var attachment = m.attachments.first(),
                 file = attachment.attachment,
-                text = "";
+                url = "";
 
-            if (file instanceof Buffer) text = file.toString('utf8');
-            else if (typeof file == 'string') text = file;
-            else text = (await streamToString(file)) + "";
+            if (file instanceof Buffer) url = file.toString('utf8');
+            else if (typeof file == 'string') url = file;
+            else url = (await streamToString(file)) + "";
 
-            //Parsing
+            var text = "";
+
+            //Downloading the File
             try {
-                console.log(text)
-                var json = JSON.parse(text);
+                get(url, (res) => {
+                    res.on('data', (chunk) => {
+                        text += chunk + "";
+                    });
+                }).on("finish", () => {
+                    //Parsing
+                    try {
+                        console.log(text)
+                        var json = JSON.parse(text);
 
 
-                var buffer = Buffer.from(JSON.stringify(json, null, 4), 'utf8');
-                var att = new MessageAttachment(buffer, 'qwq.json');
+                        var buffer = Buffer.from(JSON.stringify(json, null, 4), 'utf8');
+                        var att = new MessageAttachment(buffer, 'qwq.json');
 
-                msg.channel.send(att);
+                        msg.channel.send(att);
+                    } catch (err) {
+                        console.log(err);
+                        return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."))
+                    }
+                });
             } catch (err) {
                 console.log(err);
-                return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."))
+                return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error downloading your file ._."))
             }
         })
     }
