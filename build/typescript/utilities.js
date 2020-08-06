@@ -146,7 +146,7 @@ exports.exportGuild = async (guild) => {
         r.mentionable = g_r.mentionable;
         r.name = g_r.name;
         r.permissions = g_r.permissions.toArray();
-        r.position = g_r.position;
+        //r.position = g_r.position;
         return r;
     });
     //Channels
@@ -157,7 +157,7 @@ exports.exportGuild = async (guild) => {
         c.name = g_c.name;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
-        c.position = g_c.position;
+        //c.position = g_c.position;
         c.type = g_c.type;
         return c;
     });
