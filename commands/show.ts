@@ -1,4 +1,4 @@
-import { newEmb, importGuild, getFile, colors } from '../typescript/utilities';
+import { newEmb, importGuild, getFile, colors, generateTree } from '../typescript/utilities';
 import * as bent from 'bent';
 const getString = bent('string');
 import { Command } from "../typescript/classes";
@@ -23,7 +23,13 @@ module.exports = new Command({
             //Converting to GuildStructure Object
             var structure = importGuild(json);
 
-            msg.channel.send(structure.iconURL);
+            var info_emb = newEmb(msg).setTitle("Serverinfo").setColor(colors.info);
+            var structure_emb = newEmb(msg).setTitle("Server Structure").setColor(colors.info);
+
+            structure_emb.setDescription("```"+generateTree(structure)+"```")
+
+            msg.channel.send(info_emb);
+            msg.channel.send(structure_emb);
         }, () => {
 
         });

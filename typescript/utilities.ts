@@ -223,8 +223,8 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
     //Getting the file from the User
     var emb = newEmb(msg).setColor(colors.info);
     emb.setTitle(text)
-    .setDescription("*Write* `cancel` *to abort*")
-    .setFooter(`I will wait ${timeout} Seconds`);
+        .setDescription("*Write* `cancel` *to abort*")
+        .setFooter(`I will wait ${timeout} Seconds`);
     await msg.channel.send(emb)
 
 
@@ -232,7 +232,7 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
     var collector = msg.channel.createMessageCollector(
         (m: Message) => m.author.id == msg.author.id,
         {
-            time: timeout*1000,
+            time: timeout * 1000,
         }
     );
 
@@ -264,7 +264,7 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
             //Parsing
             try {
                 var json = JSON.parse(res);
-                
+
                 succes(json);
             } catch (err) {
                 console.log(err);
@@ -286,4 +286,66 @@ function streamToString(stream) {
         stream.on('error', reject)
         stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
     })
+}
+
+
+
+
+//Tree Generation
+
+/*
+╔══╦══╗
+║  ║  ║
+╠══╬══╣
+║  ║  ║
+╚══╩══╝
+
+Name
+╠══ Roles
+║   ╠═ Role
+║   ╚═ Role
+║
+╚══ Channels
+    ╠═ Category1
+    ║  ╠═ Channel
+    ║  ╚═ Channel
+    ║
+    ╚═ Category2
+        ╠═ Channel
+        ╚═ Channel 
+*/
+
+export const generateTree = (structure: GuildStructure): string => {
+    var tree = "";
+    let i = 0;
+
+    tree += structure.name + "\n";//Linebreak
+
+    //Roles
+    tree += "╠══ Roles \n";
+    for (i = 0; i < structure.roles.length - 2; i++) {
+        let role = structure.roles[i];
+        tree += "║   ╠═ " + role.name + "\n";//Linebreak
+    }
+    i++;
+    tree += "║   ╚═ " + structure.roles[i].name + "\n";
+    tree += "║ \n";
+
+
+
+    //Channels
+    tree += "╠══ Chanels \n";
+    for (i = 0; i < structure.channels.length - 2; i++) {
+        let channel = structure.channels[i];
+        tree += "║   ╠═ " + channel.name + "\n";//Linebreak
+    }
+    i++;
+    tree += "║   ╚═ " + structure.channels[i].name + "\n";
+    tree += "║ \n";
+
+    return tree;
+}
+
+var addLine = (a: string, b: string) => {
+    return (a + (b + "\n"));
 }

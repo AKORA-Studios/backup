@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.colors = void 0;
+exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -235,3 +235,52 @@ function streamToString(stream) {
         stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
     });
 }
+//Tree Generation
+/*
+╔══╦══╗
+║  ║  ║
+╠══╬══╣
+║  ║  ║
+╚══╩══╝
+
+Name
+╠══ Roles
+║   ╠═ Role
+║   ╚═ Role
+║
+╚══ Channels
+    ╠═ Category1
+    ║  ╠═ Channel
+    ║  ╚═ Channel
+    ║
+    ╚═ Category2
+        ╠═ Channel
+        ╚═ Channel
+*/
+exports.generateTree = (structure) => {
+    var tree = "";
+    let i = 0;
+    tree += structure.name + "\n"; //Linebreak
+    //Roles
+    tree += "╠══ Roles \n";
+    for (i = 0; i < structure.roles.length - 2; i++) {
+        let role = structure.roles[i];
+        tree += "║   ╠═ " + role.name + "\n"; //Linebreak
+    }
+    i++;
+    tree += "║   ╚═ " + structure.roles[i].name + "\n";
+    tree += "║ \n";
+    //Channels
+    tree += "╠══ Chanels \n";
+    for (i = 0; i < structure.channels.length - 2; i++) {
+        let channel = structure.channels[i];
+        tree += "║   ╠═ " + channel.name + "\n"; //Linebreak
+    }
+    i++;
+    tree += "║   ╚═ " + structure.channels[i].name + "\n";
+    tree += "║ \n";
+    return tree;
+};
+var addLine = (a, b) => {
+    return (a + (b + "\n"));
+};
