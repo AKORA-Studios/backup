@@ -1,8 +1,10 @@
 import { newEmb, importGuild, colors } from '../typescript/utilities';
-import { get } from 'https';
+import * as bent from 'bent';
+const getString = bent('string');
 import { Command } from "../typescript/classes";
 import { MessageAttachment, Message, Collection } from 'discord.js';
 //let a = new module();
+
 
 module.exports = new Command({
     name: 'save',
@@ -20,6 +22,8 @@ module.exports = new Command({
         var emb = newEmb(msg).setColor(colors.info);
         emb.setTitle("Please send me your JSON File uwu").setDescription("*Write* `cancel` *to abort*").setFooter("I will wait 30 Seconds");
         await msg.channel.send(emb)
+
+
 
         var collector = msg.channel.createMessageCollector(
             (m: Message) => m.author.id == msg.author.id,
@@ -51,26 +55,19 @@ module.exports = new Command({
 
             //Downloading the File
             try {
-                get(url, (res) => {
-                    res.on('data', (chunk) => {
-                        text += chunk + "";
-                    });
-                }).on("finish", () => {
-                    //Parsing
-                    try {
-                        console.log(text)
-                        var json = JSON.parse(text);
+                var res = await getString(url)
 
+                //Parsing
+                try {
+                    var json = JSON.parse(res);
+                    //Converting to GuildStructure Object
+                    var structure = importGuild(json);
 
-                        var buffer = Buffer.from(JSON.stringify(json, null, 4), 'utf8');
-                        var att = new MessageAttachment(buffer, 'qwq.json');
-
-                        msg.channel.send(att);
-                    } catch (err) {
-                        console.log(err);
-                        return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."))
-                    }
-                });
+                    msg.channel.send(structure.roles.length);
+                } catch (err) {
+                    console.log(err);
+                    return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."))
+                }
             } catch (err) {
                 console.log(err);
                 return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error downloading your file ._."))

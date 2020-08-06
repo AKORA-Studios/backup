@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("../typescript/utilities");
-const https_1 = require("https");
+const bent = require("bent");
+const getString = bent('string');
 const classes_1 = require("../typescript/classes");
-const discord_js_1 = require("discord.js");
 //let a = new module();
 module.exports = new classes_1.Command({
     name: 'save',
@@ -42,24 +42,18 @@ module.exports = new classes_1.Command({
         var text = "";
         //Downloading the File
         try {
-            https_1.get(url, (res) => {
-                res.on('data', (chunk) => {
-                    text += chunk + "";
-                });
-            }).on("finish", () => {
-                //Parsing
-                try {
-                    console.log(text);
-                    var json = JSON.parse(text);
-                    var buffer = Buffer.from(JSON.stringify(json, null, 4), 'utf8');
-                    var att = new discord_js_1.MessageAttachment(buffer, 'qwq.json');
-                    msg.channel.send(att);
-                }
-                catch (err) {
-                    console.log(err);
-                    return m.channel.send(utilities_1.newEmb(m).setColor(utilities_1.colors.error).setTitle("There was an error parsing your file ._."));
-                }
-            });
+            var res = await getString(url);
+            //Parsing
+            try {
+                var json = JSON.parse(res);
+                //Converting to GuildStructure Object
+                var structure = utilities_1.importGuild(json);
+                msg.channel.send(structure.roles.length);
+            }
+            catch (err) {
+                console.log(err);
+                return m.channel.send(utilities_1.newEmb(m).setColor(utilities_1.colors.error).setTitle("There was an error parsing your file ._."));
+            }
         }
         catch (err) {
             console.log(err);
