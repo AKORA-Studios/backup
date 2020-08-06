@@ -265,22 +265,23 @@ exports.generateTree = (structure) => {
     tree += structure.name + "\n"; //Linebreak
     //Roles
     tree += "╠══ Roles \n";
-    var roles = structure.roles.sort((a, b) => a.position - b.position);
-    for (i = 0; i < structure.roles.length - 2; i++) {
-        let role = structure.roles[i];
+    var roles = structure.roles.reverse();
+    for (i = 0; i < roles.length - 2; i++) {
+        let role = roles[i];
         tree += "║   ╠═ " + role.name + "\n"; //Linebreak
     }
     i++;
-    tree += "║   ╚═ " + structure.roles[i].name + "\n";
+    tree += "║   ╚═ " + roles[i].name + "\n";
     tree += "║ \n";
     //Channels
     tree += "╠══ Chanels \n";
-    for (i = 0; i < structure.channels.length - 2; i++) {
-        let channel = structure.channels[i];
+    var channels = structure.channels.reverse();
+    for (i = 0; i < channels.length - 2; i++) {
+        let channel = channels[i];
         tree += "║   ╠═ " + channel.name + "\n"; //Linebreak
     }
     i++;
-    tree += "║   ╚═ " + structure.channels[i].name + "\n";
+    tree += "║   ╚═ " + channels[i].name + "\n";
     tree += "║ \n";
     return tree;
 };
