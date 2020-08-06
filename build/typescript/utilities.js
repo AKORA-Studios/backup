@@ -146,6 +146,7 @@ exports.exportGuild = async (guild) => {
         r.mentionable = g_r.mentionable;
         r.name = g_r.name;
         r.permissions = g_r.permissions.toArray();
+        r.position = g_r.position;
         return r;
     });
     //Channels
@@ -156,6 +157,7 @@ exports.exportGuild = async (guild) => {
         c.name = g_c.name;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
+        c.position = g_c.position;
         c.type = g_c.type;
         return c;
     });
@@ -263,6 +265,7 @@ exports.generateTree = (structure) => {
     tree += structure.name + "\n"; //Linebreak
     //Roles
     tree += "╠══ Roles \n";
+    var roles = structure.roles.sort((a, b) => a.position - b.position);
     for (i = 0; i < structure.roles.length - 2; i++) {
         let role = structure.roles[i];
         tree += "║   ╠═ " + role.name + "\n"; //Linebreak

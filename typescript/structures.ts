@@ -31,6 +31,7 @@ export class ChannelStructure {
     type: Exclude<keyof typeof ChannelType, 'dm' | 'group' | 'unknown'>;
     permissionsLocked: boolean;
     permissionOverwrites: Array<PermissionOverwrites>;
+    position: number;
 }
 
 export class RoleStructure {
@@ -40,6 +41,7 @@ export class RoleStructure {
     hoist: boolean;
     mentionable: boolean;
     permissions: Array<PermissionString>;
+    position: number;
 }
 
 export class EmojiStructure {

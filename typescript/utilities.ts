@@ -174,6 +174,7 @@ export const exportGuild = async (guild: Guild) => {
         r.mentionable = g_r.mentionable;
         r.name = g_r.name;
         r.permissions = g_r.permissions.toArray();
+        r.position = g_r.position;
 
         return r;
     });
@@ -187,6 +188,7 @@ export const exportGuild = async (guild: Guild) => {
         c.name = g_c.name;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
+        c.position = g_c.position;
         c.type = g_c.type;
 
         return c;
@@ -323,6 +325,7 @@ export const generateTree = (structure: GuildStructure): string => {
 
     //Roles
     tree += "╠══ Roles \n";
+    var roles = structure.roles.sort((a, b) => a.position-b.position)
     for (i = 0; i < structure.roles.length - 2; i++) {
         let role = structure.roles[i];
         tree += "║   ╠═ " + role.name + "\n";//Linebreak
