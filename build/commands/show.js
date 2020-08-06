@@ -19,53 +19,10 @@ module.exports = new classes_1.Command({
     var emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info);
     emb.setTitle("Please send me your JSON File uwu").setDescription("*Write* `cancel` *to abort*").setFooter("I will wait 30 Seconds");
     await msg.channel.send(emb);
-    var collector = msg.channel.createMessageCollector((m) => m.author.id == msg.author.id, {
-        time: 30000,
-    });
-    collector.on('collect', async (m) => {
-        //Canceling
-        if (m.content.toLowerCase().includes("cancel")) {
-            m.reply("Action canceled");
-            return collector.stop("Canceled");
-        }
-        //Check for Attachment
-        if (m.attachments.size < 1)
-            return m.reply("You need to send a File");
-        //Getting File
-        var attachment = m.attachments.first(), file = attachment.attachment, url = "";
-        if (file instanceof Buffer)
-            url = file.toString('utf8');
-        else if (typeof file == 'string')
-            url = file;
-        else
-            url = (await streamToString(file)) + "";
-        var text = "";
-        //Downloading the File
-        try {
-            var res = await getString(url);
-            //Parsing
-            try {
-                var json = JSON.parse(res);
-                //Converting to GuildStructure Object
-                var structure = utilities_1.importGuild(json);
-                msg.channel.send(structure.roles.length);
-            }
-            catch (err) {
-                console.log(err);
-                return m.channel.send(utilities_1.newEmb(m).setColor(utilities_1.colors.error).setTitle("There was an error parsing your file ._."));
-            }
-        }
-        catch (err) {
-            console.log(err);
-            return m.channel.send(utilities_1.newEmb(m).setColor(utilities_1.colors.error).setTitle("There was an error downloading your file ._."));
-        }
+    utilities_1.getFile(msg, "Send me your JSON File uwu", 30, (json) => {
+        //Converting to GuildStructure Object
+        var structure = utilities_1.importGuild(json);
+        msg.channel.send(structure.iconURL);
+    }, () => {
     });
 });
-function streamToString(stream) {
-    const chunks = [];
-    return new Promise((resolve, reject) => {
-        stream.on('data', chunk => chunks.push(chunk));
-        stream.on('error', reject);
-        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
-    });
-}

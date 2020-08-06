@@ -1,4 +1,4 @@
-import { newEmb, importGuild, colors } from '../typescript/utilities';
+import { newEmb, importGuild, getFile, colors } from '../typescript/utilities';
 import * as bent from 'bent';
 const getString = bent('string');
 import { Command } from "../typescript/classes";
@@ -23,64 +23,13 @@ module.exports = new Command({
         emb.setTitle("Please send me your JSON File uwu").setDescription("*Write* `cancel` *to abort*").setFooter("I will wait 30 Seconds");
         await msg.channel.send(emb)
 
+        getFile(msg, "Send me your JSON File uwu", 30, (json) => {
+            //Converting to GuildStructure Object
+            var structure = importGuild(json);
 
+            msg.channel.send(structure.iconURL);
+        }, () => {
 
-        var collector = msg.channel.createMessageCollector(
-            (m: Message) => m.author.id == msg.author.id,
-            {
-                time: 30000,
-            }
-        );
-
-        collector.on('collect', async (m) => {
-            //Canceling
-            if (m.content.toLowerCase().includes("cancel")) {
-                m.reply("Action canceled")
-                return collector.stop("Canceled");
-            }
-
-            //Check for Attachment
-            if (m.attachments.size < 1) return m.reply("You need to send a File");
-
-            //Getting File
-            var attachment = m.attachments.first(),
-                file = attachment.attachment,
-                url = "";
-
-            if (file instanceof Buffer) url = file.toString('utf8');
-            else if (typeof file == 'string') url = file;
-            else url = (await streamToString(file)) + "";
-
-            var text = "";
-
-            //Downloading the File
-            try {
-                var res = await getString(url)
-
-                //Parsing
-                try {
-                    var json = JSON.parse(res);
-                    //Converting to GuildStructure Object
-                    var structure = importGuild(json);
-
-                    msg.channel.send(structure.roles.length);
-                } catch (err) {
-                    console.log(err);
-                    return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."))
-                }
-            } catch (err) {
-                console.log(err);
-                return m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error downloading your file ._."))
-            }
-        })
+        });
     }
 );
-
-function streamToString(stream) {
-    const chunks = []
-    return new Promise((resolve, reject) => {
-        stream.on('data', chunk => chunks.push(chunk))
-        stream.on('error', reject)
-        stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
-    })
-}
