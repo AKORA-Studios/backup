@@ -6,8 +6,8 @@ const getString = bent('string');
 const classes_1 = require("../typescript/classes");
 //let a = new module();
 module.exports = new classes_1.Command({
-    name: 'save',
-    syntax: 'show [minimal]',
+    name: 'show',
+    syntax: 'show',
     args: false,
     description: 'qwq',
     module_type: 'misc',

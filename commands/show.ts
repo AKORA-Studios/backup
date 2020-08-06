@@ -7,8 +7,8 @@ import { MessageAttachment, Message, Collection } from 'discord.js';
 
 
 module.exports = new Command({
-    name: 'save',
-    syntax: 'show [minimal]',
+    name: 'show',
+    syntax: 'show',
     args: false,
     description: 'qwq',
     module_type: 'misc',
