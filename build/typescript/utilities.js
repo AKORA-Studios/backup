@@ -153,7 +153,7 @@ exports.exportGuild = async (guild) => {
     structure.channels = channels.map(g_c => {
         let c = new structures_1.ChannelStructure();
         c.id = g_c.id;
-        c.name = g_c.id;
+        c.name = g_c.name;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
         c.type = g_c.type;

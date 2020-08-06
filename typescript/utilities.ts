@@ -184,7 +184,7 @@ export const exportGuild = async (guild: Guild) => {
         let c = new ChannelStructure();
 
         c.id = g_c.id;
-        c.name = g_c.id;
+        c.name = g_c.name;
         c.permissionOverwrites = g_c.permissionOverwrites.array();
         c.permissionsLocked = g_c.permissionsLocked;
         c.type = g_c.type;
