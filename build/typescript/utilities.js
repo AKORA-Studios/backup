@@ -273,16 +273,39 @@ exports.generateTree = (structure) => {
     i++;
     tree += "║   ╚═ " + roles[i].name + "\n";
     tree += "║ \n";
-    //Channels
-    tree += "╠══ Chanels \n";
+    //Channels without Category
+    tree += "╠══ Channels \n";
     var channels = structure.channels.reverse();
     for (i = 0; i < channels.length - 2; i++) {
         let channel = channels[i];
+        if (channel.type === "category")
+            break;
         tree += "║   ╠═ " + channel.name + "\n"; //Linebreak
     }
-    i++;
-    tree += "║   ╚═ " + channels[i].name + "\n";
-    tree += "║ \n";
+    if (channels[i].type === "category") {
+        var channels_ = structure.channels.reverse().slice(i - 1);
+        for (i = 0; i < channels_.length - 1; i++) {
+            let channel = channels_[i];
+            let categorys = [];
+            if (channel.type === "category") {
+                categorys.push({
+                    name: channel.name,
+                    channels: []
+                });
+                for (let x = i; x < channels_.length - 1; x++) {
+                    channel = channels_[x];
+                    if (channel.type === "category")
+                        break;
+                    categorys[categorys.length - 1].channels.push(channel);
+                }
+            }
+        }
+    }
+    else {
+        i++;
+        tree += "║   ╚═ " + channels[i].name + "\n";
+        tree += "║ \n";
+    }
     return tree;
 };
 var addLine = (a, b) => {
