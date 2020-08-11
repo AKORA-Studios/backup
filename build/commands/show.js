@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("../typescript/utilities");
-const bent = require("bent");
-const getString = bent('string');
 const classes_1 = require("../typescript/classes");
 const fs = require("fs");
 //let a = new module();

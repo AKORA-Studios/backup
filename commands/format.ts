@@ -36,8 +36,7 @@ module.exports = new Command({
             var attachment = new MessageAttachment(buffer, 'backup.json')
 
 
-            msg.channel.send(emb);
-            msg.channel.send(attachment);
+            msg.channel.send([emb, attachment]);
         }, () => {
 
         });
