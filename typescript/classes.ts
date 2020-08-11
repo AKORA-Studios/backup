@@ -148,7 +148,7 @@ interface CommandProperties {
 
 export class Command {
     properties: CommandProperties;
-    execute: (msg: Message, args: string[]) => void;
+    execute: (msg: Message, args: string[], client?: Bot) => void;
 
     constructor(properties: CommandProperties, execute: (msg: Message, args: string[], client?: Bot) => void) {
         this.properties = properties;
