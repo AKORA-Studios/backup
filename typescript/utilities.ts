@@ -337,7 +337,7 @@ export const generateTree = (structure: GuildStructure): string => {
 
     //Channels without Category
     tree += "╠══ Channels \n";
-    var channels = structure.channels.reverse();
+    var channels = structure.channels;
     for (i = 0; i < channels.length - 1; i++) {
         let channel = channels[i];
         if (channel.type === "category") {
