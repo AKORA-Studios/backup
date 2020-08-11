@@ -326,11 +326,10 @@ export const generateTree = (structure: GuildStructure): string => {
     //Roles
     tree += "╠══ Roles \n";
     var roles = structure.roles.reverse();
-    for (i = 0; i < roles.length - 2; i++) {
+    for (i = 0; i < roles.length - 1; i++) {
         let role = roles[i];
         tree += "║   ╠═ " + role.name + "\n";//Linebreak
     }
-    i++;
     tree += "║   ╚═ " + roles[i].name + "\n";
     tree += "║ \n";
 
