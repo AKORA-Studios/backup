@@ -1,6 +1,4 @@
 import { newEmb, importGuild, getFile, colors, generateTree } from '../typescript/utilities';
-import * as bent from 'bent';
-const getString = bent('string');
 import { Command } from "../typescript/classes";
 import * as fs from 'fs';
 //let a = new module();

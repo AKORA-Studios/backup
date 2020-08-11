@@ -152,7 +152,7 @@ exports.exportGuild = async (guild) => {
         return r;
     });
     //Channels
-    var channels = guild.channels.cache.array().sort((a, b) => a.calculatedPosition - b.calculatedPosition);
+    var channels = guild.channels.cache.array().sort((a, b) => a.rawPosition - b.rawPosition);
     structure.channels = channels.map(g_c => {
         let c = new structures_1.ChannelStructure();
         c.id = g_c.id;
