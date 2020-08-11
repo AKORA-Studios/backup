@@ -8,7 +8,7 @@ module.exports = new classes_1.Command({
     syntax: 'show [stored]',
     args: false,
     description: 'qwq',
-    module_type: 'misc',
+    module_type: 'backup',
     triggers: ['show'],
     user_permissions: ['SEND_MESSAGES'],
     bot_permissions: ['SEND_MESSAGES']

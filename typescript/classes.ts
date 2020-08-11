@@ -2,7 +2,7 @@ import { Client, Collection, Message, TextChannel, NewsChannel, MessageEmbed, DM
 import { readdirSync } from "fs";
 import { checkPermissionOverlap, colors } from "./utilities";
 
-export type module_type = 'info' | 'moderation' | 'configuration' | 'misc' | 'fun';
+export type module_type = 'info' | 'moderation' | 'backup' | 'misc' | 'fun';
 
 export class Bot extends Client {
     commands: Collection<string, Command>;

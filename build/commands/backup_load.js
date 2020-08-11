@@ -7,7 +7,7 @@ module.exports = new classes_1.Command({
     syntax: 'test_confirm',
     args: false,
     description: 'Ping!',
-    module_type: 'misc',
+    module_type: 'backup',
     triggers: ['test', 'confirm'],
     user_permissions: ['ADMINISTRATOR', 'MANAGE_GUILD'],
     bot_permissions: ['ADMINISTRATOR']

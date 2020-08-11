@@ -8,7 +8,7 @@ module.exports = new classes_1.Command({
     syntax: 'save [minimal]',
     args: false,
     description: 'qwq',
-    module_type: 'misc',
+    module_type: 'backup',
     triggers: ['save', 'save-guild'],
     user_permissions: ['ADMINISTRATOR'],
     bot_permissions: ['ADMINISTRATOR']
