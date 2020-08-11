@@ -4,6 +4,7 @@ exports.generateTree = exports.getFile = exports.assignValues = exports.importGu
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
+const fs = require("fs");
 const getString = bent('string');
 exports.colors = {
     error: 0xF91A3C,
@@ -151,7 +152,7 @@ exports.exportGuild = async (guild) => {
         return r;
     });
     //Channels
-    var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
+    var channels = guild.channels.cache.array().sort((a, b) => a.calculatedPosition - b.calculatedPosition);
     structure.channels = channels.map(g_c => {
         let c = new structures_1.ChannelStructure();
         c.id = g_c.id;
@@ -162,6 +163,8 @@ exports.exportGuild = async (guild) => {
         c.type = g_c.type;
         return c;
     });
+    //Save file
+    fs.writeFile('./guild_saves/' + guild.id + '.json', JSON.stringify(structure), null, () => { });
     return structure;
 };
 exports.importGuild = (obj) => {

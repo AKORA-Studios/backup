@@ -1,6 +1,7 @@
 import { Message, MessageEmbed, MessageReaction, User, PermissionString, Guild } from "discord.js";
 import { GuildStructure, ChannelStructure, RoleStructure, EmojiStructure } from "./structures";
 import * as bent from 'bent';
+import * as fs from 'fs';
 const getString = bent('string');
 
 export const colors = {
@@ -179,7 +180,7 @@ export const exportGuild = async (guild: Guild) => {
     });
 
     //Channels
-    var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
+    var channels = guild.channels.cache.array().sort((a, b) => a.calculatedPosition - b.calculatedPosition);
     structure.channels = channels.map(g_c => {
         let c = new ChannelStructure();
 
@@ -192,6 +193,10 @@ export const exportGuild = async (guild: Guild) => {
 
         return c;
     });
+
+
+    //Save file
+    fs.writeFile('./guild_saves/'+guild.id+'.json', JSON.stringify(structure), null, ()=>{});
 
     return structure;
 }
