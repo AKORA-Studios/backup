@@ -104,6 +104,7 @@ exports.decode_text = (text, id, sec_id) => {
     return decoded;
 };
 exports.exportGuild = async (guild) => {
+    guild = await guild.fetch();
     var structure = new structures_1.GuildStructure();
     //The Hard Coded Stuff qwq
     structure.name = guild.name;
@@ -275,6 +276,7 @@ exports.generateTree = (structure) => {
     //Channels without Category
     tree += "╠══ Channels \n";
     var channels = structure.channels;
+    console.log(channels.map((c, i) => i + "-" + c.name).join("\n"));
     for (i = 0; i < channels.length - 1; i++) {
         let channel = channels[i];
         if (channel.type === "category") {
