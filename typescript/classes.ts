@@ -77,7 +77,7 @@ export class Bot extends Client {
 
 
             try {
-                command.execute(message, args);
+                command.execute(message, args, this);
             } catch (error) {
                 console.error(error);
 
@@ -150,7 +150,7 @@ export class Command {
     properties: CommandProperties;
     execute: (msg: Message, args: string[]) => void;
 
-    constructor(properties: CommandProperties, execute: (msg: Message, args: string[]) => void) {
+    constructor(properties: CommandProperties, execute: (msg: Message, args: string[], client?: Bot) => void) {
         this.properties = properties;
 
         this.execute = execute;

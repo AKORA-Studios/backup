@@ -55,7 +55,7 @@ class Bot extends discord_js_1.Client {
                 return message.channel.send(emb.setTitle("You need more permissions to execute this command").setColor(utilities_1.colors.error));
             }
             try {
-                command.execute(message, args);
+                command.execute(message, args, this);
             }
             catch (error) {
                 console.error(error);
