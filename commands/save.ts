@@ -1,7 +1,6 @@
-import { newEmb, exportGuild, importGuild, colors } from '../typescript/utilities';
+import { newEmb, exportGuild, colors } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import { MessageAttachment } from 'discord.js';
-//let a = new module();
 
 module.exports = new Command({
     name: 'save',

@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("../typescript/utilities");
 const classes_1 = require("../typescript/classes");
-//let a = new module();
 module.exports = new classes_1.Command({
     name: 'test_confirm',
     syntax: 'test_confirm',

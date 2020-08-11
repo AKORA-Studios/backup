@@ -1,6 +1,5 @@
 import { confirmAction } from "../typescript/utilities";
 import { Command } from "../typescript/classes";
-//let a = new module();
 
 module.exports = new Command({
     name: 'test_confirm',

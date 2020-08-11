@@ -1,8 +1,6 @@
 import { newEmb, importGuild, getFile, colors, generateTree } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import * as fs from 'fs';
-//let a = new module();
-
 
 module.exports = new Command({
     name: 'Show',

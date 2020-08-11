@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("../typescript/utilities");
 const classes_1 = require("../typescript/classes");
 const discord_js_1 = require("discord.js");
-//let a = new module();
 module.exports = new classes_1.Command({
     name: 'save',
     syntax: 'save [minimal]',
