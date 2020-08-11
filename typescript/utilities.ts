@@ -375,7 +375,3 @@ export const generateTree = (structure: GuildStructure): string => {
 
     return tree;
 }
-
-var addLine = (a: string, b: string) => {
-    return (a + (b + "\n"));
-}
