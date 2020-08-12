@@ -22,12 +22,15 @@ module.exports = new Command({
 
         if (args[0]) {
             var command = commands.find(cmd => cmd.properties.triggers.includes(args[0].toLowerCase()));
-            if (!command) return msg.channel.send(emb.setTitle("Befehl nicht gefunden qwq").setColor(colors.error));
+            if (!command) return msg.channel.send(emb.setTitle("Command not found ._.").setColor(colors.error));
 
-            emb.addField("**Name:**", command.properties.name)
-                .addField("**Syntax:**", command.properties.syntax)
-                .addField("**Beschreibung:**", command.properties.description)
-                .setFooter(command.properties.triggers.join(', '))
+            emb.setTitle(command.properties.name)
+                .setDescription(command.properties.description+"\n\u200b")
+                .addField("**Syntax:**", "`" + command.properties.syntax + "`", true)
+                .addField("**Triggers:**", command.properties.triggers.map(v => "`" + v + "`").join(', '), true)
+                .addField("**Required Bot Permissions:**", "```" + command.properties.bot_permissions.join(', ') + "```", false)
+                .addField("**Required User Permissions:**", "```" + command.properties.user_permissions.join(', ') + "```", false)
+                .setFooter('<> required | [] optional')
                 .setColor(colors.unimportant)
 
             msg.channel.send(emb);
