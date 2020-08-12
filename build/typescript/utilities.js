@@ -11,7 +11,7 @@ exports.colors = {
     info: 0x1AE3F9,
     success: 0x13EF8D,
     warning: 0xF9D71A,
-    unimportant: 0x738F8A
+    unimportant: 0x2F3136
 };
 exports.confirmAction = (msg, text, confirm, cancel) => {
     var emb = exports.newEmb(msg);

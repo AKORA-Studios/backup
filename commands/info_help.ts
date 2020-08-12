@@ -28,6 +28,7 @@ module.exports = new Command({
                 .addField("**Syntax:**", command.properties.syntax)
                 .addField("**Beschreibung:**", command.properties.description)
                 .setFooter(command.properties.triggers.join(', '))
+                .setColor(colors.unimportant)
 
             msg.channel.send(emb);
         } else {
@@ -38,7 +39,7 @@ module.exports = new Command({
                 emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
             }
 
-            msg.channel.send(emb.setTitle("Hilfsmenü"));
+            msg.channel.send(emb.setTitle("Hilfsmenü").setColor(colors.unimportant));
         }
     }
 );

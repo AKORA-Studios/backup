@@ -23,7 +23,8 @@ module.exports = new classes_1.Command({
         emb.addField("**Name:**", command.properties.name)
             .addField("**Syntax:**", command.properties.syntax)
             .addField("**Beschreibung:**", command.properties.description)
-            .setFooter(command.properties.triggers.join(', '));
+            .setFooter(command.properties.triggers.join(', '))
+            .setColor(utilities_1.colors.unimportant);
         msg.channel.send(emb);
     }
     else {
@@ -32,6 +33,6 @@ module.exports = new classes_1.Command({
             let cmds = commands.filter(cmd => cmd.properties.module_type == mod);
             emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
         }
-        msg.channel.send(emb.setTitle("Hilfsmenü"));
+        msg.channel.send(emb.setTitle("Hilfsmenü").setColor(utilities_1.colors.unimportant));
     }
 });
