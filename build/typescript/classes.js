@@ -54,6 +54,10 @@ class Bot extends discord_js_1.Client {
             else if (!utilities_1.checkPermissionOverlap(command.properties.user_permissions, message.channel.permissionsFor(message.author).toArray())) {
                 return message.channel.send(emb.setTitle("You need more permissions to execute this command").setColor(utilities_1.colors.error));
             }
+            else if (command.properties.module_type === 'developer' &&
+                !this.owner.includes(message.author.id)) {
+                return message.channel.send(emb.setTitle("Only Bot Owners can execute this Command").setColor(utilities_1.colors.error));
+            }
             try {
                 command.execute(message, args, this);
             }

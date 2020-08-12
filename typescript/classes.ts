@@ -73,6 +73,9 @@ export class Bot extends Client {
                 command.properties.user_permissions,
                 message.channel.permissionsFor(message.author).toArray())) {
                 return message.channel.send(emb.setTitle("You need more permissions to execute this command").setColor(colors.error));
+            } else if (command.properties.module_type === 'developer' &&
+                !this.owner.includes(message.author.id)) {
+                return message.channel.send(emb.setTitle("Only Bot Owners can execute this Command").setColor(colors.error));
             }
 
 
