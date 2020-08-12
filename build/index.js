@@ -11,6 +11,13 @@ client.token = token;
 client.loadCommands(client.command_path);
 client.on("ready", () => {
     client.setErrorChannel(714557180757409942);
+    client.user.setPresence({
+        activity: {
+            name: 'with some backups',
+            type: 'PLAYING'
+        },
+        status: 'idle'
+    });
 });
 client.on("message", (msg) => {
     if (msg.channel.type != "dm")
