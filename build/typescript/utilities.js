@@ -15,7 +15,7 @@ exports.colors = {
 };
 exports.confirmAction = (msg, text, confirm, cancel) => {
     var emb = exports.newEmb(msg);
-    emb.setTitle('Bestätigung').setDescription(text);
+    emb.setTitle('Confirmation').setDescription(text);
     msg.channel.send(emb).then(async (message) => {
         emb = exports.newEmb(msg);
         const filter = (reaction, user) => {

@@ -15,7 +15,7 @@ export const colors = {
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
     var emb = newEmb(msg);
 
-    emb.setTitle('Bestätigung').setDescription(text)
+    emb.setTitle('Confirmation').setDescription(text)
 
     msg.channel.send(emb).then(async message => {
         emb = newEmb(msg);
