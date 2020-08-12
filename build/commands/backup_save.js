@@ -7,7 +7,7 @@ module.exports = new classes_1.Command({
     name: 'save',
     syntax: 'save [minimal]',
     args: false,
-    description: 'qwq',
+    description: 'This command exports your guild as a JSON file.(the bot also stores the latest save)\nIf you use the `minimal` argument it going to reduce your file size by ~50%',
     module_type: 'backup',
     triggers: ['save', 'save-guild'],
     user_permissions: ['ADMINISTRATOR'],
