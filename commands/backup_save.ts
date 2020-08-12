@@ -32,7 +32,7 @@ module.exports = new Command({
 
         //Preparing for sending
         var buffer = Buffer.from(text, 'utf8');
-        var attachment = new MessageAttachment(buffer, 'backup.json')
+        var attachment = new MessageAttachment(buffer, msg.guild.id+'.json')
 
 
         msg.channel.send([emb, attachment]);

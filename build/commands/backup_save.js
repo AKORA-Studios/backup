@@ -27,6 +27,6 @@ module.exports = new classes_1.Command({
     }
     //Preparing for sending
     var buffer = Buffer.from(text, 'utf8');
-    var attachment = new discord_js_1.MessageAttachment(buffer, 'backup.json');
+    var attachment = new discord_js_1.MessageAttachment(buffer, msg.guild.id + '.json');
     msg.channel.send([emb, attachment]);
 });
