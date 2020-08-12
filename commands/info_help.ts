@@ -14,9 +14,7 @@ module.exports = new Command({
 },
 
     async (msg, args, client) => {
-        //Getting the file from the User
-        let emb = newEmb(msg)
-            .setTitle(`Modul Hilfe`);
+        let emb = newEmb(msg);
 
         var commands = client.commands;
 
@@ -42,7 +40,7 @@ module.exports = new Command({
                 emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
             }
 
-            msg.channel.send(emb.setTitle("Hilfsmenü").setColor(colors.unimportant));
+            msg.channel.send(emb.setTitle("Commands").setColor(colors.unimportant));
         }
     }
 );

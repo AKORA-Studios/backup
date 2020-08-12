@@ -12,9 +12,7 @@ module.exports = new classes_1.Command({
     user_permissions: ['SEND_MESSAGES'],
     bot_permissions: ['SEND_MESSAGES']
 }, async (msg, args, client) => {
-    //Getting the file from the User
-    let emb = utilities_1.newEmb(msg)
-        .setTitle(`Modul Hilfe`);
+    let emb = utilities_1.newEmb(msg);
     var commands = client.commands;
     if (args[0]) {
         var command = commands.find(cmd => cmd.properties.triggers.includes(args[0].toLowerCase()));
@@ -36,6 +34,6 @@ module.exports = new classes_1.Command({
             let cmds = commands.filter(cmd => cmd.properties.module_type == mod);
             emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
         }
-        msg.channel.send(emb.setTitle("Hilfsmenü").setColor(utilities_1.colors.unimportant));
+        msg.channel.send(emb.setTitle("Commands").setColor(utilities_1.colors.unimportant));
     }
 });
