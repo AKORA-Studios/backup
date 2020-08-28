@@ -40,8 +40,7 @@ module.exports = new Command({
                 emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
             }
 
-            emb.setTitle("Commands")
-                .setColor(colors.unimportant)
+            emb.setColor(colors.unimportant)
                 .addField('\u200b',
                     `[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${msg.client.user.id}&permissions=8&scope=bot)`,
                     true)
