@@ -194,11 +194,11 @@ export const exportGuild = async (guild: Guild) => {
     //Channels
     var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
 
-    var loose_channels = channels.filter(c => c.parentID === null).map(channelToStructure);
+    var loose_channels = channels.filter(c => c.parentID === null && c.type !== "category").map(channelToStructure);
 
-    channels = channels.filter(c => c.parentID !== null);
+    channels = channels.filter(c => !loose_channels.find(ch => ch.id === c.id));//Removing Loose Channels
 
-    var categorys = channels.filter(c => c.type === "category").map(g_c => {
+    var categorys = channels.map(g_c => {
         let chan = new ChannelStructure();
 
         chan.id = g_c.id;
@@ -344,7 +344,7 @@ Name
 
 export const generateTree = (structure: GuildStructure): string => {
     var tree = "";
-    let i = 0;
+    let i = 0, x = 0;
 
     tree += structure.name + "\n";//Linebreak
 
@@ -360,24 +360,24 @@ export const generateTree = (structure: GuildStructure): string => {
 
 
 
-    //Channels without Category
+    //Channels
     tree += "╠══ Channels \n";
-    var channels = structure.channels;
-    console.log(channels.map((c, i) => i + "-" + c.name).join("\n"))
-    for (i = 0; i < channels.length - 1; i++) {
-        let channel = channels[i];
-        if (channel.type === "category") {
-            tree += "║   ╠═ " + channels[i].name + "\n";
-            i++;
+    var loose = structure.channels.filter(c => !c.childs);
+    var categorys = structure.channels.filter(c => c.childs);
 
-            while (i < channels.length && channels[i].type !== 'category') {
-                tree += "║        ╠═ " + channels[i].name + "\n";
+    for (i = 0; i < loose.length - 1; i++) {
+        let channel = loose[i];
 
-                i++;
-            }
+        tree += "║   ╠═ Loose " + channel.name + "\n";
+    }
+
+    for (i = 0; i < categorys.length - 1; i++) {
+        let category = categorys[i];
+
+        tree += "║   ╠═ Cat " + category.name + "\n";
+        for (x = 0; x < category.childs.length; x++) {
+            tree += "║        ╠═ Child " + category.childs[x].name + "\n";
         }
-
-        tree += "║   ╠═ " + channel.name + "\n";//Linebreak
     }
 
     return tree;

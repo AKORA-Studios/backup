@@ -16,10 +16,6 @@ module.exports = new Command({
         confirmAction(msg, "DIESER BEFEHL BENENNT ALLE CHANNEL UM", (m) => {
             m.channel.send("QwQ");
             var channels = msg.guild.channels.cache.array();
-            for (let chan of channels) {
-                console.log(chan.parentID);
-                chan.setName(`${chan.rawPosition}-${chan.position}-${chan.calculatedPosition}`);
-            }
         }, (m) => {
             m.channel.send("qwq")
         });
