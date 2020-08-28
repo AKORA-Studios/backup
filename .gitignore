@@ -7,5 +7,6 @@
 # Local Files
 **/local.json
 
-# Node Modules
+# Folders
 /node_modules
+/build/guild_saves/**
