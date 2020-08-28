@@ -34,6 +34,11 @@ module.exports = new classes_1.Command({
             let cmds = commands.filter(cmd => cmd.properties.module_type == mod);
             emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
         }
-        msg.channel.send(emb.setTitle("Commands").setColor(utilities_1.colors.unimportant));
+        emb.setTitle("Commands")
+            .setColor(utilities_1.colors.unimportant)
+            .addField('\u200b', `[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${msg.client.user.id}&permissions=8&scope=bot)`, true)
+            .addField('\u200b', '[Support](https://discord.gg/DsV5rDE)', true)
+            .addField('\u200b', '[NDH](https://discord.gg/zmXC2GH)', true);
+        msg.channel.send(emb);
     }
 });
