@@ -164,7 +164,7 @@ exports.exportGuild = async (guild) => {
     var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
     var loose_channels = channels.filter(c => c.parentID === null && c.type !== "category").map(exports.channelToStructure);
     channels = channels.filter(c => !loose_channels.find(ch => ch.id === c.id)); //Removing Loose Channels
-    var categorys = channels.map(g_c => {
+    var categorys = channels.filter(c => c.type === "category").map(g_c => {
         let chan = new structures_1.ChannelStructure();
         chan.id = g_c.id;
         chan.name = g_c.name;
@@ -293,15 +293,15 @@ exports.generateTree = (structure) => {
     tree += "╠══ Channels \n";
     var loose = structure.channels.filter(c => !c.childs);
     var categorys = structure.channels.filter(c => c.childs);
-    for (i = 0; i < loose.length - 1; i++) {
+    for (i = 0; i < loose.length; i++) {
         let channel = loose[i];
         tree += "║   ╠═ Loose " + channel.name + "\n";
     }
-    for (i = 0; i < categorys.length - 1; i++) {
+    for (i = 0; i < categorys.length; i++) {
         let category = categorys[i];
-        tree += "║   ╠═ Cat " + category.name + "\n";
+        tree += "║   ╠═ " + category.name + "\n";
         for (x = 0; x < category.childs.length; x++) {
-            tree += "║        ╠═ Child " + category.childs[x].name + "\n";
+            tree += "║   ║    ╠═ " + category.childs[x].name + "\n";
         }
     }
     return tree;
