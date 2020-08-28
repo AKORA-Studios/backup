@@ -344,18 +344,19 @@ Name
 
 export const generateTree = (structure: GuildStructure): string => {
     var tree = "";
-    let i = 0, x = 0;
+    let i = 0, x = 0, end = false;
 
     tree += structure.name + "\n";//Linebreak
 
     //Roles
     tree += "╠══ Roles \n";
     var roles = structure.roles.reverse();
-    for (i = 0; i < roles.length - 1; i++) {
+    for (i = 0; i < roles.length; i++) {
         let role = roles[i];
-        tree += "║   ╠═ " + role.name + "\n";//Linebreak
+        end = (i === roles.length - 1);
+
+        tree += `║   ${end ? "╚" : "╠"}═ ${role.name}\n`;//Linebreak
     }
-    tree += "║   ╚═ " + roles[i].name + "\n";
     tree += "║ \n";
 
 
@@ -368,26 +369,19 @@ export const generateTree = (structure: GuildStructure): string => {
     for (i = 0; i < loose.length; i++) {
         let channel = loose[i];
 
-        tree += "    ╠═ Loose " + channel.name + "\n";
+        tree += "    ╠═ " + channel.name + "\n";
     }
 
-    for (i = 0; i < categorys.length - 1; i++) {
+    for (i = 0; i < categorys.length; i++) {
         let category = categorys[i];
+        end = (i === categorys.length - 1);
 
-        tree += "    ╠═ " + category.name + "\n";
-        for (x = 0; x < category.childs.length - 1; x++) {
-            tree += "    ║    ╠═ " + category.childs[x].name + "\n";
+        tree += `    ${end ? "╚" : "╠"}═ ${category.name}\n`;
+        for (x = 0; x < category.childs.length; x++) {
+            end = (x === category.childs.length - 1);
+            tree += `    ║    ${end ? "╚" : "╠"} ═ ${category.childs[x].name} \n`;
         }
-        tree += "    ║    ╚═ " + category.childs[x].name + "\n";
     }
-
-    let category = categorys[i];
-
-    tree += "    ╚═ " + category.name + "\n";
-    for (x = 0; x < category.childs.length - 1; x++) {
-        tree += "         ╠═ " + category.childs[x].name + "\n";
-    }
-    tree += "         ╚═ " + category.childs[x].name + "\n";
 
     return tree;
 }
