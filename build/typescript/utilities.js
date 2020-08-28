@@ -210,7 +210,7 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
     collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
-            m.reply("Action canceled");
+            msg.channel.send(exports.rawEmb(m).setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
             return collector.stop("Canceled");
         }
         //Check for Attachment

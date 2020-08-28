@@ -267,7 +267,7 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
     collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
-            m.reply("Action canceled")
+            msg.channel.send(rawEmb(m).setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(colors.error).setTitle("Canceld uwu"));
             return collector.stop("Canceled");
         }
 
