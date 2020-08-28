@@ -9,8 +9,8 @@ module.exports = new classes_1.Command({
     description: 'Evaluates a Javascript expression',
     module_type: 'developer',
     triggers: ['eval'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     var code = args.join(' ');
     const func = () => eval(code);

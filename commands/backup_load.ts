@@ -9,16 +9,14 @@ module.exports = new Command({
     module_type: 'backup',
     triggers: ['load', 'apply'],
     user_permissions: ['ADMINISTRATOR', 'MANAGE_GUILD'],
-    bot_permissions: ['ADMINISTRATOR', 'MANAGE_GUILD']
+    bot_permissions: ['ADMINISTRATOR']
 },
 
     async (msg, args) => {
-        confirmAction(msg, "DIESER BEFEHL BENENNT ALLE CHANNEL UM", (m) => {
+        confirmAction(msg, "In progress", (m) => {
             m.channel.send("QwQ");
-            var channels = msg.guild.channels.cache.array();
         }, (m) => {
             m.channel.send("qwq")
         });
-        msg.client.emit("guildMemberAdd", msg.member)
     }
 );

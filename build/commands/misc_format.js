@@ -10,8 +10,8 @@ module.exports = new classes_1.Command({
     description: 'Formats your JSON file',
     module_type: 'misc',
     triggers: ['format', 'f'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     //Getting the file from the User
     let minimal = false, text = "", emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info);

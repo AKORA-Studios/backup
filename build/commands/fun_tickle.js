@@ -10,8 +10,8 @@ module.exports = new classes_1.Command({
     description: 'Sends you a tickle gif uwu',
     module_type: 'fun',
     triggers: ['tickle'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     const getString = bent('string');
     //Downloading the File

@@ -10,8 +10,8 @@ module.exports = new classes_1.Command({
     description: 'Updates the Bot via git',
     module_type: 'developer',
     triggers: ['git', 'update'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     child_process_1.exec("git pull", function (error, stdout, stderr) {
         let emb = utilities_1.newEmb(msg).setTitle("Cloned from Git, Results:").setColor(utilities_1.colors.info);

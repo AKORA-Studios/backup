@@ -9,9 +9,9 @@ module.exports = new Command({
     args: false,
     description: 'Initialises a shutdown uwu',
     module_type: 'developer',
-    triggers: ['shutdown', 'kill'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    triggers: ['shutdown'],
+    user_permissions: [],
+    bot_permissions: []
 },
 
     async (msg, args) => {

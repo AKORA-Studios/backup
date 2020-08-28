@@ -10,7 +10,7 @@ module.exports = new classes_1.Command({
     description: 'This command exports your guild as a JSON file.(the bot also stores the latest save)\nIf you use the `minimal` argument it going to reduce your file size by ~50%',
     module_type: 'backup',
     triggers: ['save', 'save-guild'],
-    user_permissions: ['ADMINISTRATOR'],
+    user_permissions: ['ADMINISTRATOR', 'MANAGE_GUILD'],
     bot_permissions: ['ADMINISTRATOR']
 }, async (msg, args) => {
     var emb = utilities_1.newEmb(msg).setTitle("Exported Guild as JSON file").setColor(utilities_1.colors.success), json_structure = await utilities_1.exportGuild(msg.guild), minimal = false, text = "";

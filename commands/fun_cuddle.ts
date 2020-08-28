@@ -10,8 +10,8 @@ module.exports = new Command({
     description: 'Sends you a cuddle gif uwu',
     module_type: 'fun',
     triggers: ['cuddle'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 },
 
     async (msg, args) => {

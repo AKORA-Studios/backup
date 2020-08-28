@@ -6,11 +6,11 @@ module.exports = new Command({
     name: 'Help Menu',
     syntax: 'help [command]',
     args: false,
-    description: 'Shows the Help menu, and help for single commands',
+    description: 'Shows the help menu, and help for single commands',
     module_type: 'info',
     triggers: ['help', 'h'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 },
 
     async (msg, args, client) => {
@@ -23,7 +23,7 @@ module.exports = new Command({
             if (!command) return msg.channel.send(emb.setTitle("Command not found ._.").setColor(colors.error));
 
             emb.setTitle(command.properties.name)
-                .setDescription(command.properties.description+"\n\u200b")
+                .setDescription(command.properties.description + "\n\u200b")
                 .addField("**Syntax:**", "`" + command.properties.syntax + "`", true)
                 .addField("**Triggers:**", command.properties.triggers.map(v => "`" + v + "`").join(', '), true)
                 .addField("**Required Bot Permissions:**", "```" + command.properties.bot_permissions.join(', ') + "```", false)

@@ -10,8 +10,8 @@ module.exports = new classes_1.Command({
     description: 'Sends you a fun fact uwu',
     module_type: 'fun',
     triggers: ['fact', 'funfact'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     const getString = bent('string');
     //Downloading the File

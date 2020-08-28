@@ -8,9 +8,9 @@ module.exports = new classes_1.Command({
     args: false,
     description: 'Initialises a shutdown uwu',
     module_type: 'developer',
-    triggers: ['shutdown', 'kill'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    triggers: ['shutdown'],
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     if (args[0] && args[0].toLowerCase().includes('force')) {
         smoothShutdown(msg);

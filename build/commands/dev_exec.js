@@ -7,11 +7,11 @@ module.exports = new classes_1.Command({
     name: 'Execute',
     syntax: 'execute <command>',
     args: false,
-    description: 'Executess Commands on the Host machine',
+    description: 'Executes commands on the host machine',
     module_type: 'developer',
     triggers: ['execute', 'exec'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     var command = args.join(' ');
     child_process_1.exec(command, function (error, stdout, stderr) {

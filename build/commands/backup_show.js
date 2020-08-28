@@ -7,11 +7,11 @@ module.exports = new classes_1.Command({
     name: 'Show',
     syntax: 'show [stored]',
     args: false,
-    description: 'qwq',
+    description: 'This commands shows the stored backup.\nWith the `stored` option the bot takes the latest backup from his cache.',
     module_type: 'backup',
     triggers: ['show'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args) => {
     //Getting the file from the User
     if (args[0] && args[0].toLowerCase().includes('stored')) {

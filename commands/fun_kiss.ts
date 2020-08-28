@@ -10,8 +10,8 @@ module.exports = new Command({
     description: 'Sends you kiss gif uwu',
     module_type: 'fun',
     triggers: ['kiss'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 },
 
     async (msg, args) => {

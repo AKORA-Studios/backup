@@ -6,11 +6,11 @@ module.exports = new classes_1.Command({
     name: 'Help Menu',
     syntax: 'help [command]',
     args: false,
-    description: 'Shows the Help menu, and help for single commands',
+    description: 'Shows the help menu, and help for single commands',
     module_type: 'info',
     triggers: ['help', 'h'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 }, async (msg, args, client) => {
     let emb = utilities_1.newEmb(msg);
     var commands = client.commands;

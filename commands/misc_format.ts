@@ -10,8 +10,8 @@ module.exports = new Command({
     description: 'Formats your JSON file',
     module_type: 'misc',
     triggers: ['format', 'f'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 },
 
     async (msg, args) => {

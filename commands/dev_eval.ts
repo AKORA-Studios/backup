@@ -3,28 +3,28 @@ import { Command } from "../typescript/classes";
 
 
 module.exports = new Command({
-  name: 'Eval',
-  syntax: 'eval <JS Code>',
-  args: false,
-  description: 'Evaluates a Javascript expression',
-  module_type: 'developer',
-  triggers: ['eval'],
-  user_permissions: ['SEND_MESSAGES'],
-  bot_permissions: ['SEND_MESSAGES']
+    name: 'Eval',
+    syntax: 'eval <JS Code>',
+    args: false,
+    description: 'Evaluates a Javascript expression',
+    module_type: 'developer',
+    triggers: ['eval'],
+    user_permissions: [],
+    bot_permissions: []
 },
 
-  async (msg, args) => {
-    var code = args.join(' ');
+    async (msg, args) => {
+        var code = args.join(' ');
 
-    const func = () => eval(code);
+        const func = () => eval(code);
 
-    let emb = newEmb(msg).setColor(colors.info);
-    emb.addField("**Code:**", "```" + code + "```", false);
-    emb.addField("**Output:**", "```" + (await func.call({
-      msg: msg,
-      message: msg
-    })) + "```", false);
+        let emb = newEmb(msg).setColor(colors.info);
+        emb.addField("**Code:**", "```" + code + "```", false);
+        emb.addField("**Output:**", "```" + (await func.call({
+            msg: msg,
+            message: msg
+        })) + "```", false);
 
-    msg.channel.send(emb);
-  }
+        msg.channel.send(emb);
+    }
 );

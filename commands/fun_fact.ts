@@ -10,8 +10,8 @@ module.exports = new Command({
     description: 'Sends you a fun fact uwu',
     module_type: 'fun',
     triggers: ['fact', 'funfact'],
-    user_permissions: ['SEND_MESSAGES'],
-    bot_permissions: ['SEND_MESSAGES']
+    user_permissions: [],
+    bot_permissions: []
 },
 
     async (msg, args) => {
@@ -26,7 +26,7 @@ module.exports = new Command({
             try {
                 var json = JSON.parse(res);
 
-                msg.channel.send(newEmb(msg).setColor(colors.success).setDescription("*"+json.fact+"*").setTitle("Fun Fact:"))
+                msg.channel.send(newEmb(msg).setColor(colors.success).setDescription("*" + json.fact + "*").setTitle("Fun Fact:"))
             } catch (err) {
                 console.log(err);
                 msg.channel.send(newEmb(msg).setColor(colors.error).setTitle("There was an error extracting the fact :0"));

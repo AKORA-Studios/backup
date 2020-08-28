@@ -9,7 +9,7 @@ module.exports = new Command({
     description: 'This command exports your guild as a JSON file.(the bot also stores the latest save)\nIf you use the `minimal` argument it going to reduce your file size by ~50%',
     module_type: 'backup',
     triggers: ['save', 'save-guild'],
-    user_permissions: ['ADMINISTRATOR'],
+    user_permissions: ['ADMINISTRATOR', 'MANAGE_GUILD'],
     bot_permissions: ['ADMINISTRATOR']
 },
 
@@ -32,7 +32,7 @@ module.exports = new Command({
 
         //Preparing for sending
         var buffer = Buffer.from(text, 'utf8');
-        var attachment = new MessageAttachment(buffer, msg.guild.id+'.json')
+        var attachment = new MessageAttachment(buffer, msg.guild.id + '.json')
 
 
         msg.channel.send([emb, attachment]);
