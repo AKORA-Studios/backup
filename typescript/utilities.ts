@@ -378,8 +378,8 @@ export const generateTree = (structure: GuildStructure): string => {
 
         tree += `    ${end ? "╚" : "╠"}═ ${category.name}\n`;
         for (x = 0; x < category.childs.length; x++) {
-            end = (x === category.childs.length - 1);
-            tree += `    ║    ${end ? "╚" : "╠"} ═ ${category.childs[x].name} \n`;
+            let e_end = (x === category.childs.length - 1);
+            tree += `    ${end ? " " : "║"}    ${e_end ? "╚" : "╠"}═ ${category.childs[x].name} \n`;
         }
     }
 
