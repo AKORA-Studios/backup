@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, MessageReaction, User, PermissionString, Guild } from "discord.js";
+import { Message, MessageEmbed, MessageReaction, User, PermissionString, Guild, GuildChannel } from "discord.js";
 import { GuildStructure, ChannelStructure, RoleStructure, EmojiStructure } from "./structures";
 import * as bent from 'bent';
 import * as fs from 'fs';
@@ -123,6 +123,18 @@ export const decode_text = (text: string, id: string, sec_id: string): string =>
     return decoded;
 }
 
+export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
+    let c = new ChannelStructure();
+
+    c.id = g_c.id;
+    c.name = g_c.name;
+    c.permissionOverwrites = g_c.permissionOverwrites.array();
+    c.permissionsLocked = g_c.permissionsLocked;
+    c.type = g_c.type;
+
+    return c;
+}
+
 export const exportGuild = async (guild: Guild) => {
     guild = await guild.fetch();
     var structure = new GuildStructure();
@@ -180,23 +192,33 @@ export const exportGuild = async (guild: Guild) => {
     });
 
     //Channels
-    var channels = guild.channels.cache.array().sort((a, b) => a.rawPosition - b.rawPosition);
-    structure.channels = channels.map(g_c => {
-        let c = new ChannelStructure();
+    var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
 
-        c.id = g_c.id;
-        c.name = g_c.name;
-        c.permissionOverwrites = g_c.permissionOverwrites.array();
-        c.permissionsLocked = g_c.permissionsLocked;
-        //c.position = g_c.position;
-        c.type = g_c.type;
+    var loose_channels = channels.filter(c => c.parentID === null).map(channelToStructure);
 
-        return c;
+    channels = channels.filter(c => c.parentID !== null);
+
+    var categorys = channels.filter(c => c.type === "category").map(g_c => {
+        let chan = new ChannelStructure();
+
+        chan.id = g_c.id;
+        chan.name = g_c.name;
+        chan.permissionOverwrites = g_c.permissionOverwrites.array();
+        chan.permissionsLocked = g_c.permissionsLocked;
+        chan.type = g_c.type;
+
+        chan.childs = channels.filter(c => c.parentID === g_c.id).map(channelToStructure);
+
+        return chan;
     });
+
+    var structure_channels = loose_channels.concat(categorys);
+
+    structure.channels = structure_channels;
 
 
     //Save file
-    fs.writeFile('./guild_saves/'+guild.id+'.json', JSON.stringify(structure), null, ()=>{});
+    fs.writeFile('./guild_saves/' + guild.id + '.json', JSON.stringify(structure), null, () => { });
 
     return structure;
 }
@@ -341,7 +363,7 @@ export const generateTree = (structure: GuildStructure): string => {
     //Channels without Category
     tree += "╠══ Channels \n";
     var channels = structure.channels;
-    console.log(channels.map((c,i) => i+"-"+c.name).join("\n"))
+    console.log(channels.map((c, i) => i + "-" + c.name).join("\n"))
     for (i = 0; i < channels.length - 1; i++) {
         let channel = channels[i];
         if (channel.type === "category") {
@@ -350,7 +372,7 @@ export const generateTree = (structure: GuildStructure): string => {
 
             while (i < channels.length && channels[i].type !== 'category') {
                 tree += "║        ╠═ " + channels[i].name + "\n";
-    
+
                 i++;
             }
         }

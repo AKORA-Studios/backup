@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.colors = void 0;
+exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -104,6 +104,15 @@ exports.decode_text = (text, id, sec_id) => {
     }
     return decoded;
 };
+exports.channelToStructure = (g_c) => {
+    let c = new structures_1.ChannelStructure();
+    c.id = g_c.id;
+    c.name = g_c.name;
+    c.permissionOverwrites = g_c.permissionOverwrites.array();
+    c.permissionsLocked = g_c.permissionsLocked;
+    c.type = g_c.type;
+    return c;
+};
 exports.exportGuild = async (guild) => {
     guild = await guild.fetch();
     var structure = new structures_1.GuildStructure();
@@ -152,17 +161,21 @@ exports.exportGuild = async (guild) => {
         return r;
     });
     //Channels
-    var channels = guild.channels.cache.array().sort((a, b) => a.rawPosition - b.rawPosition);
-    structure.channels = channels.map(g_c => {
-        let c = new structures_1.ChannelStructure();
-        c.id = g_c.id;
-        c.name = g_c.name;
-        c.permissionOverwrites = g_c.permissionOverwrites.array();
-        c.permissionsLocked = g_c.permissionsLocked;
-        //c.position = g_c.position;
-        c.type = g_c.type;
-        return c;
+    var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
+    var loose_channels = channels.filter(c => c.parentID === null).map(exports.channelToStructure);
+    channels = channels.filter(c => c.parentID !== null);
+    var categorys = channels.filter(c => c.type === "category").map(g_c => {
+        let chan = new structures_1.ChannelStructure();
+        chan.id = g_c.id;
+        chan.name = g_c.name;
+        chan.permissionOverwrites = g_c.permissionOverwrites.array();
+        chan.permissionsLocked = g_c.permissionsLocked;
+        chan.type = g_c.type;
+        chan.childs = channels.filter(c => c.parentID === g_c.id).map(exports.channelToStructure);
+        return chan;
     });
+    var structure_channels = loose_channels.concat(categorys);
+    structure.channels = structure_channels;
     //Save file
     fs.writeFile('./guild_saves/' + guild.id + '.json', JSON.stringify(structure), null, () => { });
     return structure;
