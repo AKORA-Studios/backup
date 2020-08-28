@@ -4,5 +4,8 @@
 **/config.json
 /package-lock.json
 
+# Local Files
+**/local.json
+
 # Node Modules
 /node_modules
