@@ -290,19 +290,26 @@ exports.generateTree = (structure) => {
     tree += "║   ╚═ " + roles[i].name + "\n";
     tree += "║ \n";
     //Channels
-    tree += "╠══ Channels \n";
+    tree += "╚══ Channels \n";
     var loose = structure.channels.filter(c => !c.childs);
     var categorys = structure.channels.filter(c => c.childs);
     for (i = 0; i < loose.length; i++) {
         let channel = loose[i];
-        tree += "║   ╠═ Loose " + channel.name + "\n";
+        tree += "    ╠═ Loose " + channel.name + "\n";
     }
-    for (i = 0; i < categorys.length; i++) {
+    for (i = 0; i < categorys.length - 1; i++) {
         let category = categorys[i];
-        tree += "║   ╠═ " + category.name + "\n";
-        for (x = 0; x < category.childs.length; x++) {
-            tree += "║   ║    ╠═ " + category.childs[x].name + "\n";
+        tree += "    ╠═ " + category.name + "\n";
+        for (x = 0; x < category.childs.length - 1; x++) {
+            tree += "    ║    ╠═ " + category.childs[x].name + "\n";
         }
+        tree += "    ║    ╚═ " + category.childs[x].name + "\n";
     }
+    let category = categorys[i];
+    tree += "    ╚═ " + category.name + "\n";
+    for (x = 0; x < category.childs.length - 1; x++) {
+        tree += "         ╠═ " + category.childs[x].name + "\n";
+    }
+    tree += "         ╚═ " + category.childs[x].name + "\n";
     return tree;
 };
