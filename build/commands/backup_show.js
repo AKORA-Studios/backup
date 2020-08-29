@@ -34,7 +34,9 @@ module.exports = new classes_1.Command({
         utilities_1.getFile(msg, "Send me your JSON File uwu", 30, (json) => {
             //Converting to GuildStructure Object
             var structure = utilities_1.importGuild(json);
-            var info_emb = utilities_1.newEmb(msg).setTitle("Serverinfo").setColor(utilities_1.colors.info);
+            var info_emb = utilities_1.rawEmb(msg).setTitle(structure.name).setColor(utilities_1.colors.info)
+                .setThumbnail(structure.iconURL)
+                .setDescription(structure.description);
             var structure_emb = utilities_1.newEmb(msg).setTitle("Server Structure").setColor(utilities_1.colors.info);
             structure_emb.setDescription("```" + utilities_1.generateTree(structure) + "```")
                 .setTimestamp(structure.savedAt);

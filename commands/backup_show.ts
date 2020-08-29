@@ -1,4 +1,4 @@
-import { newEmb, importGuild, getFile, colors, generateTree } from '../typescript/utilities';
+import { newEmb, importGuild, getFile, colors, generateTree, rawEmb } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import * as fs from 'fs';
 
@@ -38,7 +38,10 @@ module.exports = new Command({
                 //Converting to GuildStructure Object
                 var structure = importGuild(json);
 
-                var info_emb = newEmb(msg).setTitle("Serverinfo").setColor(colors.info);
+                var info_emb = rawEmb(msg).setTitle(structure.name).setColor(colors.info)
+                    .setThumbnail(structure.iconURL)
+                    .setDescription(structure.description);
+
                 var structure_emb = newEmb(msg).setTitle("Server Structure").setColor(colors.info);
 
                 structure_emb.setDescription("```" + generateTree(structure) + "```")
