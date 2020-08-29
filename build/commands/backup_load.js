@@ -33,7 +33,7 @@ module.exports = new classes_1.Command({
                 for (let emoji of struc.emojis) {
                     await msg.guild.emojis.create(emoji.url, emoji.name, {
                         reason: reason
-                    }).catch(() => catchErr(msg, emoji.name));
+                    }).catch((e) => catchErr(msg, emoji.name, e));
                     ; //From URL To Buffer needs to be added
                 }
             }
@@ -43,7 +43,7 @@ module.exports = new classes_1.Command({
                     + utilities_1.emojis.presence + " Roles\n"
                     + utilities_1.emojis.false + " Channels\n";
             await msg.edit(emb.setDescription(text));
-            for (let role of struc.roles) {
+            for (let role of struc.roles.reverse()) {
                 if (role.name !== "@everyone") {
                     let r = await msg.guild.roles.create({
                         data: {
@@ -53,8 +53,8 @@ module.exports = new classes_1.Command({
                             permissions: role.permissions,
                             mentionable: role.mentionable
                         }, reason: reason
-                    }).catch(() => catchErr(msg, role.name));
-                    role.loadedID = r["id"];
+                    }).catch((e) => catchErr(msg, role.name, e));
+                    struc.roles[struc.roles.indexOf(role)].loadedID = r["id"];
                 }
                 else {
                     msg.guild.roles.resolve(msg.guild.id).setPermissions(role.permissions);
@@ -81,9 +81,8 @@ module.exports = new classes_1.Command({
                         nsfw: channel.nsfw,
                         position: struc.channels.indexOf(channel),
                         reason: reason
-                    })
-                        .then((c) => channel.loadedID = c["id"])
-                        .catch(() => catchErr(msg, channel.name));
+                    }).catch((e) => catchErr(msg, channel.name, e));
+                    struc.channels[struc.channels.indexOf(channel)].loadedID = c["id"];
                 }
                 //Categorys
                 for (let category of struc.channels.filter(c => c.type === "category")) {
@@ -97,8 +96,9 @@ module.exports = new classes_1.Command({
                         type: category.type,
                         position: struc.channels.indexOf(category),
                         reason: reason
-                    }).catch(() => catchErr(msg, category.name));
-                    category.loadedID = cat["id"];
+                    })
+                        .then((c) => category.loadedID = c["id"])
+                        .catch((e) => catchErr(msg, category.name, e));
                     for (let chan of category.childs) {
                         let c = await msg.guild.channels.create(chan.name, {
                             permissionOverwrites: chan.permissionOverwrites.map(p => {
@@ -112,9 +112,9 @@ module.exports = new classes_1.Command({
                             nsfw: chan.nsfw,
                             parent: category.loadedID,
                             reason: reason
-                        }).catch(() => catchErr(msg, chan.name));
-                        ;
-                        chan.loadedID = c["id"];
+                        })
+                            .then((c) => chan.loadedID = c["id"])
+                            .catch((e) => catchErr(msg, chan.name, e));
                     }
                 }
             }
@@ -132,7 +132,7 @@ module.exports = new classes_1.Command({
     }, () => {
     });
 });
-const catchErr = (msg, str) => {
-    msg.channel.send(utilities_1.rawEmb(msg).setColor(utilities_1.colors.error).setTitle("Could'nt Load: " + str));
+const catchErr = (msg, str, txt) => {
+    msg.channel.send(utilities_1.rawEmb(msg).setColor(utilities_1.colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
     return;
 };
