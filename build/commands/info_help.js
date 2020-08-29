@@ -18,12 +18,19 @@ module.exports = new classes_1.Command({
         var command = commands.find(cmd => cmd.properties.triggers.includes(args[0].toLowerCase()));
         if (!command)
             return msg.channel.send(emb.setTitle("Command not found ._.").setColor(utilities_1.colors.error));
-        emb.setTitle(command.properties.name)
-            .setDescription(command.properties.description + "\n\u200b")
-            .addField("**Syntax:**", "`" + command.properties.syntax + "`", true)
-            .addField("**Triggers:**", command.properties.triggers.map(v => "`" + v + "`").join(', '), true)
-            .addField("**Required Bot Permissions:**", "```" + command.properties.bot_permissions.join(', ') + "```", false)
-            .addField("**Required User Permissions:**", "```" + command.properties.user_permissions.join(', ') + "```", false)
+        var props = command.properties, bot_perms = props.bot_permissions, user_perms = props.user_permissions;
+        emb.setTitle(props.name)
+            .setDescription(props.description + "\n\u200b")
+            .addField("**Syntax:**", "`" + props.syntax + "`", true)
+            .addField("**Triggers:**", props.triggers.map(v => "`" + v + "`").join(', '), true)
+            .addField("**Required Bot Permissions:**", "```"
+            + bot_perms.join(', ')
+            + (bot_perms.length > 0 ? "" : "None")
+            + "```", false)
+            .addField("**Required User Permissions:**", "```"
+            + user_perms.join(', ')
+            + (user_perms.length > 0 ? "" : "None")
+            + "```", false)
             .setFooter('<> required | [] optional')
             .setColor(utilities_1.colors.unimportant);
         msg.channel.send(emb);
@@ -32,7 +39,7 @@ module.exports = new classes_1.Command({
         var modules = commands.map((cmd) => cmd.properties.module_type).filter((mod, i, arr) => arr.indexOf(mod) == i);
         for (let mod of modules) {
             let cmds = commands.filter(cmd => cmd.properties.module_type == mod);
-            emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => `\`${v.properties.triggers[0]}\``).join(', '));
+            emb.addField(`**${mod.toUpperCase()}**`, cmds.map(v => "`" + v.properties.triggers[0] + "`").join(', '));
         }
         emb.setColor(utilities_1.colors.unimportant)
             .addField('\u200b', `[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${msg.client.user.id}&permissions=8&scope=bot)`, true)

@@ -14,6 +14,8 @@ module.exports = new Command({
 },
 
     async (msg, args) => {
+        var char_limit = newEmb(msg).setColor(colors.error).setTitle("Text too long D:")
+
         //Getting the file from the User
         if (args[0] && args[0].toLowerCase().includes('stored')) {
             try {
@@ -26,10 +28,10 @@ module.exports = new Command({
 
                 structure_emb.setDescription("```" + generateTree(structure) + "```")
 
-                msg.channel.send(info_emb);
-                msg.channel.send(structure_emb);
+                msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
+                msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
             } catch (e) {
-                msg.channel.send(newEmb(msg).setColor(colors.error).setTitle('Something went wrong ._.'));
+                msg.channel.send(newEmb(msg).setColor(colors.error).setTitle('I saved stored this guild yet ._.'));
             }
         } else {
             getFile(msg, "Send me your JSON File uwu", 30, (json) => {
@@ -40,9 +42,10 @@ module.exports = new Command({
                 var structure_emb = newEmb(msg).setTitle("Server Structure").setColor(colors.info);
 
                 structure_emb.setDescription("```" + generateTree(structure) + "```")
+                    .setTimestamp(structure.savedAt);
 
-                msg.channel.send(info_emb);
-                msg.channel.send(structure_emb);
+                msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
+                msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
             }, () => {
 
             });
