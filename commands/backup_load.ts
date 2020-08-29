@@ -99,7 +99,7 @@ module.exports = new Command({
 
                 if (struc.channels) {//Else Not interable
                     //LOOSE - Channels
-                    for (let channel of struc.channels.filter(c => ["text", "store", "news"].includes(c.type))) {
+                    for (let channel of struc.channels.filter(c => ["text"].includes(c.type))) {
                         let c = await msg.guild.channels.create(channel.name, {
                             permissionOverwrites: channel.permissionOverwrites,
                             topic: channel.topic,
