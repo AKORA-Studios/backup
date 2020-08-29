@@ -35,6 +35,7 @@ export class ChannelStructure {
     loadedID?: string;
     name: string;
     type: Exclude<keyof typeof ChannelType, 'dm' | 'group' | 'unknown'>;
+    topic: string;
     permissionsLocked: boolean;
     permissionOverwrites: Array<PermissionOverwrites>;
     childs?: Array<ChannelStructure>;
