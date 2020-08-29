@@ -75,7 +75,6 @@ module.exports = new Command({
                                 name: role.name,
                                 color: role.color,
                                 hoist: role.hoist,
-                                position: role.position,
                                 permissions: role.permissions,
                                 mentionable: role.mentionable
                             }, reason: reason
