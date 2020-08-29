@@ -13,8 +13,9 @@ export const colors = {
 }
 
 export const emojis = {
-    true: "",
-    false: ""
+    true: "<:true:749345137833803836>",
+    false: "<:false:749345292452757574>",
+    presence: "<:presence:749346186137174097>"
 }
 
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {

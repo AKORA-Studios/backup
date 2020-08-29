@@ -14,8 +14,9 @@ exports.colors = {
     unimportant: 0x2F3136
 };
 exports.emojis = {
-    true: "",
-    false: ""
+    true: "<:true:749345137833803836>",
+    false: "<:false:749345292452757574>",
+    presence: "<:presence:749346186137174097>"
 };
 exports.confirmAction = (msg, text, confirm, cancel) => {
     var emb = exports.newEmb(msg);
