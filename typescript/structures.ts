@@ -34,6 +34,7 @@ export class ChannelStructure {
     id: string;
     loadedID?: string;
     name: string;
+    nsfw?: boolean;
     type: Exclude<keyof typeof ChannelType, 'dm' | 'group' | 'unknown'>;
     topic: string | undefined;
     permissionsLocked: boolean;

@@ -1,5 +1,6 @@
-import { colors, confirmAction, getFile, importGuild, newEmb } from "../typescript/utilities";
+import { colors, confirmAction, getFile, importGuild, newEmb, rawEmb } from "../typescript/utilities";
 import { Command } from "../typescript/classes";
+import { Message } from "discord.js";
 
 module.exports = new Command({
     name: 'Load',
@@ -27,9 +28,15 @@ module.exports = new Command({
                 var emb = newEmb(message).setColor(colors.success).setTitle("Loading Backup"),
                     text = "",
                     msg = await message.channel.send(emb),
-                    send = msg.channel.send;
+                    send = msg.edit;
 
-                const reason = "Loading Backup by " + message.author.tag;
+
+                const reason = "Loading Backup by " + message.author.tag,
+                    start = new Date();
+
+
+
+
 
                 //Loading Emojis
                 send(emb.setDescription(text + " > > Loading Emojis...\n"));
@@ -37,9 +44,13 @@ module.exports = new Command({
                 for (let emoji of struc.emojis) {
                     await msg.guild.emojis.create(emoji.url, emoji.name, {
                         reason: reason
-                    });//From URL To Buffer needs to be added
+                    }).catch(() => catchErr(msg, emoji.name));;//From URL To Buffer needs to be added
                 }
                 text += " > > Loaded Emojis\n";
+
+
+
+
 
                 //Loading Roles
                 send(emb.setDescription(text + " > > Loading Roles...\n"));
@@ -54,14 +65,69 @@ module.exports = new Command({
                             permissions: role.permissions,
                             mentionable: role.mentionable
                         }, reason: reason
-                    });
+                    }).catch(() => catchErr(msg, role.name));;
 
-                    role.loadedID = r.id;
+                    role.loadedID = r["id"];
                 }
                 text += " > > Loaded Roles\n";
 
 
 
+
+
+                //Loading Channels
+                send(emb.setDescription(text + " > > Loading Channels...\n"));
+
+                //LOOSE - Channels
+                for (let channel of struc.channels.filter(c => ["text", "store", "news"].includes(c.type))) {
+                    let c = await msg.guild.channels.create(channel.name, {
+                        permissionOverwrites: channel.permissionOverwrites,
+                        topic: channel.topic,
+                        type: channel.type,
+                        nsfw: channel.nsfw,
+                        position: struc.channels.indexOf(channel),
+                        reason: reason
+                    }).catch(() => catchErr(msg, channel.name));
+
+                    channel.loadedID = c["id"];
+                }
+
+                //Categorys
+                for (let category of struc.channels.filter(c => c.type === "category")) {
+                    let cat = await msg.guild.channels.create(category.name, {
+                        permissionOverwrites: category.permissionOverwrites,
+                        type: category.type,
+                        position: struc.channels.indexOf(category),
+                        reason: reason
+                    }).catch(() => catchErr(msg, category.name));
+
+                    category.loadedID = cat["id"];
+
+                    for (let chan of category.childs) {
+                        let c = await msg.guild.channels.create(chan.name, {
+                            permissionOverwrites: chan.permissionOverwrites,
+                            topic: chan.topic,
+                            type: chan.type,
+                            nsfw: chan.nsfw,
+                            parent: category.loadedID,
+                            position: category.childs.indexOf(chan),
+                            reason: reason
+                        }).catch(() => catchErr(msg, chan.name));;
+
+                        chan.loadedID = c["id"];
+                    }
+                }
+                text += " > > Loaded Channels\n";
+                send(emb.setDescription(text));
+
+
+
+
+
+                //Finished Loading
+                const end = new Date();
+                var span = (end.getTime() - start.getTime()) / 1000;
+                msg.channel.send(newEmb(message).setColor(colors.success).setTitle("Finished Loading uwu").setFooter("Took: " + span + " seconds"));
             }, () => {
 
             });
@@ -70,3 +136,8 @@ module.exports = new Command({
         })
     }
 );
+
+const catchErr = (msg: Message, str: string) => {
+    msg.channel.send(rawEmb(msg).setColor(colors.error).setTitle("Could'nt Load: " + str));
+    return;
+}
