@@ -29,13 +29,34 @@ module.exports = new Command({
                     msg = await message.channel.send(emb),
                     send = msg.channel.send;
 
+                const reason = "Loading Backup by " + message.author.tag;
+
                 //Loading Emojis
-                text += " > > Loading Emojis...\n";
-                send(emb.setDescription(text));
+                send(emb.setDescription(text + " > > Loading Emojis...\n"));
 
                 for (let emoji of struc.emojis) {
-                    await msg.guild.emojis.create(emoji.url, emoji.name);//From URL To Buffer needs to be added
+                    await msg.guild.emojis.create(emoji.url, emoji.name, {
+                        reason: reason
+                    });//From URL To Buffer needs to be added
                 }
+                text += " > > Loaded Emojis\n";
+
+                //Loading Roles
+                send(emb.setDescription(text + " > > Loading Roles...\n"));
+
+                for (let role of struc.roles) {
+                    let r = await msg.guild.roles.create({
+                        data: {
+                            name: role.name,
+                            color: role.color,
+                            hoist: role.hoist,
+                            position: role.position,
+                            permissions: role.permissions,
+                            mentionable: role.mentionable
+                        }, reason: reason
+                    });//From URL To Buffer needs to be added
+                }
+                text += " > > Loaded Roles\n";
 
 
             }, () => {
