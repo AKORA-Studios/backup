@@ -18,11 +18,16 @@ export class GuildStructure {
     region: string;
     roles: Array<RoleStructure>;
     rulesChannelID: string;
+    savedAt: Date;
     systemChannelID: string;
     systemChannelFlags: Array<SystemChannelFlagsString>;
     verificationLevel: VerificationLevel;
     widgetChannelID: string;
     widgetEnabled: boolean;
+
+    constructor() {
+        this.savedAt = new Date();
+    }
 }
 
 export class ChannelStructure {

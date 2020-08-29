@@ -5,6 +5,9 @@ const discord_js_1 = require("discord.js");
 var example = new discord_js_1.Guild(new discord_js_1.Client(), {});
 example.afkChannel;
 class GuildStructure {
+    constructor() {
+        this.savedAt = new Date();
+    }
 }
 exports.GuildStructure = GuildStructure;
 class ChannelStructure {
