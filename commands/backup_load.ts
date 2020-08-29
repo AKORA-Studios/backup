@@ -54,9 +54,12 @@ module.exports = new Command({
                             permissions: role.permissions,
                             mentionable: role.mentionable
                         }, reason: reason
-                    });//From URL To Buffer needs to be added
+                    });
+
+                    role.loadedID = r.id;
                 }
                 text += " > > Loaded Roles\n";
+
 
 
             }, () => {

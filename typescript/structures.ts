@@ -32,6 +32,7 @@ export class GuildStructure {
 
 export class ChannelStructure {
     id: string;
+    loadedID?: string;
     name: string;
     type: Exclude<keyof typeof ChannelType, 'dm' | 'group' | 'unknown'>;
     permissionsLocked: boolean;
@@ -42,6 +43,7 @@ export class ChannelStructure {
 
 export class RoleStructure {
     id: string;
+    loadedID?: string;
     name: string;
     color: string;//hex
     hoist: boolean;
