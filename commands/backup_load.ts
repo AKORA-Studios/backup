@@ -102,7 +102,11 @@ module.exports = new Command({
                     //LOOSE - Channels
                     for (let channel of struc.channels.filter(c => ["text", "store", "news"].includes(c.type))) {
                         let c = await msg.guild.channels.create(channel.name, {
-                            permissionOverwrites: channel.permissionOverwrites,
+                            permissionOverwrites: channel.permissionOverwrites.map(p => {
+                                let r = struc.roles.find(r => r.id === p.id);
+                                if (r) p.id = r.loadedID;
+                                return p;
+                            }),
                             topic: channel.topic,
                             type: channel.type,
                             nsfw: channel.nsfw,
@@ -116,7 +120,11 @@ module.exports = new Command({
                     //Categorys
                     for (let category of struc.channels.filter(c => c.type === "category")) {
                         let cat = await msg.guild.channels.create(category.name, {
-                            permissionOverwrites: category.permissionOverwrites,
+                            permissionOverwrites: category.permissionOverwrites.map(p => {
+                                let r = struc.roles.find(r => r.id === p.id);
+                                if (r) p.id = r.loadedID;
+                                return p;
+                            }),
                             type: category.type,
                             position: struc.channels.indexOf(category),
                             reason: reason
@@ -126,7 +134,11 @@ module.exports = new Command({
 
                         for (let chan of category.childs) {
                             let c = await msg.guild.channels.create(chan.name, {
-                                permissionOverwrites: chan.permissionOverwrites,
+                                permissionOverwrites: chan.permissionOverwrites.map(p => {
+                                    let r = struc.roles.find(r => r.id === p.id);
+                                    if (r) p.id = r.loadedID;
+                                    return p;
+                                }),
                                 topic: chan.topic,
                                 type: chan.type,
                                 nsfw: chan.nsfw,
