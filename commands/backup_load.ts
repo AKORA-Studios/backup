@@ -69,18 +69,21 @@ module.exports = new Command({
                 await msg.edit(emb.setDescription(text));
 
                 for (let role of struc.roles) {
-                    let r = await msg.guild.roles.create({
-                        data: {
-                            name: role.name,
-                            color: role.color,
-                            hoist: role.hoist,
-                            position: role.position,
-                            permissions: role.permissions,
-                            mentionable: role.mentionable
-                        }, reason: reason
-                    }).catch(() => catchErr(msg, role.name));;
-
-                    role.loadedID = r["id"];
+                    if (role.name !== "@everyone") {
+                        let r = await msg.guild.roles.create({
+                            data: {
+                                name: role.name,
+                                color: role.color,
+                                hoist: role.hoist,
+                                position: role.position,
+                                permissions: role.permissions,
+                                mentionable: role.mentionable
+                            }, reason: reason
+                        }).catch(() => catchErr(msg, role.name));
+                        role.loadedID = r["id"];
+                    } else {
+                        msg.guild.roles.resolve(msg.guild.id).setPermissions(role.permissions);
+                    }
                 }
 
 
@@ -128,7 +131,6 @@ module.exports = new Command({
                                 type: chan.type,
                                 nsfw: chan.nsfw,
                                 parent: category.loadedID,
-                                position: category.childs.indexOf(chan),
                                 reason: reason
                             }).catch(() => catchErr(msg, chan.name));;
 
