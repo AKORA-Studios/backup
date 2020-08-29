@@ -12,6 +12,11 @@ export const colors = {
     unimportant: 0x2F3136
 }
 
+export const emojis = {
+    true: "",
+    false: ""
+}
+
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
     var emb = newEmb(msg);
 

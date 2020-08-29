@@ -12,21 +12,34 @@ module.exports = new Command({
     bot_permissions: ['ADMINISTRATOR']
 },
 
-    async (msg, args) => {
-        getFile(msg, "Please send me your backup file", 30000, (obj) => {
+    (message, args) => {
+        getFile(message, "Please send me your backup file", 30000, (obj) => {
             var struc = importGuild(obj),
-                { guild } = msg;
+                { guild } = message;
 
-            msg.channel.send(newEmb(msg)
+            message.channel.send(newEmb(message)
                 .setColor(colors.warning)
                 .setTitle("WARNING")
-                .setDescription("If you're not **110%** sure its the right backup use the `show` command to verify it is, or create a new one with the `save` command")
+                .setDescription("If you're not **110%** sure this is the right backup use the `show` command to verify, or create a new one with the `save` command")
             );
 
-            confirmAction(msg, "Please Confirm you want to load the Backup", (m) => {
-                m.channel.send("QwQ");
-            }, (m) => {
-                m.channel.send("qwq")
+            confirmAction(message, "Please Confirm you want to load this Backup", async () => {
+                var emb = newEmb(message).setColor(colors.success).setTitle("Loading Backup"),
+                    text = "",
+                    msg = await message.channel.send(emb),
+                    send = msg.channel.send;
+
+                //Loading Emojis
+                text += " > > Loading Emojis...\n";
+                send(emb.setDescription(text));
+
+                for (let emoji of struc.emojis) {
+                    await msg.guild.emojis.create(emoji.url, emoji.name);//From URL To Buffer needs to be added
+                }
+
+
+            }, () => {
+
             });
         }, () => {
 

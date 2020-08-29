@@ -11,17 +11,22 @@ module.exports = new classes_1.Command({
     triggers: ['load', 'apply'],
     user_permissions: ['ADMINISTRATOR', 'MANAGE_GUILD'],
     bot_permissions: ['ADMINISTRATOR']
-}, async (msg, args) => {
-    utilities_1.getFile(msg, "Please send me your backup file", 30000, (obj) => {
-        var struc = utilities_1.importGuild(obj), { guild } = msg;
-        msg.channel.send(utilities_1.newEmb(msg)
+}, (message, args) => {
+    utilities_1.getFile(message, "Please send me your backup file", 30000, (obj) => {
+        var struc = utilities_1.importGuild(obj), { guild } = message;
+        message.channel.send(utilities_1.newEmb(message)
             .setColor(utilities_1.colors.warning)
             .setTitle("WARNING")
-            .setDescription("If you're not **110%** sure its the right backup use the `show` command to verify it is, or create a new one with the `save` command"));
-        utilities_1.confirmAction(msg, "Please Confirm you want to load the Backup", (m) => {
-            m.channel.send("QwQ");
-        }, (m) => {
-            m.channel.send("qwq");
+            .setDescription("If you're not **110%** sure this is the right backup use the `show` command to verify, or create a new one with the `save` command"));
+        utilities_1.confirmAction(message, "Please Confirm you want to load this Backup", async () => {
+            var emb = utilities_1.newEmb(message).setColor(utilities_1.colors.success).setTitle("Loading Backup"), text = "", msg = await message.channel.send(emb), send = msg.channel.send;
+            //Loading Emojis
+            text += " > > Loading Emojis...\n";
+            send(emb.setDescription(text));
+            for (let emoji of struc.emojis) {
+                await msg.guild.emojis.create(emoji.url, emoji.name); //From URL To Buffer needs to be added
+            }
+        }, () => {
         });
     }, () => {
     });
