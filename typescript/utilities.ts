@@ -211,6 +211,7 @@ export const exportGuild = async (guild: Guild) => {
         chan.permissionOverwrites = g_c.permissionOverwrites.array();
         chan.permissionsLocked = g_c.permissionsLocked;
         chan.type = g_c.type;
+        chan.topic = g_c["topic"];
 
         chan.childs = channels.filter(c => c.parentID === g_c.id).map(channelToStructure);
 
