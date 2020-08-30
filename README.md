@@ -7,6 +7,8 @@
  -  With that File you can copy the Structure of your saved Guild to another Guild
  - Thats it :D
  
+ 
+ 
  ## Does the Bot Save everything?
  - ✔️ Emojis
  - ✔️ Roles
