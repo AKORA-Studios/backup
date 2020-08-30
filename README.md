@@ -6,11 +6,11 @@
  - The Bot saves the Structure of your Guild in a JSON File
  -  With that File you can copy the Structure of your saved Guild to another Guild
  - Thats it :D
-
-## Progress
- - #### Finished
-	 - Saving of the Structure
- - #### To Do
-	 - Loading of the Structure
- - #### Planed
-	 - No ideas yet ._.
+ 
+ ## Does the Bot Save everything?
+ - [x] Emojis
+ - [x] Roles
+ - [x] Channels
+ - [x] Role Permissions
+ - [ ] User Permissions & Roles
+ - [ ] Chat history
