@@ -8,9 +8,9 @@
  - Thats it :D
  
  ## Does the Bot Save everything?
- - [x] Emojis
- - [x] Roles
- - [x] Channels
- - [x] Role Permissions
- - [ ] User Permissions & Roles
- - [ ] Chat history
+ - ✔️ Emojis
+ - ✔️ Roles
+ - ✔️ Channels
+ - ✔️ Role Permissions
+ - ❌ User Permissions & Roles
+ - ❌ Chat history
