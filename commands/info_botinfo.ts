@@ -27,8 +27,8 @@ module.exports = new Command({
             emb.addField("Version", "`" + version + "`", true)
                 .addField("NodeJS", "`" + node_ver + "`", true)
                 .addField("Discord.JS", "`" + dependencies["discord.js"] + "`", true)
-                .addField("Owner", "`" + msg.client.users.resolve("387655649934311427").tag + "`", false)
-                .addField("Memory", "`" + size_gb + "GB / " + used_mb + "MB`")
+                .addField("Owner", "`" + msg.client.users.resolve("387655649934311427").tag + "`", true)
+                .addField("Memory", "`" + size_gb + "GB / " + used_mb + "MB`", true)
 
                 .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/200px-Typescript_logo_2020.svg.png")
 
