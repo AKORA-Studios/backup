@@ -1,6 +1,7 @@
 import { colors, confirmAction, getFile, importGuild, newEmb, rawEmb, emojis } from "../typescript/utilities";
 import { Command } from "../typescript/classes";
-import { Message } from "discord.js";
+import { Message, PermissionOverwrites } from "discord.js";
+import { RoleStructure } from "../typescript/structures";
 
 module.exports = new Command({
     name: 'Load',
@@ -103,17 +104,7 @@ module.exports = new Command({
                     //LOOSE - Channels
                     for (let channel of struc.channels.filter(c => ["text"].includes(c.type))) {
                         let c = await msg.guild.channels.create(channel.name, {
-                            permissionOverwrites: channel.permissionOverwrites.map(p => {
-                                var r = struc.roles.find(r => r.id === p.id);
-                                if (r) {
-                                    console.log(r);
-                                    if (r.loadedID) {
-                                        p.id = r.loadedID;
-                                    }
-                                }
-
-                                return p;
-                            }),
+                            permissionOverwrites: channel.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
                             topic: channel.topic,
                             type: channel.type,
                             nsfw: channel.nsfw,
@@ -121,13 +112,13 @@ module.exports = new Command({
                             reason: reason
                         }).catch((e) => catchErr(msg, channel.name, e));
 
-                        struc.channels[struc.channels.indexOf(channel)].loadedID = c["id"];
+                        //struc.channels[struc.channels.indexOf(channel)].loadedID = c["id"];
                     }
 
                     //Categorys
                     for (let category of struc.channels.filter(c => c.type === "category")) {
                         let cat = await msg.guild.channels.create(category.name, {
-                            permissionOverwrites: category.permissionOverwrites,
+                            permissionOverwrites: category.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
                             type: category.type,
                             position: struc.channels.indexOf(category),
                             reason: reason
@@ -138,7 +129,7 @@ module.exports = new Command({
 
                         for (let chan of category.childs) {
                             let c = await msg.guild.channels.create(chan.name, {
-                                permissionOverwrites: chan.permissionOverwrites,
+                                permissionOverwrites: chan.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
                                 topic: chan.topic,
                                 type: chan.type,
                                 nsfw: chan.nsfw,
@@ -177,4 +168,11 @@ module.exports = new Command({
 const catchErr = (msg: Message, str: string, txt) => {
     msg.channel.send(rawEmb(msg).setColor(colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
     return;
+}
+
+const mapPerms = (perm: PermissionOverwrites, roles: RoleStructure[]): PermissionOverwrites => {
+    var role = roles.find(r => r.id === perm.id);
+    if (role && role.loadedID) perm.id = role.loadedID;
+
+    return perm;
 }
