@@ -6,7 +6,7 @@ import { Command } from "../typescript/classes";
 module.exports = new Command({
     name: 'Execute',
     syntax: 'execute <command>',
-    args: false,
+    args: true,
     description: 'Executes commands on the host machine',
     module_type: 'developer',
     triggers: ['execute', 'exec'],

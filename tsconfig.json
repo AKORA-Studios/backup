@@ -3,6 +3,7 @@
     "outDir": "build",
     "target": "esnext",
     "module": "commonjs",
-    "watch": true
+    "watch": true,
+    "resolveJsonModule": true
   }
 }

@@ -42,7 +42,8 @@ module.exports = new classes_1.Command({
                     + utilities_1.emojis.presence + " Roles\n"
                     + utilities_1.emojis.false + " Channels\n";
             await msg.edit(emb.setDescription(text));
-            for (let role of struc.roles.reverse()) {
+            for (let i = 0; i < struc.roles.length; i++) {
+                var role = struc.roles.reverse()[i];
                 if (role.name !== "@everyone") {
                     let r = await msg.guild.roles.create({
                         data: {
@@ -53,7 +54,7 @@ module.exports = new classes_1.Command({
                             mentionable: role.mentionable
                         }, reason: reason
                     }).catch((e) => catchErr(msg, role.name, e));
-                    struc.roles[struc.roles.indexOf(role)].loadedID = r["id"];
+                    struc.roles.reverse()[i].loadedID = r["id"];
                 }
                 else {
                     msg.guild.roles.resolve(msg.guild.id).setPermissions(role.permissions);
@@ -69,7 +70,16 @@ module.exports = new classes_1.Command({
                 //LOOSE - Channels
                 for (let channel of struc.channels.filter(c => ["text"].includes(c.type))) {
                     let c = await msg.guild.channels.create(channel.name, {
-                        permissionOverwrites: channel.permissionOverwrites,
+                        permissionOverwrites: channel.permissionOverwrites.map(p => {
+                            var r = struc.roles.find(r => r.id === p.id);
+                            if (r) {
+                                console.log(r);
+                                if (r.loadedID) {
+                                    p.id = r.loadedID;
+                                }
+                            }
+                            return p;
+                        }),
                         topic: channel.topic,
                         type: channel.type,
                         nsfw: channel.nsfw,

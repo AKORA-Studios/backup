@@ -5,7 +5,7 @@ import { Command } from "../typescript/classes";
 module.exports = new Command({
     name: 'Eval',
     syntax: 'eval <JS Code>',
-    args: false,
+    args: true,
     description: 'Evaluates a Javascript expression',
     module_type: 'developer',
     triggers: ['eval'],

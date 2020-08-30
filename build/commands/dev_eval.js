@@ -5,7 +5,7 @@ const classes_1 = require("../typescript/classes");
 module.exports = new classes_1.Command({
     name: 'Eval',
     syntax: 'eval <JS Code>',
-    args: false,
+    args: true,
     description: 'Evaluates a Javascript expression',
     module_type: 'developer',
     triggers: ['eval'],

@@ -6,7 +6,7 @@ const classes_1 = require("../typescript/classes");
 module.exports = new classes_1.Command({
     name: 'Execute',
     syntax: 'execute <command>',
-    args: false,
+    args: true,
     description: 'Executes commands on the host machine',
     module_type: 'developer',
     triggers: ['execute', 'exec'],
