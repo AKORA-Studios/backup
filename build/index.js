@@ -4,6 +4,8 @@ const classes_1 = require("./typescript/classes");
 const utilities_1 = require("./typescript/utilities");
 const client = new classes_1.Bot();
 const { prefix, token, test_token, owner } = require('./config.json');
+const { MessageEmbed } = require("discord.js");
+
 client.prefix = prefix;
 client.owner = owner;
 client.command_path = "./commands";
@@ -19,32 +21,35 @@ client.on("ready", () => {
         status: 'idle'
     });
 });
-client.on("message", (msg) => {
-    if (msg.channel.type != "dm")
-        return;
-    if (msg.content.toLowerCase().startsWith("to: ")) {
-        if (msg.mentions.users.first()) {
-            let receiver = msg.mentions.users.first();
-            let text = msg.content.slice(msg.content.indexOf(">") + 2);
-            let encoded = utilities_1.encode_text(text, msg.author.id, receiver.id);
-            msg.channel.send("**Encoded Message:**");
-            msg.channel.send(encoded);
-        }
-        else {
-            msg.reply("No mention found qwq");
-        }
+
+client.on("message", async (msg) => {
+    if (msg.channel.type !== "text") return;
+
+    var msg_link_regex = /https:\/\/discordapp.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g,
+        id_regex = /([0-9]{18})/g;
+
+    var links = msg.content.match(msg_link_regex),
+        link_ids = links.map(v => v.match(id_regex));
+
+    for (let i = 0; i < links.length; i++) {
+        var link = links[i],
+            ids = link_ids[i];
+
+        var guild = await client.guilds.fetch(ids[0]);
+        if (!guild) return;
+
+        var channel = await guild.channels.resolve(ids[1]);
+        if (!channel || channel.type !== "text") return;
+
+        var message = await channel.messages.fetch(ids[2]);
+        if (!message) return:
+
+        var emb = new MessageEmbed();
+        emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
+        emb.setDescription(msg.content);
+
     }
-    else if (msg.content.toLowerCase().startsWith("from: ")) {
-        if (msg.mentions.users.first()) {
-            let receiver = msg.mentions.users.first();
-            let text = msg.content.slice(msg.content.indexOf(">") + 2);
-            let decoded = utilities_1.decode_text(text, msg.author.id, receiver.id);
-            msg.channel.send("**Decoded Message:**");
-            msg.channel.send(decoded);
-        }
-        else {
-            msg.reply("No mention found qwq");
-        }
-    }
+
 });
+
 client.login(client.token);
