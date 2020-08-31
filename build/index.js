@@ -4,8 +4,6 @@ const classes_1 = require("./typescript/classes");
 const utilities_1 = require("./typescript/utilities");
 const client = new classes_1.Bot();
 const { prefix, token, test_token, owner } = require('./config.json');
-const { MessageEmbed } = require("discord.js");
-
 client.prefix = prefix;
 client.owner = owner;
 client.command_path = "./commands";
@@ -44,11 +42,11 @@ client.on("message", async (msg) => {
         var message = await channel.messages.fetch(ids[2]);
         if (!message) return:
 
-        var emb = new MessageEmbed();
+        var emb = utilities_1.newEmb(message);
         emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
         emb.setDescription(msg.content);
 
-       msg.channel.send(emb);
+        msg.channel.send(emb);
     }
 
 });
