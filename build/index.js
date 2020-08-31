@@ -40,7 +40,7 @@ client.on("message", async (msg) => {
         if (!channel || channel.type !== "text") return;
 
         var message = await channel.messages.fetch(ids[2]);
-        if (!message) return:
+        if (!message) return;
 
         var emb = utilities_1.newEmb(message);
         emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
