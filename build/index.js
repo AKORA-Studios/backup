@@ -25,23 +25,35 @@ client.on("message", async (msg) => {
         return;
     if (!(msg.channel instanceof discord_js_1.TextChannel))
         return;
-    var msg_link_regex = /https:\/\/(discord|discordapp)\.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g, id_regex = /([0-9]{18})/g;
-    var links = msg.content.match(msg_link_regex), link_ids = links.map(v => v.match(id_regex));
+    var msg_link_regex = /https:\/\/(discord|discordapp)\.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g, id_regex = /([0-9]{18})/g, emb = new discord_js_1.MessageEmbed().setFooter(msg.author.tag, msg.author.displayAvatarURL());
+    var links = msg.content.match(msg_link_regex);
+    if (links === null)
+        return;
     for (let i = 0; i < links.length; i++) {
-        var link = links[i], ids = link_ids[i];
-        var guild = await client.guilds.fetch(ids[0]);
-        if (!guild)
+        var link = links[i], ids = link.match(id_regex);
+        if (ids === null || ids.length < 3)
             return;
-        var channel = guild.channels.resolve(ids[1]);
-        if (!channel || channel.type !== "text")
+        try {
+            var guild = await client.guilds.fetch(ids[0]).catch();
+            if (!guild)
+                return;
+            var channel = guild.channels.resolve(ids[1]);
+            if (!channel || channel.type !== "text")
+                return;
+            var message = await channel.messages.fetch(ids[2]).catch();
+            if (!message)
+                return;
+            emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
+            emb.setColor(utilities_1.colors.unimportant);
+            emb.setDescription(message.content);
+        }
+        catch (e) {
+            //If something is wrong
+            emb.setTitle("Invalid");
+            emb.setColor(utilities_1.colors.error);
             return;
-        var message = await channel.messages.fetch(ids[2]);
-        if (!message)
-            return;
-        var emb = utilities_1.newEmb(message);
-        emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
-        emb.setDescription(message.content);
-        msg.channel.send(emb);
+        }
+        msg.channel.send(emb).catch();
     }
 });
 client.login(client.token);

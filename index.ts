@@ -1,6 +1,6 @@
 import { Bot } from "./typescript/classes";
-import { newEmb } from "./typescript/utilities";
-import { TextChannel } from "discord.js";
+import { newEmb, colors } from "./typescript/utilities";
+import { TextChannel, MessageEmbed } from "discord.js";
 
 const client = new Bot();
 
@@ -30,31 +30,39 @@ client.on("message", async (msg) => {
     if (!(msg.channel instanceof TextChannel)) return;
 
     var msg_link_regex = /https:\/\/(discord|discordapp)\.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g,
-        id_regex = /([0-9]{18})/g;
+        id_regex = /([0-9]{18})/g,
+        emb = new MessageEmbed().setFooter(msg.author.tag, msg.author.displayAvatarURL());
 
-    var links = msg.content.match(msg_link_regex),
-        link_ids = links.map(v => v.match(id_regex));
+    var links = msg.content.match(msg_link_regex);
+    if (links === null) return;
 
     for (let i = 0; i < links.length; i++) {
         var link = links[i],
-            ids = link_ids[i];
+            ids = link.match(id_regex);
 
-        var guild = await client.guilds.fetch(ids[0]);
-        if (!guild) return;
+        if (ids === null || ids.length < 3) return;
 
-        var channel = guild.channels.resolve(ids[1]) as TextChannel;
-        if (!channel || channel.type !== "text") return;
+        try {
+            var guild = await client.guilds.fetch(ids[0]).catch();
+            if (!guild) return;
 
-        var message = await channel.messages.fetch(ids[2]);
-        if (!message) return;
+            var channel = guild.channels.resolve(ids[1]) as TextChannel;
+            if (!channel || channel.type !== "text") return;
 
+            var message = await channel.messages.fetch(ids[2]).catch();
+            if (!message) return;
 
+            emb.setAuthor(message.author.tag, message.author.displayAvatarURL())
+            emb.setColor(colors.unimportant);
+            emb.setDescription(message.content);
+        } catch (e) {
+            //If something is wrong
+            emb.setTitle("Invalid");
+            emb.setColor(colors.error);
+            return;
+        }
 
-        var emb = newEmb(message);
-        emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
-        emb.setDescription(message.content);
-
-        msg.channel.send(emb);
+        msg.channel.send(emb).catch();
     }
 });
 
