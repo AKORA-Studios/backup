@@ -48,6 +48,7 @@ client.on("message", async (msg) => {
         emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
         emb.setDescription(msg.content);
 
+       msg.channel.send(emb);
     }
 
 });
