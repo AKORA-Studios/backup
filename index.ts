@@ -1,5 +1,6 @@
 import { Bot } from "./typescript/classes";
-import { encode_text, decode_text } from "./typescript/utilities";
+import { newEmb } from "./typescript/utilities";
+import { TextChannel } from "discord.js";
 
 const client = new Bot();
 
@@ -24,33 +25,36 @@ client.on("ready", () => {
 
 
 
+client.on("message", async (msg) => {
+    if (msg.channel.type !== "text") return;
+    if (!(msg.channel instanceof TextChannel)) return;
+
+    var msg_link_regex = /https:\/\/(discord|discordapp)\.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g,
+        id_regex = /([0-9]{18})/g;
+
+    var links = msg.content.match(msg_link_regex),
+        link_ids = links.map(v => v.match(id_regex));
+
+    for (let i = 0; i < links.length; i++) {
+        var link = links[i],
+            ids = link_ids[i];
+
+        var guild = await client.guilds.fetch(ids[0]);
+        if (!guild) return;
+
+        var channel = guild.channels.resolve(ids[1]) as TextChannel;
+        if (!channel || channel.type !== "text") return;
+
+        var message = await channel.messages.fetch(ids[2]);
+        if (!message) return;
 
 
-client.on("message", (msg) => {
-    if (msg.channel.type != "dm") return;
 
-    if (msg.content.toLowerCase().startsWith("to: ")) {
-        if (msg.mentions.users.first()) {
-            let receiver = msg.mentions.users.first();
-            let text = msg.content.slice(msg.content.indexOf(">")+2);
-            let encoded = encode_text(text, msg.author.id, receiver.id);
+        var emb = newEmb(message);
+        emb.setAuthor(message.author.tag, message.author.displayAvatarURL());
+        emb.setDescription(message.content);
 
-            msg.channel.send("**Encoded Message:**");
-            msg.channel.send(encoded);
-        } else {
-            msg.reply("No mention found qwq");
-        }
-    } else if (msg.content.toLowerCase().startsWith("from: ")) {
-        if (msg.mentions.users.first()) {
-            let receiver = msg.mentions.users.first();
-            let text = msg.content.slice(msg.content.indexOf(">")+2);
-            let decoded = decode_text(text, msg.author.id, receiver.id);
-
-            msg.channel.send("**Decoded Message:**");
-            msg.channel.send(decoded);
-        } else {
-            msg.reply("No mention found qwq");
-        }
+        msg.channel.send(emb);
     }
 });
 
