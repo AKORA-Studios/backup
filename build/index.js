@@ -23,7 +23,7 @@ client.on("ready", () => {
 client.on("message", async (msg) => {
     if (msg.channel.type !== "text") return;
 
-    var msg_link_regex = /https:\/\/discordapp.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g,
+    var msg_link_regex = /https:\/\/(discord|discordapp)\.com\/channels\/([0-9]{18})\/([0-9]{18})\/([0-9]{18})/g,
         id_regex = /([0-9]{18})/g;
 
     var links = msg.content.match(msg_link_regex),
