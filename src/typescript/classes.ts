@@ -8,7 +8,7 @@ export class Bot extends Client {
     commands: Collection<string, Command>;
     owner: Array<string>;
     command_path: string;
-    prefix: "+";
+    prefix: string;
     token: string;
     test_token: string;
     error_channel: TextChannel | NewsChannel | null;

@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const classes_1 = require("./typescript/classes");
 const utilities_1 = require("./typescript/utilities");
+const config_json_1 = require("./config.json");
+const DBL = require("dblapi.js");
 const discord_js_1 = require("discord.js");
 const client = new classes_1.Bot();
-const DBL = require("dblapi.js");
-const dbl = new DBL('Your top.gg token', client);
-const { prefix, token, test_token, owner } = require('./config.json');
-client.prefix = prefix;
-client.owner = owner;
+const dbl = new DBL(config_json_1.dbl_token, client);
+client.prefix = config_json_1.prefix;
+client.owner = config_json_1.owner;
 client.command_path = "./commands";
-client.token = token;
+client.token = config_json_1.token;
 client.loadCommands(client.command_path);
 client.on("ready", () => {
     client.setErrorChannel(714557180757409942);

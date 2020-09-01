@@ -1,13 +1,14 @@
 import { Bot } from "./typescript/classes";
 import { newEmb, colors } from "./typescript/utilities";
+import { prefix, token, owner, dbl_token } from './config.json';
+
+import * as DBL from "dblapi.js";
 import { TextChannel, MessageEmbed } from "discord.js";
 
 const client = new Bot();
+const dbl = new DBL(dbl_token, client);
 
-import * as DBL from "dblapi.js";
-const dbl = new DBL('Your top.gg token', client);
 
-const { prefix, token, test_token, owner } = require('./config.json');
 client.prefix = prefix;
 client.owner = owner;
 client.command_path = "./commands";
