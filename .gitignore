@@ -9,4 +9,4 @@
 
 # Folders
 /node_modules
-/build/guild_saves/**
+**/guild_saves/**
