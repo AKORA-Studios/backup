@@ -3,10 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const classes_1 = require("./typescript/classes");
 const utilities_1 = require("./typescript/utilities");
 const config_json_1 = require("./config.json");
-const DBL = require("dblapi.js");
 const discord_js_1 = require("discord.js");
-const client = new classes_1.Bot();
-const dbl = new DBL(config_json_1.dbl_token, client);
+var client = new classes_1.Bot();
+//var dbl = new DBL(dbl_token, client);
 client.prefix = config_json_1.prefix;
 client.owner = config_json_1.owner;
 client.command_path = "./commands";
@@ -21,6 +20,7 @@ client.on("ready", () => {
         },
         status: 'idle'
     });
+    /*
     //For Top.gg stats
     client.on('ready', () => {
         setInterval(() => {
@@ -28,6 +28,7 @@ client.on("ready", () => {
             dbl.postStats(client.guilds.cache.size);
         }, 1800000);
     });
+    */
 });
 client.on("message", async (msg) => {
     if (msg.channel.type !== "text")

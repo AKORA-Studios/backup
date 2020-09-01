@@ -5,9 +5,8 @@ import { prefix, token, owner, dbl_token } from './config.json';
 import * as DBL from "dblapi.js";
 import { TextChannel, MessageEmbed } from "discord.js";
 
-const client = new Bot();
-const dbl = new DBL(dbl_token, client);
-
+var client = new Bot();
+//var dbl = new DBL(dbl_token, client);
 
 client.prefix = prefix;
 client.owner = owner;
@@ -26,6 +25,7 @@ client.on("ready", () => {
         status: 'idle'
     });
 
+    /*
     //For Top.gg stats
     client.on('ready', () => {
         setInterval(() => {
@@ -33,6 +33,7 @@ client.on("ready", () => {
             dbl.postStats(client.guilds.cache.size);
         }, 1800000);
     });
+    */
 });
 
 
