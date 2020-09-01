@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "outDir": "build",
+    "rootDir": "./src",
+    "outDir": "./build",
     "target": "esnext",
     "module": "commonjs",
-    "watch": true,
+    "watch": false,
     "resolveJsonModule": true
   }
 }
