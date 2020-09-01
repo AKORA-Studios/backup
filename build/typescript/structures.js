@@ -6,7 +6,7 @@ var example = new discord_js_1.Guild(new discord_js_1.Client(), {});
 example.afkChannel;
 class GuildStructure {
     constructor() {
-        this.savedAt = new Date();
+        this.savedAt = new Date().getTime();
     }
 }
 exports.GuildStructure = GuildStructure;

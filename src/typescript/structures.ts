@@ -10,7 +10,7 @@ export class GuildStructure {
     description: string;
     emojis: Array<EmojiStructure>;
     explicitContentFilter: ExplicitContentFilterLevel;
-    iconURL: string | undefined;
+    iconURL: string;
     mfaLevel: number;
     name: string;
     ownerID: string;
@@ -18,7 +18,7 @@ export class GuildStructure {
     region: string;
     roles: Array<RoleStructure>;
     rulesChannelID: string;
-    savedAt: Date;
+    savedAt: number;
     systemChannelID: string;
     systemChannelFlags: Array<SystemChannelFlagsString>;
     verificationLevel: VerificationLevel;
@@ -26,7 +26,7 @@ export class GuildStructure {
     widgetEnabled: boolean;
 
     constructor() {
-        this.savedAt = new Date();
+        this.savedAt = new Date().getTime();
     }
 }
 

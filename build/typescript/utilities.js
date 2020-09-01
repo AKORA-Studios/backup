@@ -128,7 +128,7 @@ exports.exportGuild = async (guild) => {
     structure.defaultMessageNotifications = guild.defaultMessageNotifications;
     structure.description = guild.description;
     structure.explicitContentFilter = guild.explicitContentFilter;
-    structure.iconURL = guild.iconURL();
+    structure.iconURL = guild.iconURL({ format: "png" });
     structure.mfaLevel = guild.mfaLevel;
     structure.ownerID = guild.ownerID;
     structure.publicUpdatesChannelID = guild.publicUpdatesChannelID;
