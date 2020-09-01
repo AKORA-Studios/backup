@@ -1,0 +1,31 @@
+{
+    "title": "JSON schema for the config file",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "properties": {
+        "owner": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Owner ID",
+                "description": "The Discord-User-ID of a owner"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "description": "The prefix with that every command starts"
+        },
+        "token": {
+            "type": "string",
+            "title": "Discord Bot Token",
+            "maxLength": 59,
+            "minLength": 59
+        },
+        "dbl_token": {
+            "type": "string",
+            "title": "Top.gg Token",
+            "description": "The token for the top.gg botlist",
+            "maxLength": 155,
+            "minLength": 155
+        }
+    }
+}
