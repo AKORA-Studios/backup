@@ -4,6 +4,8 @@ const classes_1 = require("./typescript/classes");
 const utilities_1 = require("./typescript/utilities");
 const discord_js_1 = require("discord.js");
 const client = new classes_1.Bot();
+const DBL = require("dblapi.js");
+const dbl = new DBL('Your top.gg token', client);
 const { prefix, token, test_token, owner } = require('./config.json');
 client.prefix = prefix;
 client.owner = owner;
@@ -18,6 +20,13 @@ client.on("ready", () => {
             type: 'PLAYING'
         },
         status: 'idle'
+    });
+    //For Top.gg stats
+    client.on('ready', () => {
+        setInterval(() => {
+            //Sending the stats to top.gg
+            dbl.postStats(client.guilds.cache.size);
+        }, 1800000);
     });
 });
 client.on("message", async (msg) => {

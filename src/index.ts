@@ -4,6 +4,9 @@ import { TextChannel, MessageEmbed } from "discord.js";
 
 const client = new Bot();
 
+import * as DBL from "dblapi.js";
+const dbl = new DBL('Your top.gg token', client);
+
 const { prefix, token, test_token, owner } = require('./config.json');
 client.prefix = prefix;
 client.owner = owner;
@@ -20,6 +23,14 @@ client.on("ready", () => {
             type: 'PLAYING'
         },
         status: 'idle'
+    });
+
+    //For Top.gg stats
+    client.on('ready', () => {
+        setInterval(() => {
+            //Sending the stats to top.gg
+            dbl.postStats(client.guilds.cache.size);
+        }, 1800000);
     });
 });
 
