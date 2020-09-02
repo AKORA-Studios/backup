@@ -57,7 +57,7 @@ const sendEmbeds = (msg, structure) => {
     var structure_emb = utilities_1.rawEmb()
         .setColor(utilities_1.colors.info)
         .setFooter(msg.client.user.tag, msg.client.user.displayAvatarURL());
-    structure_emb.setDescription("```" + utilities_1.generateTree(structure) + utilities_1.generateTree(structure) + utilities_1.generateTree(structure) + "```")
+    structure_emb.setDescription("```" + utilities_1.generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
     msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
     msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));

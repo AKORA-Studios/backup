@@ -76,7 +76,7 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
         .setColor(colors.info)
         .setFooter(msg.client.user.tag, msg.client.user.displayAvatarURL());
 
-    structure_emb.setDescription("```" + generateTree(structure) + generateTree(structure) + generateTree(structure) + "```")
+    structure_emb.setDescription("```" + generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
 
     msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
