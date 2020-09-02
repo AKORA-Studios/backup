@@ -47,10 +47,10 @@ const sendEmbeds = (msg, structure) => {
         + `\n`
         + `${utilities_1.emojis.information} **Stats**\n` + "```"
         + `Channel ${channel_count}\n`
-        + `Roles   ${structure.roles.length}\`\n`
+        + `Roles   ${structure.roles.length}\n` + "```"
         + `\n`
         + `${utilities_1.emojis.tag} **Region**\n`
-        + "`" + structure.region + "`");
+        + "`" + fancyCases("-", structure.region) + "`");
     var structure_emb = utilities_1.newEmb(msg).setTitle("Server Structure").setColor(utilities_1.colors.info);
     structure_emb.setDescription("```" + utilities_1.generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);

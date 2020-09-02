@@ -60,10 +60,10 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
         + `\n`
         + `${emojis.information} **Stats**\n` + "```"
         + `Channel ${channel_count}\n`
-        + `Roles   ${structure.roles.length}\`\n`
+        + `Roles   ${structure.roles.length}\n` + "```"
         + `\n`
         + `${emojis.tag} **Region**\n`
-        + "`" + structure.region + "`"
+        + "`" + fancyCases("-", structure.region) + "`"
     );
 
     var structure_emb = newEmb(msg).setTitle("Server Structure").setColor(colors.info);

@@ -26,6 +26,13 @@ export const emojis = {
     bot: "<:bot:750712868814716928>"
 }
 
+export const fancyCases = (seperator: string, text: string) => {
+    var arr = text.split(seperator)
+    arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
+
+    return arr.join(" ");
+}
+
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
     var emb = newEmb(msg);
 

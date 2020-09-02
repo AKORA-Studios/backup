@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.emojis = exports.colors = void 0;
+exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -25,6 +25,11 @@ exports.emojis = {
     online: "<:online:750709966167474237>",
     offline: "<:offline:750709986476163103>",
     bot: "<:bot:750712868814716928>"
+};
+exports.fancyCases = (seperator, text) => {
+    var arr = text.split(seperator);
+    arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
+    return arr.join(" ");
 };
 exports.confirmAction = (msg, text, confirm, cancel) => {
     var emb = exports.newEmb(msg);
