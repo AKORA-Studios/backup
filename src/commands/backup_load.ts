@@ -26,7 +26,7 @@ module.exports = new Command({
             );
 
             confirmAction(message, "Please Confirm you want to load this Backup", async () => {
-                var emb = newEmb(message).setColor(colors.success).setTitle("Loading Backup"),
+                var emb = rawEmb().setColor(colors.success).setTitle("Loading Backup"),
                     text =
                         emojis.false + " Emojis\n"
                         + emojis.false + " Roles\n"
@@ -155,7 +155,7 @@ module.exports = new Command({
                 //Finished Loading
                 const end = new Date();
                 var span = (end.getTime() - start.getTime()) / 1000;
-                msg.channel.send(newEmb(message).setColor(colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
+                msg.channel.send(rawEmb().setColor(colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
             }, () => {
 
             });

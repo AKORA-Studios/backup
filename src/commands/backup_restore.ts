@@ -30,7 +30,7 @@ module.exports = new Command({
             confirmAction(message, "Please Confirm you want to restore this Backup", async () => {
                 guild = await message.guild.fetch();
 
-                var emb = newEmb(message).setColor(colors.success).setTitle("Restoring Backup"),
+                var emb = rawEmb().setColor(colors.success).setTitle("Restoring Backup"),
                     text =
                         emojis.false + " Emojis\n"
                         + emojis.false + " Roles\n"
@@ -220,7 +220,7 @@ module.exports = new Command({
                 //Finished Loading
                 const end = new Date();
                 var span = (end.getTime() - start.getTime()) / 1000;
-                msg.channel.send(newEmb(message).setColor(colors.success).setTitle("Finished Restoing uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
+                msg.channel.send(rawEmb().setColor(colors.success).setTitle("Finished Restoing uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
             }, () => {
 
             });

@@ -22,7 +22,7 @@ module.exports = new classes_1.Command({
             .setDescription("If you're not **110%** sure this is the right backup use the `show` command to verify, or create a new one with the `save` command"));
         utilities_1.confirmAction(message, "Please Confirm you want to restore this Backup", async () => {
             guild = await message.guild.fetch();
-            var emb = utilities_1.newEmb(message).setColor(utilities_1.colors.success).setTitle("Restoring Backup"), text = utilities_1.emojis.false + " Emojis\n"
+            var emb = utilities_1.rawEmb().setColor(utilities_1.colors.success).setTitle("Restoring Backup"), text = utilities_1.emojis.false + " Emojis\n"
                 + utilities_1.emojis.false + " Roles\n"
                 + utilities_1.emojis.false + " Channels\n", msg = await message.channel.send(emb);
             const reason = "Loading Backup by " + message.author.tag, start = new Date();
@@ -183,7 +183,7 @@ module.exports = new classes_1.Command({
             //Finished Loading
             const end = new Date();
             var span = (end.getTime() - start.getTime()) / 1000;
-            msg.channel.send(utilities_1.newEmb(message).setColor(utilities_1.colors.success).setTitle("Finished Restoing uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
+            msg.channel.send(utilities_1.rawEmb().setColor(utilities_1.colors.success).setTitle("Finished Restoing uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
         }, () => {
         });
     }, () => {
