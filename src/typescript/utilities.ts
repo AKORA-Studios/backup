@@ -34,12 +34,12 @@ export const fancyCases = (seperator: string, text: string): string => {
 }
 
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
-    var emb = newEmb(msg);
+    var emb = rawEmb();
 
     emb.setTitle('Confirmation').setDescription(text)
 
     msg.channel.send(emb).then(async message => {
-        emb = newEmb(msg);
+        emb = rawEmb();
 
         const filter = (reaction: MessageReaction, user: User) => {
             return (reaction.emoji.name === '✅' || reaction.emoji.name === '❌')

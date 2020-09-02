@@ -32,10 +32,10 @@ exports.fancyCases = (seperator, text) => {
     return arr.join(" ");
 };
 exports.confirmAction = (msg, text, confirm, cancel) => {
-    var emb = exports.newEmb(msg);
+    var emb = exports.rawEmb();
     emb.setTitle('Confirmation').setDescription(text);
     msg.channel.send(emb).then(async (message) => {
-        emb = exports.newEmb(msg);
+        emb = exports.rawEmb();
         const filter = (reaction, user) => {
             return (reaction.emoji.name === '✅' || reaction.emoji.name === '❌')
                 && user.id === msg.author.id;
