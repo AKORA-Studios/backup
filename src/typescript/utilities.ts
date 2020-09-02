@@ -96,8 +96,8 @@ export const newEmb = (msg: Message) => {
 }
 
 export const rawEmb = () => {
-    return new MessageEmbed()
-        .setTimestamp(new Date());
+    return new MessageEmbed();
+    //.setTimestamp(new Date());
 }
 
 /**
