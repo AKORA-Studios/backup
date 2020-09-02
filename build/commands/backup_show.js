@@ -36,7 +36,9 @@ module.exports = new classes_1.Command({
 });
 const sendEmbeds = (msg, structure) => {
     var char_limit = utilities_1.newEmb(msg).setColor(utilities_1.colors.error).setTitle("Text too long D:");
-    var info_emb = utilities_1.rawEmb().setTitle(structure.name).setColor(utilities_1.colors.info)
+    var info_emb = utilities_1.rawEmb()
+        .setTitle(structure.name)
+        .setColor(utilities_1.colors.info)
         .setThumbnail(structure.iconURL)
         .setDescription(structure.description)
         .setTimestamp(structure.savedAt);
@@ -47,13 +49,16 @@ const sendEmbeds = (msg, structure) => {
         + `\n`
         + `${utilities_1.emojis.information} **Stats**\n` + "```"
         + `Channel ${channel_count}\n`
-        + `Roles   ${structure.roles.length}\n` + "```"
-        + `\n`
+        + `Roles   ${structure.roles.length}\n`
+        + `Emojis  ${structure.emojis.length}\n`
+        + "```\n"
         + `${utilities_1.emojis.tag} **Region**\n`
-        + "`" + fancyCases("-", structure.region) + "`");
-    var structure_emb = utilities_1.newEmb(msg).setTitle("Server Structure").setColor(utilities_1.colors.info);
-    structure_emb.setDescription("```" + utilities_1.generateTree(structure) + "```")
+        + "`" + utilities_1.fancyCases("-", structure.region) + "`");
+    var structure_emb = utilities_1.rawEmb()
+        .setColor(utilities_1.colors.info)
+        .setFooter(msg.client.user.tag, msg.client.user.displayAvatarURL());
+    structure_emb.setDescription("```" + utilities_1.generateTree(structure) + utilities_1.generateTree(structure) + utilities_1.generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
     msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
-    //msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
+    msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
 };

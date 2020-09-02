@@ -1,7 +1,7 @@
-import { newEmb, importGuild, getFile, colors, generateTree, rawEmb, emojis } from '../typescript/utilities';
+import { newEmb, importGuild, getFile, colors, generateTree, rawEmb, emojis, fancyCases } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import * as fs from 'fs';
-import { Message, Guild } from 'discord.js';
+import { Message } from 'discord.js';
 import { GuildStructure } from '../typescript/structures';
 
 module.exports = new Command({
@@ -45,11 +45,12 @@ module.exports = new Command({
 const sendEmbeds = (msg: Message, structure: GuildStructure) => {
     var char_limit = newEmb(msg).setColor(colors.error).setTitle("Text too long D:");
 
-    var info_emb = rawEmb().setTitle(structure.name).setColor(colors.info)
+    var info_emb = rawEmb()
+        .setTitle(structure.name)
+        .setColor(colors.info)
         .setThumbnail(structure.iconURL)
         .setDescription(structure.description)
         .setTimestamp(structure.savedAt);
-
 
 
     var channel_count = structure.channels.length;
@@ -60,17 +61,24 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
         + `\n`
         + `${emojis.information} **Stats**\n` + "```"
         + `Channel ${channel_count}\n`
-        + `Roles   ${structure.roles.length}\n` + "```"
-        + `\n`
+        + `Roles   ${structure.roles.length}\n`
+        + `Emojis  ${structure.emojis.length}\n`
+        + "```\n"
         + `${emojis.tag} **Region**\n`
         + "`" + fancyCases("-", structure.region) + "`"
     );
 
-    var structure_emb = newEmb(msg).setTitle("Server Structure").setColor(colors.info);
 
-    structure_emb.setDescription("```" + generateTree(structure) + "```")
+
+
+
+    var structure_emb = rawEmb()
+        .setColor(colors.info)
+        .setFooter(msg.client.user.tag, msg.client.user.displayAvatarURL());
+
+    structure_emb.setDescription("```" + generateTree(structure) + generateTree(structure) + generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
 
     msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
-    //msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
+    msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
 }

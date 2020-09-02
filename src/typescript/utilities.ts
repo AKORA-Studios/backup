@@ -26,7 +26,7 @@ export const emojis = {
     bot: "<:bot:750712868814716928>"
 }
 
-export const fancyCases = (seperator: string, text: string) => {
+export const fancyCases = (seperator: string, text: string): string => {
     var arr = text.split(seperator)
     arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
 
