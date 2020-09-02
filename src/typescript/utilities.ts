@@ -17,13 +17,13 @@ export const emojis = {
     false: "<:false:749345292452757574>",
     presence: "<:presence:749346186137174097>",
     member: "<:member:750712895251152930>",
-    information: "<:information:738456908964561058>",
+    information: "<:information:750712943737569340>",
     tag: "<:tag:750712982383755395>",
-    developer: "<:developer:738455083884216429>",
-    owner: "<:owner:738455084089999432>",
-    online: "<:online:746374751861342218>",
-    offline: "<:offline:746374726519357460>",
-    bot: "<:bot:737243668909391893>"
+    developer: "<:developer:750709679931392011>",
+    owner: "<:owner:750713044606255179>",
+    online: "<:online:750709966167474237>",
+    offline: "<:offline:750709986476163103>",
+    bot: "<:bot:750712868814716928>"
 }
 
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {

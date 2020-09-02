@@ -16,11 +16,10 @@ module.exports = new Command({
     async (msg, args) => {
         var code = args.join(' ');
 
-        const func = () => eval(code);
-
         let emb = newEmb(msg).setColor(colors.info);
         emb.addField("**Code:**", "```" + code + "```", false);
-        emb.addField("**Output:**", "```" + (await func.call({
+
+        emb.addField("**Output:**", "```" + (await evalInContext(code, {
             msg: msg,
             message: msg,
             colors: colors,
@@ -31,3 +30,7 @@ module.exports = new Command({
         msg.channel.send(emb);
     }
 );
+
+function evalInContext(js: string, context: Object) {
+    return function () { return eval(js); }.call(context);
+}

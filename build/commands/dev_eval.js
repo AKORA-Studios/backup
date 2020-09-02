@@ -13,10 +13,9 @@ module.exports = new classes_1.Command({
     bot_permissions: []
 }, async (msg, args) => {
     var code = args.join(' ');
-    const func = () => eval(code);
     let emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info);
     emb.addField("**Code:**", "```" + code + "```", false);
-    emb.addField("**Output:**", "```" + (await func.call({
+    emb.addField("**Output:**", "```" + (await evalInContext(code, {
         msg: msg,
         message: msg,
         colors: utilities_1.colors,
@@ -25,3 +24,6 @@ module.exports = new classes_1.Command({
     })) + "```", false);
     msg.channel.send(emb);
 });
+function evalInContext(js, context) {
+    return function () { return eval(js); }.call(context);
+}
