@@ -15,7 +15,11 @@ export const colors = {
 export const emojis = {
     true: "<:true:749345137833803836>",
     false: "<:false:749345292452757574>",
-    presence: "<:presence:749346186137174097>"
+    presence: "<:presence:749346186137174097>",
+    developer: "",
+    online: "",
+    offline: "",
+    bot: ""
 }
 
 export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
@@ -153,7 +157,7 @@ export const exportGuild = async (guild: Guild) => {
     structure.defaultMessageNotifications = guild.defaultMessageNotifications;
     structure.description = guild.description;
     structure.explicitContentFilter = guild.explicitContentFilter;
-    structure.iconURL = guild.iconURL({ format: "png" });
+    structure.iconURL = guild.iconURL();
     structure.mfaLevel = guild.mfaLevel;
     structure.ownerID = guild.ownerID;
     structure.publicUpdatesChannelID = guild.publicUpdatesChannelID;

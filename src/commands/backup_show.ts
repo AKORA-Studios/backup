@@ -55,6 +55,6 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
     structure_emb.setDescription("```" + generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
 
-    msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
-    msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
+    msg.channel.send([info_emb, structure_emb]).catch(() => msg.channel.send(char_limit));
+    //msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
 }

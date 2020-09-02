@@ -43,6 +43,6 @@ const sendEmbeds = (msg, structure) => {
     var structure_emb = utilities_1.newEmb(msg).setTitle("Server Structure").setColor(utilities_1.colors.info);
     structure_emb.setDescription("```" + utilities_1.generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
-    msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
-    msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
+    msg.channel.send([info_emb, structure_emb]).catch(() => msg.channel.send(char_limit));
+    //msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
 };
