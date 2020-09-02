@@ -81,13 +81,14 @@ module.exports = new Command({
                     if (role.name !== "@everyone") {
                         if (guild.roles.resolve(role.id)) {
                             let r = guild.roles.resolve(role.id);
-                            r.setColor(role.color, reason).catch(e => catchErr(msg, role.name, e));
 
-                            if (r.hoist !== role.hoist) r.setHoist(role.hoist, reason).catch(e => catchErr(msg, role.name, e));
-                            if (r.mentionable !== role.mentionable) r.setMentionable(role.mentionable, reason).catch(e => catchErr(msg, role.name, e));
-                            if (r.name !== role.name) r.setName(role.name, reason).catch(e => catchErr(msg, role.name, e));
-                            if (r.permissions.toArray() !== role.permissions) r.setName(role.name, reason).catch(e => catchErr(msg, role.name, e));
-                            if (r.position !== role.position) r.setPermissions(role.permissions).catch(e => catchErr(msg, role.name, e));
+                            r.edit({
+                                name: role.name,
+                                color: role.color,
+                                hoist: role.hoist,
+                                mentionable: role.mentionable,
+                                permissions: role.permissions
+                            }).catch(e => catchErr(msg, role.name, e));;
 
                             struc.roles.reverse()[i].loadedID = role.id;
                         } else {
@@ -128,14 +129,14 @@ module.exports = new Command({
                         if (guild.channels.resolve(channel.id)) {
                             let c = guild.channels.resolve(channel.id) as TextChannel;
 
-                            if (c.name !== channel.name) c.setName(channel.name, reason).catch(e => catchErr(msg, channel.name, e));
-                            if (c.topic !== channel.topic) c.setTopic(channel.topic, reason).catch(e => catchErr(msg, channel.name, e));
-                            if (c.position !== i) c.setPosition(i).catch(e => catchErr(msg, channel.name, e));
-
-                            var overwrites = channel.permissionOverwrites.map((p) => mapPerms(p, struc.roles));
-                            if (c.permissionOverwrites.array() !== overwrites) c.overwritePermissions(overwrites).catch(e => catchErr(msg, role.name, e));
-
-                            if (channel.nsfw) c.setNSFW(channel.nsfw).catch(e => catchErr(msg, channel.name, e));
+                            c.edit({
+                                name: channel.name,
+                                topic: channel.topic,
+                                position: i,
+                                nsfw: channel.nsfw,
+                                permissionOverwrites: channel.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
+                                lockPermissions: channel.permissionsLocked
+                            }).catch(e => catchErr(msg, channel.name, e));
                         } else {
                             let c = await msg.guild.channels.create(channel.name, {
                                 permissionOverwrites: channel.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
@@ -157,11 +158,11 @@ module.exports = new Command({
                         if (guild.channels.resolve(category.id)) {
                             let cat = guild.channels.resolve(category.id);
 
-                            if (cat.name !== category.name) cat.setName(category.name, reason).catch(e => catchErr(msg, cat.name, e));
-                            if (cat.position !== z) cat.setPosition(z).catch(e => catchErr(msg, cat.name, e));
-
-                            var overwrites = category.permissionOverwrites.map((p) => mapPerms(p, struc.roles));
-                            if (cat.permissionOverwrites.array() !== overwrites) cat.overwritePermissions(overwrites).catch(e => catchErr(msg, cat.name, e));
+                            cat.edit({
+                                name: category.name,
+                                position: z,
+                                permissionOverwrites: category.permissionOverwrites.map((p) => mapPerms(p, struc.roles))
+                            }).catch(e => catchErr(msg, cat.name, e));
 
                             category.loadedID = cat.id;
                         } else {
@@ -182,14 +183,15 @@ module.exports = new Command({
                             if (guild.channels.resolve(chan.id)) {
                                 let c = guild.channels.resolve(chan.id) as TextChannel;
 
-                                if (c.name !== chan.name) c.setName(chan.name, reason).catch(e => catchErr(msg, chan.name, e));
-                                if (c.topic !== chan.topic) c.setTopic(chan.topic, reason).catch(e => catchErr(msg, chan.name, e));
-                                if (c.position !== i) c.setPosition(i).catch(e => catchErr(msg, chan.name, e));
-
-                                var overwrites = chan.permissionOverwrites.map((p) => mapPerms(p, struc.roles));
-                                if (c.permissionOverwrites.array() !== overwrites) c.overwritePermissions(overwrites).catch(e => catchErr(msg, role.name, e));
-
-                                if (chan.nsfw) c.setNSFW(chan.nsfw).catch(e => catchErr(msg, chan.name, e));
+                                c.edit({
+                                    name: chan.name,
+                                    topic: chan.topic,
+                                    position: i,
+                                    nsfw: chan.nsfw,
+                                    parentID: category.loadedID,
+                                    permissionOverwrites: chan.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
+                                    lockPermissions: chan.permissionsLocked
+                                }).catch(e => catchErr(msg, chan.name, e));
                             } else {
 
                                 let c = await msg.guild.channels.create(chan.name, {

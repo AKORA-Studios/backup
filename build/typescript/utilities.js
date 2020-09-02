@@ -81,8 +81,8 @@ exports.newEmb = (msg) => {
         .setTimestamp(new Date());
 };
 exports.rawEmb = () => {
-    return new discord_js_1.MessageEmbed()
-        .setTimestamp(new Date());
+    return new discord_js_1.MessageEmbed();
+    //.setTimestamp(new Date());
 };
 /**
  * Checks if the pool contains perms
@@ -97,11 +97,6 @@ exports.checkPermissionOverlap = (perms, pool) => {
     }
     return true;
 };
-/**
- * @param {string} text
- * @param {string} id
- * @param {string} sec_id
- */
 exports.encode_text = (text, id, sec_id) => {
     let encoded = "";
     for (let i = 0; i < text.length; i++) {
@@ -217,7 +212,7 @@ exports.assignValues = (a, b) => {
 //Getting File
 exports.getFile = async (msg, text, timeout, succes, failure) => {
     //Getting the file from the User
-    var emb = exports.newEmb(msg).setColor(exports.colors.info);
+    var emb = exports.rawEmb().setColor(exports.colors.info);
     emb.setTitle(text)
         .setDescription("*Write* `cancel` *to abort*")
         .setFooter(`I will wait ${timeout} Seconds`);
@@ -254,13 +249,13 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
             }
             catch (err) {
                 console.log(err);
-                m.channel.send(exports.newEmb(m).setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
+                m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
                 return failure();
             }
         }
         catch (err) {
             console.log(err);
-            m.channel.send(exports.newEmb(m).setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
+            m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
             return failure;
         }
     });

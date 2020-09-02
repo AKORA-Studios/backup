@@ -113,11 +113,6 @@ export const checkPermissionOverlap = (perms: Array<PermissionString>, pool: Arr
     return true;
 }
 
-/**
- * @param {string} text 
- * @param {string} id 
- * @param {string} sec_id 
- */
 export const encode_text = (text: string, id: string, sec_id: string): string => {
     let encoded = "";
     for (let i = 0; i < text.length; i++) {
@@ -271,7 +266,7 @@ export const assignValues = (a, b) => {
 //Getting File
 export const getFile = async (msg: Message, text: string, timeout: number, succes: (obj: object) => void, failure: () => void) => {
     //Getting the file from the User
-    var emb = newEmb(msg).setColor(colors.info);
+    var emb = rawEmb().setColor(colors.info);
     emb.setTitle(text)
         .setDescription("*Write* `cancel` *to abort*")
         .setFooter(`I will wait ${timeout} Seconds`);
@@ -318,12 +313,12 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
                 succes(json);
             } catch (err) {
                 console.log(err);
-                m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error parsing your file ._."));
+                m.channel.send(rawEmb().setColor(colors.error).setTitle("There was an error parsing your file ._."));
                 return failure();
             }
         } catch (err) {
             console.log(err);
-            m.channel.send(newEmb(m).setColor(colors.error).setTitle("There was an error downloading your file ._."));
+            m.channel.send(rawEmb().setColor(colors.error).setTitle("There was an error downloading your file ._."));
             return failure;
         }
     })
