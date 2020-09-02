@@ -82,7 +82,7 @@ module.exports = new Command({
                         if (guild.roles.resolve(role.id)) {
                             let r = guild.roles.resolve(role.id);
 
-                            r.edit({
+                            await r.edit({
                                 name: role.name,
                                 color: role.color,
                                 hoist: role.hoist,
@@ -129,7 +129,7 @@ module.exports = new Command({
                         if (guild.channels.resolve(channel.id)) {
                             let c = guild.channels.resolve(channel.id) as TextChannel;
 
-                            c.edit({
+                            await c.edit({
                                 name: channel.name,
                                 topic: channel.topic,
                                 position: i,
@@ -158,7 +158,7 @@ module.exports = new Command({
                         if (guild.channels.resolve(category.id)) {
                             let cat = guild.channels.resolve(category.id);
 
-                            cat.edit({
+                            await cat.edit({
                                 name: category.name,
                                 position: z,
                                 permissionOverwrites: category.permissionOverwrites.map((p) => mapPerms(p, struc.roles))
@@ -183,7 +183,7 @@ module.exports = new Command({
                             if (guild.channels.resolve(chan.id)) {
                                 let c = guild.channels.resolve(chan.id) as TextChannel;
 
-                                c.edit({
+                                await c.edit({
                                     name: chan.name,
                                     topic: chan.topic,
                                     position: i,
@@ -193,7 +193,6 @@ module.exports = new Command({
                                     lockPermissions: chan.permissionsLocked
                                 }).catch(e => catchErr(msg, chan.name, e));
                             } else {
-
                                 let c = await msg.guild.channels.create(chan.name, {
                                     permissionOverwrites: chan.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
                                     topic: chan.topic,

@@ -53,8 +53,9 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
         .setTimestamp(structure.savedAt);
 
 
-    var channel_count = structure.channels.length;
-    channel_count += parseInt(structure.channels.map(v => v.childs ? v.childs : 0).join(""));
+    var channel_count = 0;
+    if (structure.channels.length) channel_count += structure.channels.length;
+    for (let cat of structure.channels.filter(v => v.childs)) channel_count += cat.childs.length;
 
     info_emb.setDescription(""
         + `${emojis.owner} <@${structure.ownerID}>\n`

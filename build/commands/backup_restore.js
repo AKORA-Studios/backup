@@ -52,7 +52,7 @@ module.exports = new classes_1.Command({
                 if (role.name !== "@everyone") {
                     if (guild.roles.resolve(role.id)) {
                         let r = guild.roles.resolve(role.id);
-                        r.edit({
+                        await r.edit({
                             name: role.name,
                             color: role.color,
                             hoist: role.hoist,
@@ -92,7 +92,7 @@ module.exports = new classes_1.Command({
                     let channel = LOOSE[i];
                     if (guild.channels.resolve(channel.id)) {
                         let c = guild.channels.resolve(channel.id);
-                        c.edit({
+                        await c.edit({
                             name: channel.name,
                             topic: channel.topic,
                             position: i,
@@ -119,7 +119,7 @@ module.exports = new classes_1.Command({
                     let category = CATEGORYS[z];
                     if (guild.channels.resolve(category.id)) {
                         let cat = guild.channels.resolve(category.id);
-                        cat.edit({
+                        await cat.edit({
                             name: category.name,
                             position: z,
                             permissionOverwrites: category.permissionOverwrites.map((p) => mapPerms(p, struc.roles))
@@ -140,7 +140,7 @@ module.exports = new classes_1.Command({
                         let chan = category.childs[i];
                         if (guild.channels.resolve(chan.id)) {
                             let c = guild.channels.resolve(chan.id);
-                            c.edit({
+                            await c.edit({
                                 name: chan.name,
                                 topic: chan.topic,
                                 position: i,

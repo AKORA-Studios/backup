@@ -40,7 +40,7 @@ exports.confirmAction = (msg, text, confirm, cancel) => {
             return (reaction.emoji.name === '✅' || reaction.emoji.name === '❌')
                 && user.id === msg.author.id;
         };
-        const collector = message.createReactionCollector(filter, { maxEmojis: 1, time: 5000 });
+        const collector = message.createReactionCollector(filter, { maxEmojis: 1, time: 15000 });
         var check = await message.react('✅').catch();
         var abort = await message.react('❌').catch();
         collector.on('collect', (reaction, user) => {
@@ -124,6 +124,7 @@ exports.channelToStructure = (g_c) => {
     c.permissionOverwrites = g_c.permissionOverwrites.array();
     c.permissionsLocked = g_c.permissionsLocked;
     c.type = g_c.type;
+    c.nsfw = g_c["nsfw"];
     return c;
 };
 exports.exportGuild = async (guild) => {
@@ -245,17 +246,20 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
             //Parsing
             try {
                 var json = JSON.parse(res);
+                collector.stop("Collected");
                 succes(json);
             }
             catch (err) {
                 console.log(err);
                 m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
+                collector.stop("Collected");
                 return failure();
             }
         }
         catch (err) {
             console.log(err);
             m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
+            collector.stop("Collected");
             return failure;
         }
     });

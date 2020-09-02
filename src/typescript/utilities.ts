@@ -46,10 +46,12 @@ export const confirmAction = (msg: Message, text: string, confirm: (message: Mes
                 && user.id === msg.author.id;
         }
 
-        const collector = message.createReactionCollector(filter, { maxEmojis: 1, time: 5000 });
+        const collector = message.createReactionCollector(filter, { maxEmojis: 1, time: 15000 });
 
         var check = await message.react('✅').catch();
         var abort = await message.react('❌').catch();
+
+
 
         collector.on('collect', (reaction, user) => {
             switch (reaction.emoji.name) {
@@ -147,6 +149,7 @@ export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
     c.permissionOverwrites = g_c.permissionOverwrites.array();
     c.permissionsLocked = g_c.permissionsLocked;
     c.type = g_c.type;
+    c.nsfw = g_c["nsfw"];
 
     return c;
 }
@@ -309,16 +312,18 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
             //Parsing
             try {
                 var json = JSON.parse(res);
-
+                collector.stop("Collected");
                 succes(json);
             } catch (err) {
                 console.log(err);
                 m.channel.send(rawEmb().setColor(colors.error).setTitle("There was an error parsing your file ._."));
+                collector.stop("Collected");
                 return failure();
             }
         } catch (err) {
             console.log(err);
             m.channel.send(rawEmb().setColor(colors.error).setTitle("There was an error downloading your file ._."));
+            collector.stop("Collected");
             return failure;
         }
     })
