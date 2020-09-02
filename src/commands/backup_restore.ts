@@ -168,7 +168,7 @@ module.exports = new Command({
 );
 
 const catchErr = (msg: Message, str: string, txt) => {
-    msg.channel.send(rawEmb(msg).setColor(colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
+    msg.channel.send(rawEmb().setColor(colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
     return;
 }
 

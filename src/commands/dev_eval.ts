@@ -1,4 +1,4 @@
-import { newEmb, colors } from '../typescript/utilities';
+import { newEmb, colors, emojis, rawEmb } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 
 
@@ -22,7 +22,10 @@ module.exports = new Command({
         emb.addField("**Code:**", "```" + code + "```", false);
         emb.addField("**Output:**", "```" + (await func.call({
             msg: msg,
-            message: msg
+            message: msg,
+            colors: colors,
+            emojis: emojis,
+            rawEmb: rawEmb
         })) + "```", false);
 
         msg.channel.send(emb);

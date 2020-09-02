@@ -120,7 +120,7 @@ module.exports = new classes_1.Command({
     });
 });
 const catchErr = (msg, str, txt) => {
-    msg.channel.send(utilities_1.rawEmb(msg).setColor(utilities_1.colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
+    msg.channel.send(utilities_1.rawEmb().setColor(utilities_1.colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
     return;
 };
 const mapPerms = (perm, roles) => {

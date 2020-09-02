@@ -18,7 +18,10 @@ module.exports = new classes_1.Command({
     emb.addField("**Code:**", "```" + code + "```", false);
     emb.addField("**Output:**", "```" + (await func.call({
         msg: msg,
-        message: msg
+        message: msg,
+        colors: utilities_1.colors,
+        emojis: utilities_1.emojis,
+        rawEmb: utilities_1.rawEmb
     })) + "```", false);
     msg.channel.send(emb);
 });

@@ -1,4 +1,4 @@
-import { newEmb, importGuild, getFile, colors, generateTree, rawEmb } from '../typescript/utilities';
+import { newEmb, importGuild, getFile, colors, generateTree, rawEmb, emojis } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import * as fs from 'fs';
 import { Message, Guild } from 'discord.js';
@@ -45,16 +45,30 @@ module.exports = new Command({
 const sendEmbeds = (msg: Message, structure: GuildStructure) => {
     var char_limit = newEmb(msg).setColor(colors.error).setTitle("Text too long D:");
 
-    var info_emb = rawEmb(msg).setTitle(structure.name).setColor(colors.info)
+    var info_emb = rawEmb().setTitle(structure.name).setColor(colors.info)
         .setThumbnail(structure.iconURL)
         .setDescription(structure.description)
         .setTimestamp(structure.savedAt);
+
+    info_emb.setDescription(""
+        + `${emojis.owner} <@${structure.ownerID}>\n`
+        + `\n`
+        + `${emojis.information} Stats\n`
+        + ` > Channels: ${structure.channels.reduce((p, c) => {
+            p["count"] += 1;
+            if (c.childs) p["count"] += c.childs.length;
+            console.log(p);
+            return p;
+        })["count"]}`);
 
     var structure_emb = newEmb(msg).setTitle("Server Structure").setColor(colors.info);
 
     structure_emb.setDescription("```" + generateTree(structure) + "```")
         .setTimestamp(structure.savedAt);
 
-    msg.channel.send([info_emb, structure_emb]).catch(() => msg.channel.send(char_limit));
+    msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
+    msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
+
+    console.log(generateTree(structure));
     //msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
 }

@@ -17,10 +17,14 @@ exports.emojis = {
     true: "<:true:749345137833803836>",
     false: "<:false:749345292452757574>",
     presence: "<:presence:749346186137174097>",
-    developer: "",
-    online: "",
-    offline: "",
-    bot: ""
+    member: "<:member:750712895251152930>",
+    information: "<:information:738456908964561058>",
+    tag: "<:tag:750712982383755395>",
+    developer: "<:developer:738455083884216429>",
+    owner: "<:owner:738455084089999432>",
+    online: "<:online:746374751861342218>",
+    offline: "<:offline:746374726519357460>",
+    bot: "<:bot:737243668909391893>"
 };
 exports.confirmAction = (msg, text, confirm, cancel) => {
     var emb = exports.newEmb(msg);
@@ -71,7 +75,7 @@ exports.newEmb = (msg) => {
         .setFooter(client.tag, client.displayAvatarURL())
         .setTimestamp(new Date());
 };
-exports.rawEmb = (msg) => {
+exports.rawEmb = () => {
     return new discord_js_1.MessageEmbed()
         .setTimestamp(new Date());
 };
@@ -220,7 +224,7 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
     collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
-            msg.channel.send(exports.rawEmb(m).setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
+            msg.channel.send(exports.rawEmb().setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
             return collector.stop("Canceled");
         }
         //Check for Attachment
