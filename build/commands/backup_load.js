@@ -111,7 +111,7 @@ module.exports = new classes_1.Command({
             //Finished Loading
             const end = new Date();
             var span = (end.getTime() - start.getTime()) / 1000;
-            msg.channel.send(utilities_1.newEmb(message).setColor(utilities_1.colors.success).setTitle("Finished Loading uwu").setFooter("Took: " + Math.floor(span * 10) / 10 + " seconds"));
+            msg.channel.send(utilities_1.newEmb(message).setColor(utilities_1.colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
         }, () => {
         });
     }, () => {
