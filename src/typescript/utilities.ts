@@ -217,8 +217,6 @@ export const exportGuild = async (guild: Guild) => {
     return structure;
 }
 
-
-
 export const importGuild = (obj: object): GuildStructure => {
     var structure = new GuildStructure();
 
