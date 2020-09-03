@@ -115,32 +115,6 @@ export const checkPermissionOverlap = (perms: Array<PermissionString>, pool: Arr
     return true;
 }
 
-export const encode_text = (text: string, id: string, sec_id: string): string => {
-    let encoded = "";
-    for (let i = 0; i < text.length; i++) {
-        let char_code = text.charCodeAt(i);
-
-        char_code += Number(id.charAt(i % (id.length - 1)));
-        char_code += Number(sec_id.charAt(i % (id.length - 1)));
-
-        encoded += String.fromCharCode(char_code);
-    }
-    return encoded;
-}
-
-export const decode_text = (text: string, id: string, sec_id: string): string => {
-    let decoded = "";
-    for (let i = 0; i < text.length; i++) {
-        let char_code = text.charCodeAt(i);
-
-        char_code -= Number(id.charAt(i % (id.length - 1)));
-        char_code -= Number(sec_id.charAt(i % (id.length - 1)));
-
-        decoded += String.fromCharCode(char_code);
-    }
-    return decoded;
-}
-
 export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
     let c = new ChannelStructure();
 
