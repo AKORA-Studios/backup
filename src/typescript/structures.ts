@@ -1,6 +1,4 @@
-import { Guild, Client, PermissionOverwrites, PermissionString, DefaultMessageNotifications, ExplicitContentFilterLevel, SystemChannelFlagsString, VerificationLevel } from "discord.js";
-var example = new Guild(new Client(), {});
-example.afkChannel;
+import { PermissionOverwrites, PermissionString, DefaultMessageNotifications, ExplicitContentFilterLevel, SystemChannelFlagsString, VerificationLevel } from "discord.js";
 
 export class GuildStructure {
     afkChannelID: string;
