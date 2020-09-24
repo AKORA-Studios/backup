@@ -79,4 +79,18 @@ client.on("message", async (msg) => {
     }
 });
 
+client.on("messageUpdate", (old_m, new_m) => {
+    console.log(old_m.author.tag + ", edited:");
+    console.log(old_m.content);
+    console.log(", to:");
+    console.log(new_m.content);
+    console.log("");
+});
+
+client.on("messageDelete", (msg) => {
+    console.log(msg.author.tag + ", deleted:");
+    console.log(msg.content);
+    console.log("");
+});
+
 client.login(client.token);
