@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.decode_text = exports.encode_text = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
+exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -96,26 +96,6 @@ exports.checkPermissionOverlap = (perms, pool) => {
             return false;
     }
     return true;
-};
-exports.encode_text = (text, id, sec_id) => {
-    let encoded = "";
-    for (let i = 0; i < text.length; i++) {
-        let char_code = text.charCodeAt(i);
-        char_code += Number(id.charAt(i % (id.length - 1)));
-        char_code += Number(sec_id.charAt(i % (id.length - 1)));
-        encoded += String.fromCharCode(char_code);
-    }
-    return encoded;
-};
-exports.decode_text = (text, id, sec_id) => {
-    let decoded = "";
-    for (let i = 0; i < text.length; i++) {
-        let char_code = text.charCodeAt(i);
-        char_code -= Number(id.charAt(i % (id.length - 1)));
-        char_code -= Number(sec_id.charAt(i % (id.length - 1)));
-        decoded += String.fromCharCode(char_code);
-    }
-    return decoded;
 };
 exports.channelToStructure = (g_c) => {
     let c = new structures_1.ChannelStructure();
