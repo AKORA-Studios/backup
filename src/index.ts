@@ -6,7 +6,7 @@ import * as DBL from "dblapi.js";
 import { TextChannel, MessageEmbed } from "discord.js";
 
 var client = new Bot();
-//var dbl = new DBL(dbl_token, client);
+var dbl = new DBL("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjczOTkwNTc0NjAwMjc3MTk5MCIsImJvdCI6dHJ1ZSwiaWF0IjoxNjAyNTA4NjU1fQ.1rUS4WpVTOWEAV4cNywUmV4W4eg6YoaLntBA6JW5W9Q", client);
 
 client.prefix = prefix;
 client.owner = owner;
@@ -25,15 +25,11 @@ client.on("ready", () => {
         status: 'idle'
     });
 
-    /*
     //For Top.gg stats
-    client.on('ready', () => {
-        setInterval(() => {
-            //Sending the stats to top.gg
-            dbl.postStats(client.guilds.cache.size);
-        }, 1800000);
-    });
-    */
+    setInterval(() => {
+        //Sending the stats to top.gg
+        dbl.postStats(client.guilds.cache.size);
+    }, 1800000);
 });
 
 
