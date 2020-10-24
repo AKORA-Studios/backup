@@ -26,6 +26,7 @@ client.on("ready", () => {
     });
 
     //For Top.gg stats
+    dbl.postStats(client.guilds.cache.size);
     setInterval(() => {
         //Sending the stats to top.gg
         dbl.postStats(client.guilds.cache.size);
