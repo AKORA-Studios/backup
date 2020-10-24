@@ -1,5 +1,5 @@
 import { Bot } from "./typescript/classes";
-import { newEmb, colors } from "./typescript/utilities";
+import { colors } from "./typescript/utilities";
 import { prefix, token, owner, dbl_token } from './config.json';
 
 import * as DBL from "dblapi.js";
@@ -76,21 +76,5 @@ client.on("message", async (msg) => {
         msg.channel.send(emb).catch();
     }
 });
-
-/*
-client.on("messageUpdate", (old_m, new_m) => {
-    console.log(old_m.author.tag + ", edited:");
-    console.log(old_m.content);
-    console.log(", to:");
-    console.log(new_m.content);
-    console.log("");
-});
-
-client.on("messageDelete", (msg) => {
-    console.log(msg.author.tag + ", deleted:");
-    console.log(msg.content);
-    console.log("");
-});
-*/
 
 client.login(client.token);
