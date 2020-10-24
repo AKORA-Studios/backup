@@ -30,10 +30,11 @@ client.on("ready", () => {
     setInterval(() => {
         //Sending the stats to top.gg
         dbl.postStats(client.guilds.cache.size);
-    }, 1800000);
+    }, 30 * 60 * 1000);
 });
 
-
+client.on("guildCreate", g => dbl.postStats(client.guilds.cache.size));
+client.on("guildDelete", g => dbl.postStats(client.guilds.cache.size));
 
 client.on("message", async (msg) => {
     if (msg.channel.type !== "text") return;
