@@ -13,17 +13,20 @@ module.exports = new classes_1.Command({
     bot_permissions: []
 }, async (msg, args) => {
     var code = args.join(' ');
-    let emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info);
+    let emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info), output = "";
+    try {
+        output = (() => eval(code)).call(Object.keys({
+            msg: msg,
+            message: msg,
+            colors: utilities_1.colors,
+            emojis: utilities_1.emojis,
+            rawEmb: utilities_1.rawEmb
+        }));
+    }
+    catch (e) {
+        output = e;
+    }
     emb.addField("**Code:**", "```" + code + "```", false);
-    emb.addField("**Output:**", "```" + (await evalInContext(code, {
-        msg: msg,
-        message: msg,
-        colors: utilities_1.colors,
-        emojis: utilities_1.emojis,
-        rawEmb: utilities_1.rawEmb
-    })) + "```", false);
+    emb.addField("**Output:**", "```" + output + "```", false);
     msg.channel.send(emb);
 });
-function evalInContext(js, context) {
-    return function () { return eval(js); }.call(context);
-}
