@@ -20,13 +20,13 @@ module.exports = new Command({
             output = "";
 
         try {
-            output = (() => eval(code)).call(Object.keys({
-                msg: msg,
+            output = eval.call({
+                msg,
                 message: msg,
-                colors: colors,
-                emojis: emojis,
+                colors,
+                emojis,
                 rawEmb: rawEmb
-            }));
+            }, code);
         } catch (e) {
             output = e;
         }

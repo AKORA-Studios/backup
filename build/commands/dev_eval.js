@@ -15,13 +15,13 @@ module.exports = new classes_1.Command({
     var code = args.join(' ');
     let emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info), output = "";
     try {
-        output = (() => eval(code)).call(Object.keys({
-            msg: msg,
+        output = eval.call({
+            msg,
             message: msg,
             colors: utilities_1.colors,
             emojis: utilities_1.emojis,
             rawEmb: utilities_1.rawEmb
-        }));
+        }, code);
     }
     catch (e) {
         output = e;
