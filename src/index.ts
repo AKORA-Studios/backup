@@ -1,5 +1,5 @@
-import { Bot } from "./typescript/classes";
-import { colors } from "./typescript/utilities";
+import { Bot, Command } from "./typescript/classes";
+import { colors, rawEmb } from "./typescript/utilities";
 import { prefix, token, owner, dbl_token } from './config.json';
 
 import * as DBL from "dblapi.js";
@@ -31,6 +31,22 @@ client.on("ready", () => {
         //Sending the stats to top.gg
         dbl.postStats(client.guilds.cache.size);
     }, 30 * 60 * 1000);
+
+    const reload = new Command({
+        name: 'Reload',
+        syntax: 'reload',
+        args: false,
+        description: 'Reloads all commands',
+        module_type: 'developer',
+        triggers: ['reload'],
+        user_permissions: [],
+        bot_permissions: []
+    }, async (msg) => {
+        client.loadCommands(client.command_path);
+        msg.channel.send(rawEmb().setDescription("Reloaded all modules").setColor(colors.success));
+        client.commands.set("Reload", reload);
+    })
+    client.commands.set("Reload", reload)
 });
 
 client.on("guildCreate", g => dbl.postStats(client.guilds.cache.size));

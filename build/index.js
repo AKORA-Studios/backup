@@ -27,6 +27,21 @@ client.on("ready", () => {
         //Sending the stats to top.gg
         dbl.postStats(client.guilds.cache.size);
     }, 30 * 60 * 1000);
+    const reload = new classes_1.Command({
+        name: 'Reload',
+        syntax: 'reload',
+        args: false,
+        description: 'Reloads all commands',
+        module_type: 'developer',
+        triggers: ['reload'],
+        user_permissions: [],
+        bot_permissions: []
+    }, async (msg) => {
+        client.loadCommands(client.command_path);
+        msg.channel.send(utilities_1.rawEmb().setDescription("Reloaded all modules").setColor(utilities_1.colors.success));
+        client.commands.set("Reload", reload);
+    });
+    client.commands.set("Reload", reload);
 });
 client.on("guildCreate", g => dbl.postStats(client.guilds.cache.size));
 client.on("guildDelete", g => dbl.postStats(client.guilds.cache.size));

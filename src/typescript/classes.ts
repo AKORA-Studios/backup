@@ -129,7 +129,7 @@ export class Bot extends Client {
         const commandFiles = readdirSync(path).filter((file: string) => file.split(".").pop() == "js");
 
         for (const file of commandFiles) {
-            const command = require("." + path + "/" + file);
+            const command = require("." + path + "/" + file) as Command;
 
             this.commands.set(command.properties.name, command);
         }
