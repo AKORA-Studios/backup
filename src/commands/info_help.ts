@@ -55,8 +55,8 @@ module.exports = new Command({
                 .addField('\u200b',
                     `[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${msg.client.user.id}&permissions=8&scope=bot)`,
                     true)
-                .addField('\u200b', '[Support](https://discord.gg/DsV5rDE)', true)
-                .addField('\u200b', '[NDH](https://discord.gg/zmXC2GH)', true)
+                .addField('\u200b', '[Support](https://discord.gg/gtXeGtpxmE)', true)
+                .addField('\u200b', '[PBW](https://discord.gg/gtXeGtpxmE)', true)
 
             msg.channel.send(emb);
         }
