@@ -104,6 +104,7 @@ exports.channelToStructure = (g_c) => {
     c.permissionOverwrites = g_c.permissionOverwrites.array();
     c.permissionsLocked = g_c.permissionsLocked;
     c.type = g_c.type;
+    c.topic = g_c["topic"];
     c.nsfw = g_c["nsfw"];
     return c;
 };
@@ -177,19 +178,17 @@ exports.exportGuild = async (guild) => {
 };
 exports.importGuild = (obj) => {
     var structure = new structures_1.GuildStructure();
-    for (var i in obj) {
-        structure[i] = obj[i];
-    }
-    return structure;
+    return assignValues(structure, obj);
 };
 /**
  * Asign Values of b to Object A
  */
-exports.assignValues = (a, b) => {
+function assignValues(a, b) {
     for (var i in a)
         a[i] = b[i];
     return a;
-};
+}
+exports.assignValues = assignValues;
 //Getting File
 exports.getFile = async (msg, text, timeout, succes, failure) => {
     //Getting the file from the User

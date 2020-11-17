@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, MessageReaction, User, PermissionString, Guild, GuildChannel } from "discord.js";
+import { Message, MessageEmbed, MessageReaction, User, PermissionString, Guild, GuildChannel, TextChannel } from "discord.js";
 import { GuildStructure, ChannelStructure, RoleStructure, EmojiStructure } from "./structures";
 import * as bent from 'bent';
 import * as fs from 'fs';
@@ -123,6 +123,7 @@ export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
     c.permissionOverwrites = g_c.permissionOverwrites.array();
     c.permissionsLocked = g_c.permissionsLocked;
     c.type = g_c.type;
+    c.topic = g_c["topic"]
     c.nsfw = g_c["nsfw"];
 
     return c;
@@ -220,17 +221,13 @@ export const exportGuild = async (guild: Guild) => {
 export const importGuild = (obj: object): GuildStructure => {
     var structure = new GuildStructure();
 
-    for (var i in obj) {
-        structure[i] = obj[i];
-    }
-
-    return structure;
+    return assignValues(structure, obj);
 }
 
 /**
  * Asign Values of b to Object A
  */
-export const assignValues = (a, b) => {
+export function assignValues<A>(a: A, b): A {
     for (var i in a)
         a[i] = b[i];
     return a;
