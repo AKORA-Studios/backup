@@ -8,5 +8,6 @@
 **/local.json
 
 # Folders
+/.idea
 /node_modules
 **/guild_saves/**
