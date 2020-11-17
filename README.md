@@ -1,3 +1,4 @@
+<!---
 [![discord](https://discordapp.com/api/guilds/553942677117337600/widget.png)](https://discord.gg/Emk2udJ )
 [![status](https://top.gg/api/widget/status/739905746002771990.svg)](https://discord.com/api/oauth2/authorize?client_id=739905746002771990&permissions=8&scope=bot)
 [![owner](https://top.gg/api/widget/owner/739905746002771990.svg?noavatar=true)](https://discordbots.org/bot/739905746002771990)
@@ -5,8 +6,9 @@
 [![servers](https://top.gg/api/widget/servers/739905746002771990.svg?noavatar=true)](https://top.gg/bot/739905746002771990)
 [![votes](https://top.gg/api/widget/upvotes/739905746002771990.svg?noavatar=true)](https://top.gg/bot/739905746002771990)
 [![lib](https://top.gg/api/widget/lib/739905746002771990.svg?noavatar=true)](https://top.gg/bot/739905746002771990)
+-->
 
-![qwq](https://top.gg/api/widget/739905746002771990.svg)
+[![widget](https://top.gg/api/widget/739905746002771990.svg)](https://top.gg/bot/739905746002771990)
 
 # Backup Bot
 
