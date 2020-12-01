@@ -19,8 +19,8 @@
         "url": "https://github.com/Neko-Developments/backup"
     },
     "dependencies": {
-        "@types/bent": "^7.3.1",
-        "@types/node": "^14.14.2",
+        "@types/bent": "^7.3.2",
+        "@types/node": "^14.14.7",
         "bent": "^7.3.12",
         "dblapi.js": "^2.4.1",
         "discord.js": "^12.4.1",
