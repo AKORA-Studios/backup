@@ -43,8 +43,8 @@ module.exports = new classes_1.Command({
         }
         emb.setColor(utilities_1.colors.unimportant)
             .addField('\u200b', `[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${msg.client.user.id}&permissions=8&scope=bot)`, true)
-            .addField('\u200b', '[Support](https://discord.gg/gtXeGtpxmE)', true)
-            .addField('\u200b', '[PBW](https://discord.gg/gtXeGtpxmE)', true);
+            .addField('\u200b', '[Support](https://discord.gg/Emk2udJ)', true);
+        //.addField('\u200b', '[PBW](https://discord.gg/gtXeGtpxmE)', true)
         msg.channel.send(emb);
     }
 });
