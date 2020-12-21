@@ -19,14 +19,20 @@ module.exports = new Command({
         let emb = newEmb(msg).setColor(colors.info),
             output = "";
 
+
+        var obj = {
+            message: msg,
+            colors,
+            emojis,
+            rawEmb: rawEmb
+        }
+        for (const key in obj) {
+            //@ts-ignore
+            this[key] = obj[key]
+        }
+
         try {
-            output = eval.call({
-                msg,
-                message: msg,
-                colors,
-                emojis,
-                rawEmb: rawEmb
-            }, code);
+            output = eval(code);
         } catch (e) {
             output = e;
         }

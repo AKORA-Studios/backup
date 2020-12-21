@@ -3,7 +3,7 @@ import { colors, rawEmb } from "./typescript/utilities";
 import { prefix, token, owner, dbl_token } from './config.json';
 
 import * as DBL from "dblapi.js";
-import { TextChannel, MessageEmbed } from "discord.js";
+import { TextChannel, MessageEmbed, Guild } from "discord.js";
 
 var client = new Bot();
 var dbl = new DBL(dbl_token, client);
@@ -49,8 +49,18 @@ client.on("ready", () => {
     client.commands.set("Reload", reload)
 });
 
-client.on("guildCreate", g => dbl.postStats(client.guilds.cache.size));
-client.on("guildDelete", g => dbl.postStats(client.guilds.cache.size));
+function guildCountUpdate(g: Guild) {
+    dbl.postStats(client.guilds.cache.size)
+
+    client.channels.fetch("753474865104683110").then(c => (c as TextChannel).send(
+        rawEmb()
+        .setTitle(`Guild Update [${client.guilds.cache.size}]`)
+        .setColor(colors.info)
+        ))
+}
+
+client.on("guildCreate", guildCountUpdate);
+client.on("guildDelete", guildCountUpdate);
 
 client.on("message", async (msg) => {
     if (msg.channel.type !== "text") return;
