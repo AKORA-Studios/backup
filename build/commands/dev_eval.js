@@ -14,14 +14,18 @@ module.exports = new classes_1.Command({
 }, async (msg, args) => {
     var code = args.join(' ');
     let emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info), output = "";
+    var obj = {
+        message: msg,
+        colors: utilities_1.colors,
+        emojis: utilities_1.emojis,
+        rawEmb: utilities_1.rawEmb
+    };
+    for (const key in obj) {
+        //@ts-ignore
+        this[key] = obj[key];
+    }
     try {
-        output = eval.call({
-            msg,
-            message: msg,
-            colors: utilities_1.colors,
-            emojis: utilities_1.emojis,
-            rawEmb: utilities_1.rawEmb
-        }, code);
+        output = eval(code);
     }
     catch (e) {
         output = e;

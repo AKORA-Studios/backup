@@ -43,8 +43,14 @@ client.on("ready", () => {
     });
     client.commands.set("Reload", reload);
 });
-client.on("guildCreate", g => dbl.postStats(client.guilds.cache.size));
-client.on("guildDelete", g => dbl.postStats(client.guilds.cache.size));
+function guildCountUpdate(g, join) {
+    dbl.postStats(client.guilds.cache.size);
+    client.channels.fetch("753474865104683110").then(c => c.send(utilities_1.rawEmb()
+        .setTitle(`Guild ${join ? 'Joined' : 'Left'} [${client.guilds.cache.size}]`)
+        .setColor(join ? utilities_1.colors.success : utilities_1.colors.error)));
+}
+client.on("guildCreate", g => guildCountUpdate(g, true));
+client.on("guildDelete", g => guildCountUpdate(g, false));
 client.on("message", async (msg) => {
     if (msg.channel.type !== "text")
         return;

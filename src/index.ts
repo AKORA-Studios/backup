@@ -49,18 +49,18 @@ client.on("ready", () => {
     client.commands.set("Reload", reload)
 });
 
-function guildCountUpdate(g: Guild) {
+function guildCountUpdate(g: Guild, join: boolean) {
     dbl.postStats(client.guilds.cache.size)
 
     client.channels.fetch("753474865104683110").then(c => (c as TextChannel).send(
         rawEmb()
-        .setTitle(`Guild Update [${client.guilds.cache.size}]`)
-        .setColor(colors.info)
-        ))
+            .setTitle(`Guild ${join ? 'Joined' : 'Left'} [${client.guilds.cache.size}]`)
+            .setColor(join ? colors.success : colors.error)
+    ))
 }
 
-client.on("guildCreate", guildCountUpdate);
-client.on("guildDelete", guildCountUpdate);
+client.on("guildCreate", g => guildCountUpdate(g, true));
+client.on("guildDelete", g => guildCountUpdate(g, false));
 
 client.on("message", async (msg) => {
     if (msg.channel.type !== "text") return;
