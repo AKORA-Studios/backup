@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("../typescript/utilities");
 const classes_1 = require("../typescript/classes");
 const fs = require("fs");
+const path_1 = require("path");
 module.exports = new classes_1.Command({
     name: 'Show',
     syntax: 'show [stored]',
@@ -16,12 +17,13 @@ module.exports = new classes_1.Command({
     //Getting the file from the User
     if (args[0] && args[0].toLowerCase().includes('stored')) {
         try {
-            let str = fs.readFileSync('./guild_saves/' + msg.guild.id + '.json').toString('utf8');
+            let str = fs.readFileSync(path_1.join(__dirname, '..', 'guild_saves', msg.guild.id + '.json')).toString('utf8');
             let json = JSON.parse(str);
             var structure = utilities_1.importGuild(json);
             sendEmbeds(msg, structure);
         }
         catch (e) {
+            console.log(e);
             msg.channel.send(utilities_1.newEmb(msg).setColor(utilities_1.colors.error).setTitle('I don\'t have stored this guild yet._.'));
         }
     }

@@ -3,6 +3,7 @@ import { Command } from "../typescript/classes";
 import * as fs from 'fs';
 import { Message } from 'discord.js';
 import { GuildStructure } from '../typescript/structures';
+import { join } from 'path';
 
 module.exports = new Command({
     name: 'Show',
@@ -21,12 +22,14 @@ module.exports = new Command({
         //Getting the file from the User
         if (args[0] && args[0].toLowerCase().includes('stored')) {
             try {
-                let str = fs.readFileSync('./guild_saves/' + msg.guild.id + '.json').toString('utf8');
+                let str = fs.readFileSync(join(__dirname, '..', 'guild_saves', msg.guild.id + '.json')).toString('utf8');
                 let json = JSON.parse(str);
+
                 var structure = importGuild(json);
 
                 sendEmbeds(msg, structure);
             } catch (e) {
+                console.log(e);
                 msg.channel.send(newEmb(msg).setColor(colors.error).setTitle('I don\'t have stored this guild yet._.'));
             }
         } else {

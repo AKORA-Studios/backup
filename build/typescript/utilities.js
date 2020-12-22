@@ -177,8 +177,7 @@ exports.exportGuild = async (guild) => {
     return structure;
 };
 exports.importGuild = (obj) => {
-    var structure = new structures_1.GuildStructure();
-    return assignValues(structure, obj);
+    return obj;
 };
 /**
  * Asign Values of b to Object A
