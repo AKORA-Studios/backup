@@ -51,17 +51,22 @@ client.on("ready", () => {
 
 async function guildCountUpdate(g: Guild, join: boolean) {
     dbl.postStats(client.guilds.cache.size);
+    var emb = rawEmb()
+        .setColor(join ? colors.success : colors.error)
+        .setTimestamp();
 
-    g = await g.fetch();
-    var owner = await client.users.fetch(g.ownerID);
+    if (join) {
+        g = await g.fetch();
+        var owner = await client.users.fetch(g.ownerID);
 
-    client.channels.fetch("753474865104683110").then(c => (c as TextChannel).send(
-        rawEmb()
-            .setTitle(`${join ? 'Joined' : 'Left'}: ${g.name} [${client.guilds.cache.size}]`)
-            .setColor(join ? colors.success : colors.error)
-            .setTimestamp()
+        emb.setTitle(`Joined: ${g.name} [${client.guilds.cache.size}]`)
             .setFooter(owner.tag, owner.displayAvatarURL())
-    ))
+    } else {
+        emb.setTitle(`Left: ${g.name} [${client.guilds.cache.size}]`)
+    }
+
+
+    client.channels.fetch("753474865104683110").then(c => (c as TextChannel).send(emb))
 }
 
 client.on("guildCreate", g => guildCountUpdate(g, true));
