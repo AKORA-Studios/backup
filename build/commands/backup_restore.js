@@ -153,6 +153,7 @@ module.exports = new classes_1.Command({
                         else {
                             let c = await msg.guild.channels.create(chan.name, {
                                 permissionOverwrites: chan.permissionOverwrites.map((p) => mapPerms(p, struc.roles)),
+                                position: i,
                                 topic: chan.topic,
                                 type: chan.type,
                                 nsfw: chan.nsfw,

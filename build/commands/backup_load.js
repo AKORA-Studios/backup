@@ -29,12 +29,15 @@ module.exports = new classes_1.Command({
                     + utilities_1.emojis.false + " Roles\n"
                     + utilities_1.emojis.false + " Channels\n";
             msg = await msg.edit(emb.setDescription(text));
-            if (struc.emojis) { //Else Not interable
-                for (let emoji of struc.emojis) {
-                    await msg.guild.emojis.create(emoji.url, emoji.name, {
+            if (struc.emojis && struc.emojis.length > 0) { //Else Not interable
+                var arr = [];
+                for (const emoji of struc.emojis) {
+                    arr.push(msg.guild.emojis.create(emoji.url, emoji.name, {
                         reason: reason
-                    }).catch((e) => catchErr(msg, emoji.name, e));
+                    }));
+                    arr[arr.length - 1].catch((e) => catchErr(msg, emoji.name, e));
                 }
+                await Promise.all(arr);
             }
             //Loading Roles
             text =
@@ -57,7 +60,7 @@ module.exports = new classes_1.Command({
                     struc.roles.reverse()[i].loadedID = r["id"];
                 }
                 else {
-                    msg.guild.roles.resolve(msg.guild.id).setPermissions(role.permissions);
+                    msg.guild.roles.resolve(role.id).setPermissions(role.permissions);
                 }
             }
             //Loading Channels

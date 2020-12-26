@@ -1,4 +1,5 @@
-import { PermissionOverwrites, PermissionString, DefaultMessageNotifications, ExplicitContentFilterLevel, SystemChannelFlagsString, VerificationLevel } from "discord.js";
+import { PermissionOverwrites, DefaultMessageNotifications, ExplicitContentFilterLevel, SystemChannelFlagsString, VerificationLevel, PermissionResolvable } from "discord.js";
+import { isNewExpression } from "typescript";
 
 export class GuildStructure {
     afkChannelID: string;
@@ -48,11 +49,11 @@ export class RoleStructure {
     color: string;//hex
     hoist: boolean;
     mentionable: boolean;
-    permissions: Array<PermissionString>;
+    permissions: PermissionResolvable;
     position: number;
 }
 
-export class EmojiStructure {
+export interface EmojiStructure {
     id: string;
     name: string;
     url: string;

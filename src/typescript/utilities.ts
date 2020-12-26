@@ -155,14 +155,12 @@ export const exportGuild = async (guild: Guild) => {
 
     //Emojis
     var emojis = guild.emojis.cache.array();
-    structure.emojis = emojis.map(g_e => {
-        let e = new EmojiStructure();
-
-        e.id = g_e.id;
-        e.name = g_e.name;
-        e.url = g_e.url;
-
-        return e;
+    structure.emojis = emojis.map(emo => {
+        return {
+            id: emo.id,
+            name: emo.name,
+            url: emo.url
+        } as EmojiStructure;
     });
 
     //Roles
@@ -179,7 +177,7 @@ export const exportGuild = async (guild: Guild) => {
         r.id = g_r.id;
         r.mentionable = g_r.mentionable;
         r.name = g_r.name;
-        r.permissions = g_r.permissions.toArray();
+        r.permissions = g_r.permissions.bitfield;
         //r.position = g_r.position;
 
         return r;

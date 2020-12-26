@@ -1,6 +1,6 @@
 import { colors, confirmAction, getFile, importGuild, newEmb, rawEmb, emojis } from "../typescript/utilities";
 import { Command } from "../typescript/classes";
-import { Message, PermissionOverwrites } from "discord.js";
+import { GuildEmoji, Message, PermissionOverwrites } from "discord.js";
 import { RoleStructure } from "../typescript/structures";
 
 module.exports = new Command({
@@ -50,13 +50,19 @@ module.exports = new Command({
 
                 msg = await msg.edit(emb.setDescription(text));
 
-                if (struc.emojis) {//Else Not interable
-                    for (let emoji of struc.emojis) {
-                        await msg.guild.emojis.create(emoji.url, emoji.name, {
+
+                if (struc.emojis && struc.emojis.length > 0) {//Else Not interable
+                    var arr: Promise<GuildEmoji>[] = []
+                    for (const emoji of struc.emojis) {
+                        arr.push(msg.guild.emojis.create(emoji.url, emoji.name, {
                             reason: reason
-                        }).catch((e) => catchErr(msg, emoji.name, e));
+                        }));
+                        arr[arr.length - 1].catch((e) => catchErr(msg, emoji.name, e))
                     }
+
+                    await Promise.all(arr)
                 }
+
 
 
 
@@ -84,7 +90,7 @@ module.exports = new Command({
                         }).catch((e) => catchErr(msg, role.name, e));
                         struc.roles.reverse()[i].loadedID = r["id"];
                     } else {
-                        msg.guild.roles.resolve(msg.guild.id).setPermissions(role.permissions);
+                        msg.guild.roles.resolve(role.id).setPermissions(role.permissions);
                     }
                 }
 

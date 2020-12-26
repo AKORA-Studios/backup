@@ -131,12 +131,12 @@ exports.exportGuild = async (guild) => {
     structure.widgetEnabled = guild.widgetEnabled;
     //Emojis
     var emojis = guild.emojis.cache.array();
-    structure.emojis = emojis.map(g_e => {
-        let e = new structures_1.EmojiStructure();
-        e.id = g_e.id;
-        e.name = g_e.name;
-        e.url = g_e.url;
-        return e;
+    structure.emojis = emojis.map(emo => {
+        return {
+            id: emo.id,
+            name: emo.name,
+            url: emo.url
+        };
     });
     //Roles
     var roles = (await guild.roles.fetch()).cache.array().sort((a, b) => a.position - b.position);
@@ -151,7 +151,7 @@ exports.exportGuild = async (guild) => {
         r.id = g_r.id;
         r.mentionable = g_r.mentionable;
         r.name = g_r.name;
-        r.permissions = g_r.permissions.toArray();
+        r.permissions = g_r.permissions.bitfield;
         //r.position = g_r.position;
         return r;
     });
