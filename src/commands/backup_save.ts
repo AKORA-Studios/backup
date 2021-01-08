@@ -35,6 +35,6 @@ module.exports = new Command({
         var attachment = new MessageAttachment(buffer, msg.guild.id + '.json')
 
 
-        msg.channel.send([emb, attachment]);
+        return msg.channel.send([emb, attachment]);
     }
 );

@@ -17,20 +17,21 @@ module.exports = new classes_1.Command({
     let minimal = false, text = "", emb = utilities_1.newEmb(msg).setColor(utilities_1.colors.info);
     if (args.length > 0 && args[0].toLowerCase().includes("minimal"))
         minimal = true;
-    utilities_1.getFile(msg, "Send me your JSON File uwu", 30, (json) => {
-        //Converting to GuildStructure Object
-        if (minimal) {
-            text = JSON.stringify(json);
-            emb.setFooter("Exported with minimal formatting");
-        }
-        else {
-            text = JSON.stringify(json, null, 4);
-            emb.setFooter("Exported with pretty formatting");
-        }
-        //Preparing for sending
-        var buffer = Buffer.from(text, 'utf8');
-        var attachment = new discord_js_1.MessageAttachment(buffer, 'formatted.json');
-        msg.channel.send([emb, attachment]);
-    }, () => {
-    });
+    try {
+        var json = utilities_1.getFileAsync(msg, "Send me your JSON File uwu", 30);
+    }
+    catch (e) { }
+    //Converting to GuildStructure Object
+    if (minimal) {
+        text = JSON.stringify(json);
+        emb.setFooter("Exported with minimal formatting");
+    }
+    else {
+        text = JSON.stringify(json, null, 4);
+        emb.setFooter("Exported with pretty formatting");
+    }
+    //Preparing for sending
+    var buffer = Buffer.from(text, 'utf8');
+    var attachment = new discord_js_1.MessageAttachment(buffer, 'formatted.json');
+    msg.channel.send([emb, attachment]);
 });

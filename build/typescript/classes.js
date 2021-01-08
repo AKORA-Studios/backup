@@ -8,6 +8,7 @@ class Bot extends discord_js_1.Client {
     constructor() {
         super();
         this.error_channel = null;
+        this.queue = [];
         this.commands = new discord_js_1.Collection();
         this.owner = new Array();
         this.command_path = "./commands"; //Default
@@ -59,7 +60,12 @@ class Bot extends discord_js_1.Client {
                 return message.channel.send(emb.setTitle("Only Bot Owners can execute this Command").setColor(utilities_1.colors.error));
             }
             try {
-                command.execute(message, args, this);
+                var value = command.execute(message, args, this);
+                if (value instanceof Promise) {
+                    var prom = value;
+                    prom.then(() => this.queue = this.queue.filter(p => p !== prom));
+                    this.queue.push(prom);
+                }
             }
             catch (error) {
                 console.error(error);

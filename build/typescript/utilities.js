@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
+exports.generateTree = exports.getFileAsync = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmActionAsync = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -26,16 +26,17 @@ exports.emojis = {
     offline: "<:offline:750709986476163103>",
     bot: "<:bot:750712868814716928>"
 };
-exports.fancyCases = (seperator, text) => {
+function fancyCases(seperator, text) {
     var arr = text.split(seperator);
     arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
     return arr.join(" ");
-};
-exports.confirmAction = (msg, text, confirm, cancel) => {
-    var emb = exports.rawEmb();
+}
+exports.fancyCases = fancyCases;
+function confirmAction(msg, text, confirm, cancel) {
+    var emb = rawEmb();
     emb.setTitle('Confirmation').setDescription(text);
     msg.channel.send(emb).then(async (message) => {
-        emb = exports.rawEmb();
+        emb = rawEmb();
         const filter = (reaction, user) => {
             return (reaction.emoji.name === '✅' || reaction.emoji.name === '❌')
                 && user.id === msg.author.id;
@@ -72,32 +73,42 @@ exports.confirmAction = (msg, text, confirm, cancel) => {
         });
         collector.on;
     });
-};
-exports.newEmb = (msg) => {
+}
+exports.confirmAction = confirmAction;
+function confirmActionAsync(msg, text) {
+    return new Promise((res, rej) => {
+        confirmAction(msg, text, res, rej);
+    });
+}
+exports.confirmActionAsync = confirmActionAsync;
+function newEmb(msg) {
     let client = msg.client.user || msg.author;
     return new discord_js_1.MessageEmbed()
         .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
         .setFooter(client.tag, client.displayAvatarURL())
         .setTimestamp(new Date());
-};
-exports.rawEmb = () => {
+}
+exports.newEmb = newEmb;
+function rawEmb() {
     return new discord_js_1.MessageEmbed();
     //.setTimestamp(new Date());
-};
+}
+exports.rawEmb = rawEmb;
 /**
  * Checks if the pool contains perms
  * Pool is usually the Array of permission that Someone has,
  * While perms is the set of needed permissions
  * if the pool contains all ppermissions from perms the function return true
  */
-exports.checkPermissionOverlap = (perms, pool) => {
+function checkPermissionOverlap(perms, pool) {
     for (let perm of perms) {
         if (!pool.includes(perm))
             return false;
     }
     return true;
-};
-exports.channelToStructure = (g_c) => {
+}
+exports.checkPermissionOverlap = checkPermissionOverlap;
+function channelToStructure(g_c) {
     let c = new structures_1.ChannelStructure();
     c.id = g_c.id;
     c.name = g_c.name;
@@ -107,8 +118,9 @@ exports.channelToStructure = (g_c) => {
     c.topic = g_c["topic"];
     c.nsfw = g_c["nsfw"];
     return c;
-};
-exports.exportGuild = async (guild) => {
+}
+exports.channelToStructure = channelToStructure;
+async function exportGuild(guild) {
     guild = await guild.fetch();
     var structure = new structures_1.GuildStructure();
     //The Hard Coded Stuff qwq
@@ -157,7 +169,7 @@ exports.exportGuild = async (guild) => {
     });
     //Channels
     var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
-    var loose_channels = channels.filter(c => c.parentID === null && c.type !== "category").map(exports.channelToStructure);
+    var loose_channels = channels.filter(c => c.parentID === null && c.type !== "category").map(channelToStructure);
     channels = channels.filter(c => !loose_channels.find(ch => ch.id === c.id)); //Removing Loose Channels
     var categorys = channels.filter(c => c.type === "category").map(g_c => {
         let chan = new structures_1.ChannelStructure();
@@ -167,7 +179,7 @@ exports.exportGuild = async (guild) => {
         chan.permissionsLocked = g_c.permissionsLocked;
         chan.type = g_c.type;
         chan.topic = g_c["topic"];
-        chan.childs = channels.filter(c => c.parentID === g_c.id).map(exports.channelToStructure);
+        chan.childs = channels.filter(c => c.parentID === g_c.id).map(channelToStructure);
         return chan;
     });
     var structure_channels = loose_channels.concat(categorys);
@@ -175,10 +187,12 @@ exports.exportGuild = async (guild) => {
     //Save file
     fs.writeFile('./guild_saves/' + guild.id + '.json', JSON.stringify(structure), null, () => { });
     return structure;
-};
-exports.importGuild = (obj) => {
+}
+exports.exportGuild = exportGuild;
+function importGuild(obj) {
     return obj;
-};
+}
+exports.importGuild = importGuild;
 /**
  * Asign Values of b to Object A
  */
@@ -189,9 +203,9 @@ function assignValues(a, b) {
 }
 exports.assignValues = assignValues;
 //Getting File
-exports.getFile = async (msg, text, timeout, succes, failure) => {
+async function getFile(msg, text, timeout, succes, failure) {
     //Getting the file from the User
-    var emb = exports.rawEmb().setColor(exports.colors.info);
+    var emb = rawEmb().setColor(exports.colors.info);
     emb.setTitle(text)
         .setDescription("*Write* `cancel` *to abort*")
         .setFooter(`I will wait ${timeout} Seconds`);
@@ -203,7 +217,7 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
     collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
-            msg.channel.send(exports.rawEmb().setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
+            msg.channel.send(rawEmb().setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
             return collector.stop("Canceled");
         }
         //Check for Attachment
@@ -229,19 +243,26 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
             }
             catch (err) {
                 console.log(err);
-                m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
+                m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
                 collector.stop("Collected");
                 return failure();
             }
         }
         catch (err) {
             console.log(err);
-            m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
+            m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
             collector.stop("Collected");
             return failure;
         }
     });
-};
+}
+exports.getFile = getFile;
+function getFileAsync(msg, text, timeout) {
+    return new Promise((res, rej) => {
+        getFile(msg, text, timeout, res, rej);
+    });
+}
+exports.getFileAsync = getFileAsync;
 function streamToString(stream) {
     const chunks = [];
     return new Promise((resolve, reject) => {
@@ -272,7 +293,7 @@ Name
         ╠═ Channel
         ╚═ Channel
 */
-exports.generateTree = (structure) => {
+function generateTree(structure) {
     var tree = "";
     let i = 0, x = 0, end = false;
     tree += structure.name + "\n"; //Linebreak
@@ -303,4 +324,5 @@ exports.generateTree = (structure) => {
         }
     }
     return tree;
-};
+}
+exports.generateTree = generateTree;

@@ -26,14 +26,14 @@ export const emojis = {
     bot: "<:bot:750712868814716928>"
 }
 
-export const fancyCases = (seperator: string, text: string): string => {
+export function fancyCases(seperator: string, text: string): string {
     var arr = text.split(seperator)
     arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
 
     return arr.join(" ");
 }
 
-export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
+export function confirmAction(msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) {
     var emb = rawEmb();
 
     emb.setTitle('Confirmation').setDescription(text)
@@ -89,7 +89,13 @@ export const confirmAction = (msg: Message, text: string, confirm: (message: Mes
     });
 }
 
-export const newEmb = (msg: Message) => {
+export function confirmActionAsync(msg: Message, text: string): Promise<Message> {
+    return new Promise((res, rej) => {
+        confirmAction(msg, text, res, rej)
+    });
+}
+
+export function newEmb(msg: Message) {
     let client = msg.client.user || msg.author;
     return new MessageEmbed()
         .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
@@ -97,7 +103,7 @@ export const newEmb = (msg: Message) => {
         .setTimestamp(new Date());
 }
 
-export const rawEmb = () => {
+export function rawEmb() {
     return new MessageEmbed();
     //.setTimestamp(new Date());
 }
@@ -108,14 +114,14 @@ export const rawEmb = () => {
  * While perms is the set of needed permissions
  * if the pool contains all ppermissions from perms the function return true
  */
-export const checkPermissionOverlap = (perms: Array<PermissionString>, pool: Array<PermissionString>): boolean => {
+export function checkPermissionOverlap(perms: Array<PermissionString>, pool: Array<PermissionString>): boolean {
     for (let perm of perms) {
         if (!pool.includes(perm)) return false;
     }
     return true;
 }
 
-export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
+export function channelToStructure(g_c: GuildChannel): ChannelStructure {
     let c = new ChannelStructure();
 
     c.id = g_c.id;
@@ -129,7 +135,7 @@ export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
     return c;
 }
 
-export const exportGuild = async (guild: Guild) => {
+export async function exportGuild(guild: Guild) {
     guild = await guild.fetch();
     var structure = new GuildStructure();
 
@@ -216,7 +222,7 @@ export const exportGuild = async (guild: Guild) => {
     return structure;
 }
 
-export const importGuild = (obj: object): GuildStructure => {
+export function importGuild(obj: object): GuildStructure {
     return obj as GuildStructure
 }
 
@@ -232,7 +238,7 @@ export function assignValues<A>(a: A, b): A {
 
 
 //Getting File
-export const getFile = async (msg: Message, text: string, timeout: number, succes: (obj: object) => void, failure: () => void) => {
+export async function getFile(msg: Message, text: string, timeout: number, succes: (obj: object) => void, failure: () => void) {
     //Getting the file from the User
     var emb = rawEmb().setColor(colors.info);
     emb.setTitle(text)
@@ -294,6 +300,12 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
     })
 }
 
+export function getFileAsync(msg: Message, text: string, timeout: number): Promise<object> {
+    return new Promise((res, rej) => {
+        getFile(msg, text, timeout, res, rej)
+    });
+}
+
 function streamToString(stream) {
     const chunks = []
     return new Promise((resolve, reject) => {
@@ -329,7 +341,7 @@ Name
         ╚═ Channel 
 */
 
-export const generateTree = (structure: GuildStructure): string => {
+export function generateTree(structure: GuildStructure): string {
     var tree = "";
     let i = 0, x = 0, end = false;
 

@@ -6,6 +6,8 @@ export type module_type = 'info' | 'developer' | 'backup' | 'misc' | 'fun';
 
 export class Bot extends Client {
     commands: Collection<string, Command>;
+    /** Queue of executing commands */
+    queue: Promise<any>[]
     owner: Array<string>;
     command_path: string;
     prefix: string;
@@ -16,6 +18,7 @@ export class Bot extends Client {
     constructor() {
         super();
         this.error_channel = null;
+        this.queue = [];
         this.commands = new Collection();
         this.owner = new Array();
         this.command_path = "./commands";//Default
@@ -80,7 +83,12 @@ export class Bot extends Client {
 
 
             try {
-                command.execute(message, args, this);
+                var value = command.execute(message, args, this);
+                if (value instanceof Promise) {
+                    var prom = value as Promise<any>;
+                    prom.then(() => this.queue = this.queue.filter(p => p !== prom));
+                    this.queue.push(prom);
+                }
             } catch (error) {
                 console.error(error);
 
@@ -151,7 +159,7 @@ interface CommandProperties {
 
 export class Command {
     properties: CommandProperties;
-    execute: (msg: Message, args: string[], client?: Bot) => void;
+    execute: (msg: Message, args: string[], client?: Bot) => any | Promise<any>;
 
     constructor(properties: CommandProperties, execute: (msg: Message, args: string[], client?: Bot) => void) {
         this.properties = properties;
