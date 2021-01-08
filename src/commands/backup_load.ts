@@ -167,7 +167,7 @@ module.exports = new Command({
         //Finished Loading
         const end = new Date();
         var span = (end.getTime() - start.getTime()) / 1000;
-        msg.channel.send(rawEmb().setColor(colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
+        return msg.channel.send(rawEmb().setColor(colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
     }
 );
 

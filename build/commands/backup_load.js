@@ -120,7 +120,7 @@ module.exports = new classes_1.Command({
     //Finished Loading
     const end = new Date();
     var span = (end.getTime() - start.getTime()) / 1000;
-    msg.channel.send(utilities_1.rawEmb().setColor(utilities_1.colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
+    return msg.channel.send(utilities_1.rawEmb().setColor(utilities_1.colors.success).setTitle("Finished Loading uwu").setFooter("Took " + Math.floor(span * 10) / 10 + " seconds"));
 });
 function catchErr(msg, str, txt) {
     msg.channel.send(utilities_1.rawEmb().setColor(utilities_1.colors.error).setTitle("Could'nt Load: " + str).setDescription(txt));
