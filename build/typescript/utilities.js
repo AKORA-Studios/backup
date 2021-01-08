@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTree = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
+exports.generateTree = exports.getFileAsync = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -189,7 +189,7 @@ function assignValues(a, b) {
 }
 exports.assignValues = assignValues;
 //Getting File
-exports.getFile = async (msg, text, timeout, succes, failure) => {
+async function getFile(msg, text, timeout, succes, failure) {
     //Getting the file from the User
     var emb = exports.rawEmb().setColor(exports.colors.info);
     emb.setTitle(text)
@@ -241,7 +241,14 @@ exports.getFile = async (msg, text, timeout, succes, failure) => {
             return failure;
         }
     });
-};
+}
+exports.getFile = getFile;
+function getFileAsync(msg, text, timeout) {
+    return new Promise((res, rej) => {
+        getFile(msg, text, timeout, res, rej);
+    });
+}
+exports.getFileAsync = getFileAsync;
 function streamToString(stream) {
     const chunks = [];
     return new Promise((resolve, reject) => {

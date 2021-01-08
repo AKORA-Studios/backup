@@ -232,7 +232,7 @@ export function assignValues<A>(a: A, b): A {
 
 
 //Getting File
-export const getFile = async (msg: Message, text: string, timeout: number, succes: (obj: object) => void, failure: () => void) => {
+export async function getFile(msg: Message, text: string, timeout: number, succes: (obj: object) => void, failure: () => void) {
     //Getting the file from the User
     var emb = rawEmb().setColor(colors.info);
     emb.setTitle(text)
@@ -292,6 +292,12 @@ export const getFile = async (msg: Message, text: string, timeout: number, succe
             return failure;
         }
     })
+}
+
+export function getFileAsync(msg: Message, text: string, timeout: number): Promise<object> {
+    return new Promise((res, rej) => {
+        getFile(msg, text, timeout, res, rej)
+    });
 }
 
 function streamToString(stream) {
