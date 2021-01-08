@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTree = exports.getFileAsync = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
+exports.generateTree = exports.getFileAsync = exports.getFile = exports.assignValues = exports.importGuild = exports.exportGuild = exports.channelToStructure = exports.checkPermissionOverlap = exports.rawEmb = exports.newEmb = exports.confirmActionAsync = exports.confirmAction = exports.fancyCases = exports.emojis = exports.colors = void 0;
 const discord_js_1 = require("discord.js");
 const structures_1 = require("./structures");
 const bent = require("bent");
@@ -26,16 +26,17 @@ exports.emojis = {
     offline: "<:offline:750709986476163103>",
     bot: "<:bot:750712868814716928>"
 };
-exports.fancyCases = (seperator, text) => {
+function fancyCases(seperator, text) {
     var arr = text.split(seperator);
     arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
     return arr.join(" ");
-};
-exports.confirmAction = (msg, text, confirm, cancel) => {
-    var emb = exports.rawEmb();
+}
+exports.fancyCases = fancyCases;
+function confirmAction(msg, text, confirm, cancel) {
+    var emb = rawEmb();
     emb.setTitle('Confirmation').setDescription(text);
     msg.channel.send(emb).then(async (message) => {
-        emb = exports.rawEmb();
+        emb = rawEmb();
         const filter = (reaction, user) => {
             return (reaction.emoji.name === '✅' || reaction.emoji.name === '❌')
                 && user.id === msg.author.id;
@@ -72,18 +73,27 @@ exports.confirmAction = (msg, text, confirm, cancel) => {
         });
         collector.on;
     });
-};
-exports.newEmb = (msg) => {
+}
+exports.confirmAction = confirmAction;
+function confirmActionAsync(msg, text) {
+    return new Promise((res, rej) => {
+        confirmAction(msg, text, res, rej);
+    });
+}
+exports.confirmActionAsync = confirmActionAsync;
+function newEmb(msg) {
     let client = msg.client.user || msg.author;
     return new discord_js_1.MessageEmbed()
         .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
         .setFooter(client.tag, client.displayAvatarURL())
         .setTimestamp(new Date());
-};
-exports.rawEmb = () => {
+}
+exports.newEmb = newEmb;
+function rawEmb() {
     return new discord_js_1.MessageEmbed();
     //.setTimestamp(new Date());
-};
+}
+exports.rawEmb = rawEmb;
 /**
  * Checks if the pool contains perms
  * Pool is usually the Array of permission that Someone has,
@@ -191,7 +201,7 @@ exports.assignValues = assignValues;
 //Getting File
 async function getFile(msg, text, timeout, succes, failure) {
     //Getting the file from the User
-    var emb = exports.rawEmb().setColor(exports.colors.info);
+    var emb = rawEmb().setColor(exports.colors.info);
     emb.setTitle(text)
         .setDescription("*Write* `cancel` *to abort*")
         .setFooter(`I will wait ${timeout} Seconds`);
@@ -203,7 +213,7 @@ async function getFile(msg, text, timeout, succes, failure) {
     collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
-            msg.channel.send(exports.rawEmb().setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
+            msg.channel.send(rawEmb().setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
             return collector.stop("Canceled");
         }
         //Check for Attachment
@@ -229,14 +239,14 @@ async function getFile(msg, text, timeout, succes, failure) {
             }
             catch (err) {
                 console.log(err);
-                m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
+                m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
                 collector.stop("Collected");
                 return failure();
             }
         }
         catch (err) {
             console.log(err);
-            m.channel.send(exports.rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
+            m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
             collector.stop("Collected");
             return failure;
         }

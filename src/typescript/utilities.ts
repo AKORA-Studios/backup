@@ -26,14 +26,14 @@ export const emojis = {
     bot: "<:bot:750712868814716928>"
 }
 
-export const fancyCases = (seperator: string, text: string): string => {
+export function fancyCases(seperator: string, text: string): string {
     var arr = text.split(seperator)
     arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
 
     return arr.join(" ");
 }
 
-export const confirmAction = (msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) => {
+export function confirmAction(msg: Message, text: string, confirm: (message: Message) => void, cancel: (message: Message) => void) {
     var emb = rawEmb();
 
     emb.setTitle('Confirmation').setDescription(text)
@@ -89,7 +89,13 @@ export const confirmAction = (msg: Message, text: string, confirm: (message: Mes
     });
 }
 
-export const newEmb = (msg: Message) => {
+export function confirmActionAsync(msg: Message, text: string): Promise<Message> {
+    return new Promise((res, rej) => {
+        confirmAction(msg, text, res, rej)
+    });
+}
+
+export function newEmb(msg: Message) {
     let client = msg.client.user || msg.author;
     return new MessageEmbed()
         .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
@@ -97,7 +103,7 @@ export const newEmb = (msg: Message) => {
         .setTimestamp(new Date());
 }
 
-export const rawEmb = () => {
+export function rawEmb() {
     return new MessageEmbed();
     //.setTimestamp(new Date());
 }
