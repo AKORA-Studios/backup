@@ -100,14 +100,15 @@ exports.rawEmb = rawEmb;
  * While perms is the set of needed permissions
  * if the pool contains all ppermissions from perms the function return true
  */
-exports.checkPermissionOverlap = (perms, pool) => {
+function checkPermissionOverlap(perms, pool) {
     for (let perm of perms) {
         if (!pool.includes(perm))
             return false;
     }
     return true;
-};
-exports.channelToStructure = (g_c) => {
+}
+exports.checkPermissionOverlap = checkPermissionOverlap;
+function channelToStructure(g_c) {
     let c = new structures_1.ChannelStructure();
     c.id = g_c.id;
     c.name = g_c.name;
@@ -117,8 +118,9 @@ exports.channelToStructure = (g_c) => {
     c.topic = g_c["topic"];
     c.nsfw = g_c["nsfw"];
     return c;
-};
-exports.exportGuild = async (guild) => {
+}
+exports.channelToStructure = channelToStructure;
+async function exportGuild(guild) {
     guild = await guild.fetch();
     var structure = new structures_1.GuildStructure();
     //The Hard Coded Stuff qwq
@@ -167,7 +169,7 @@ exports.exportGuild = async (guild) => {
     });
     //Channels
     var channels = guild.channels.cache.array().sort((a, b) => a.position - b.position);
-    var loose_channels = channels.filter(c => c.parentID === null && c.type !== "category").map(exports.channelToStructure);
+    var loose_channels = channels.filter(c => c.parentID === null && c.type !== "category").map(channelToStructure);
     channels = channels.filter(c => !loose_channels.find(ch => ch.id === c.id)); //Removing Loose Channels
     var categorys = channels.filter(c => c.type === "category").map(g_c => {
         let chan = new structures_1.ChannelStructure();
@@ -177,7 +179,7 @@ exports.exportGuild = async (guild) => {
         chan.permissionsLocked = g_c.permissionsLocked;
         chan.type = g_c.type;
         chan.topic = g_c["topic"];
-        chan.childs = channels.filter(c => c.parentID === g_c.id).map(exports.channelToStructure);
+        chan.childs = channels.filter(c => c.parentID === g_c.id).map(channelToStructure);
         return chan;
     });
     var structure_channels = loose_channels.concat(categorys);
@@ -185,10 +187,12 @@ exports.exportGuild = async (guild) => {
     //Save file
     fs.writeFile('./guild_saves/' + guild.id + '.json', JSON.stringify(structure), null, () => { });
     return structure;
-};
-exports.importGuild = (obj) => {
+}
+exports.exportGuild = exportGuild;
+function importGuild(obj) {
     return obj;
-};
+}
+exports.importGuild = importGuild;
 /**
  * Asign Values of b to Object A
  */
@@ -289,7 +293,7 @@ Name
         ╠═ Channel
         ╚═ Channel
 */
-exports.generateTree = (structure) => {
+function generateTree(structure) {
     var tree = "";
     let i = 0, x = 0, end = false;
     tree += structure.name + "\n"; //Linebreak
@@ -320,4 +324,5 @@ exports.generateTree = (structure) => {
         }
     }
     return tree;
-};
+}
+exports.generateTree = generateTree;

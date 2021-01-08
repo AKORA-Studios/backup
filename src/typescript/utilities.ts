@@ -114,14 +114,14 @@ export function rawEmb() {
  * While perms is the set of needed permissions
  * if the pool contains all ppermissions from perms the function return true
  */
-export const checkPermissionOverlap = (perms: Array<PermissionString>, pool: Array<PermissionString>): boolean => {
+export function checkPermissionOverlap(perms: Array<PermissionString>, pool: Array<PermissionString>): boolean {
     for (let perm of perms) {
         if (!pool.includes(perm)) return false;
     }
     return true;
 }
 
-export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
+export function channelToStructure(g_c: GuildChannel): ChannelStructure {
     let c = new ChannelStructure();
 
     c.id = g_c.id;
@@ -135,7 +135,7 @@ export const channelToStructure = (g_c: GuildChannel): ChannelStructure => {
     return c;
 }
 
-export const exportGuild = async (guild: Guild) => {
+export async function exportGuild(guild: Guild) {
     guild = await guild.fetch();
     var structure = new GuildStructure();
 
@@ -222,7 +222,7 @@ export const exportGuild = async (guild: Guild) => {
     return structure;
 }
 
-export const importGuild = (obj: object): GuildStructure => {
+export function importGuild(obj: object): GuildStructure {
     return obj as GuildStructure
 }
 
@@ -341,7 +341,7 @@ Name
         ╚═ Channel 
 */
 
-export const generateTree = (structure: GuildStructure): string => {
+export function generateTree(structure: GuildStructure): string {
     var tree = "";
     let i = 0, x = 0, end = false;
 
