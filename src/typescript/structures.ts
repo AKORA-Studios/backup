@@ -1,6 +1,4 @@
 import { PermissionOverwrites, DefaultMessageNotifications, ExplicitContentFilterLevel, SystemChannelFlagsString, VerificationLevel, PermissionResolvable } from "discord.js";
-import { isNewExpression } from "typescript";
-
 export class GuildStructure {
     afkChannelID: string;
     afkTimeout: number | undefined;
