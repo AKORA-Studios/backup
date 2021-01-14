@@ -217,12 +217,12 @@ async function getFile(msg, text, timeout, succes, failure) {
     collector.on('collect', async (m) => {
         //Canceling
         if (m.content.toLowerCase().includes("cancel")) {
-            msg.channel.send(rawEmb().setAuthor(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setTitle("Canceld uwu"));
+            msg.channel.send(rawEmb().setFooter(msg.author.tag, msg.author.displayAvatarURL()).setColor(exports.colors.error).setDescription("**Canceld uwu**"));
             return collector.stop("Canceled");
         }
         //Check for Attachment
         if (m.attachments.size < 1)
-            return m.reply("You need to send a File");
+            return; // m.reply("You need to send a File");
         //Getting File
         var attachment = m.attachments.first(), file = attachment.attachment, url = "";
         //Converting value to String
@@ -243,7 +243,7 @@ async function getFile(msg, text, timeout, succes, failure) {
             }
             catch (err) {
                 console.log(err);
-                m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your file ._."));
+                m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error parsing your JSON file ._."));
                 collector.stop("Collected");
                 return failure();
             }
