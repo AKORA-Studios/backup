@@ -42,7 +42,7 @@ module.exports = new Command({
         emb.addField("**Output:**", "```" + output + "```", false);
 
         msg.channel.send(emb).catch(r => {
-            var inp = new MessageAttachment(Buffer.from(code, 'utf8'), 'output.txt'),
+            var inp = new MessageAttachment(Buffer.from(code, 'utf8'), 'input.txt'),
                 out = new MessageAttachment(Buffer.from(output, 'utf8'), 'output.txt'),
                 emb = rawEmb().setColor(colors.info).setTitle('Output too large');
             msg.channel.send([emb, inp, out]).catch();

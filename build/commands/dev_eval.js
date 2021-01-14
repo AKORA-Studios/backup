@@ -34,7 +34,7 @@ module.exports = new classes_1.Command({
     emb.addField("**Code:**", "```" + code + "```", false);
     emb.addField("**Output:**", "```" + output + "```", false);
     msg.channel.send(emb).catch(r => {
-        var inp = new discord_js_1.MessageAttachment(Buffer.from(code, 'utf8'), 'output.txt'), out = new discord_js_1.MessageAttachment(Buffer.from(output, 'utf8'), 'output.txt'), emb = utilities_1.rawEmb().setColor(utilities_1.colors.info).setTitle('Output too large');
+        var inp = new discord_js_1.MessageAttachment(Buffer.from(code, 'utf8'), 'input.txt'), out = new discord_js_1.MessageAttachment(Buffer.from(output, 'utf8'), 'output.txt'), emb = utilities_1.rawEmb().setColor(utilities_1.colors.info).setTitle('Output too large');
         msg.channel.send([emb, inp, out]).catch();
     });
 });
