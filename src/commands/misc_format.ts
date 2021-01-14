@@ -21,7 +21,7 @@ module.exports = new Command({
         if (args.length > 0 && args[0].toLowerCase().includes("minimal")) minimal = true;
 
         try {
-            var json = getFileAsync(msg, "Send me your JSON File uwu", 30);
+            var json = await getFileAsync(msg, "Send me your JSON File uwu", 30);
         } catch (e) { }
 
         //Converting to GuildStructure Object
