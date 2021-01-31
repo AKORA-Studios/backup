@@ -14,11 +14,14 @@
             "type": "string",
             "description": "The prefix with that every command starts"
         },
-        "token": {
-            "type": "string",
-            "title": "Discord Bot Token",
-            "maxLength": 59,
-            "minLength": 59
+        "tokens": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Discord Bot Token",
+                "maxLength": 59,
+                "minLength": 59
+            }
         },
         "dbl_token": {
             "type": "string",
