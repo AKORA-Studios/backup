@@ -1,32 +1,21 @@
 import { Bot, Command } from "./typescript/classes";
 import { colors, rawEmb } from "./typescript/utilities";
-import { prefix, tokens, owner, dbl_token } from './config.json';
+import { prefix, token, owner, dbl_token } from './config.json';
 
 import * as DBL from "dblapi.js";
 import { TextChannel, MessageEmbed, Guild } from "discord.js";
 
-var main = new Bot();
-var dbl = new DBL(dbl_token, main);
+var client = new Bot();
+var dbl = new DBL(dbl_token, client);
 
-main.prefix = prefix;
-main.owner = owner;
-main.command_path = "./commands";
-main.token = tokens[0];
+client.prefix = prefix;
+client.owner = owner;
+client.command_path = "./commands";
+client.token = token;
 
-main.loadCommands(main.command_path);
+client.loadCommands(client.command_path);
 
-main.on('ready', () => {
-    //For Top.gg stats
-    dbl.postStats(main.guilds.cache.size);
-    setInterval(() => {
-        //Sending the stats to top.gg
-        dbl.postStats(main.guilds.cache.size);
-    }, 30 * 60 * 1000);
-
-    ready(main)
-});
-
-function ready(client: Bot) {
+client.on("ready", () => {
     client.setErrorChannel(714557180757409942);
     client.user.setPresence({
         activity: {
@@ -35,6 +24,13 @@ function ready(client: Bot) {
         },
         status: 'idle'
     });
+
+    //For Top.gg stats
+    dbl.postStats(client.guilds.cache.size);
+    setInterval(() => {
+        //Sending the stats to top.gg
+        dbl.postStats(client.guilds.cache.size);
+    }, 30 * 60 * 1000);
 
     const reload = new Command({
         name: 'Reload',
@@ -51,47 +47,29 @@ function ready(client: Bot) {
         client.commands.set("Reload", reload);
     })
     client.commands.set("Reload", reload)
-}
+});
 
 async function guildCountUpdate(g: Guild, join: boolean) {
-    dbl.postStats(main.guilds.cache.size);
+    dbl.postStats(client.guilds.cache.size);
     var emb = rawEmb()
         .setColor(join ? colors.success : colors.error)
         .setTimestamp();
 
     if (join) {
         g = await g.fetch();
-        var owner = await main.users.fetch(g.ownerID);
+        var owner = await client.users.fetch(g.ownerID);
 
-        emb.setTitle(`Joined: ${g.name} [${main.guilds.cache.size}]`)
+        emb.setTitle(`Joined: ${g.name} [${client.guilds.cache.size}]`)
             .setFooter(owner.tag, owner.displayAvatarURL())
     } else {
-        emb.setTitle(`Left: ${g.name} [${main.guilds.cache.size}]`)
+        emb.setTitle(`Left: ${g.name} [${client.guilds.cache.size}]`)
     }
 
 
-    main.channels.fetch("753474865104683110").then(c => (c as TextChannel).send(emb))
+    client.channels.fetch("753474865104683110").then(c => (c as TextChannel).send(emb))
 }
 
-main.on("guildCreate", g => guildCountUpdate(g, true));
-main.on("guildDelete", g => guildCountUpdate(g, false));
+client.on("guildCreate", g => guildCountUpdate(g, true));
+client.on("guildDelete", g => guildCountUpdate(g, false));
 
-main.login(main.token);
-
-
-//Childs
-var childs: Bot[] = [];
-for (const token of tokens.slice(1)) {
-    var child = new Bot();
-
-    child.prefix = prefix;
-    child.owner = owner;
-    child.command_path = "./commands";
-    child.token = token;
-
-    child.loadCommands(child.command_path);
-    child.on('ready', () => ready(child));
-
-    childs.push(child);
-    child.login(token);
-}
+client.login(client.token);

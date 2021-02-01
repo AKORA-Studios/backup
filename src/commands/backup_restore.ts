@@ -19,7 +19,7 @@ module.exports = new Command({
     async (message, args) => {
         try {
             var obj = await getFileAsync(message, "Please send me your backup file", 30,);
-        } catch (e) { }
+        } catch (e) { return; }
         var struc = importGuild(obj),
             { guild } = message;
 
@@ -31,7 +31,7 @@ module.exports = new Command({
 
         try {
             await confirmActionAsync(message, "Please Confirm you want to restore this Backup");
-        } catch (e) { }
+        } catch (e) { return; }
         guild = await message.guild.fetch();
 
         var emb = rawEmb().setColor(colors.success).setTitle("Restoring Backup"),

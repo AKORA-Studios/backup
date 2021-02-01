@@ -24,11 +24,11 @@ module.exports = new classes_1.Command({
         }
         catch (e) {
             console.log(e);
-            msg.channel.send(utilities_1.newEmb(msg).setColor(utilities_1.colors.error).setTitle('I don\'t have stored this guild yet._.'));
+            return msg.channel.send(utilities_1.newEmb(msg).setColor(utilities_1.colors.error).setTitle('I don\'t have stored this guild yet._.'));
         }
     }
     else {
-        utilities_1.getFile(msg, "Send me your JSON File uwu", 30, (json) => {
+        return utilities_1.getFile(msg, "Send me your JSON File uwu", 30, (json) => {
             //Converting to GuildStructure Object
             var structure = utilities_1.importGuild(json);
             sendEmbeds(msg, structure);

@@ -17,7 +17,9 @@ module.exports = new classes_1.Command({
     try {
         var obj = await utilities_1.getFileAsync(message, "Please send me your backup file", 30);
     }
-    catch (e) { }
+    catch (e) {
+        return;
+    }
     var struc = utilities_1.importGuild(obj), { guild } = message;
     message.channel.send(utilities_1.newEmb(message)
         .setColor(utilities_1.colors.warning)
@@ -26,7 +28,9 @@ module.exports = new classes_1.Command({
     try {
         await utilities_1.confirmActionAsync(message, "Please Confirm you want to restore this Backup");
     }
-    catch (e) { }
+    catch (e) {
+        return;
+    }
     guild = await message.guild.fetch();
     var emb = utilities_1.rawEmb().setColor(utilities_1.colors.success).setTitle("Restoring Backup"), text = utilities_1.emojis.false + " Emojis\n"
         + utilities_1.emojis.false + " Roles\n"

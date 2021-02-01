@@ -252,7 +252,7 @@ async function getFile(msg, text, timeout, succes, failure) {
             console.log(err);
             m.channel.send(rawEmb().setColor(exports.colors.error).setTitle("There was an error downloading your file ._."));
             collector.stop("Collected");
-            return failure;
+            return failure();
         }
     });
 }
