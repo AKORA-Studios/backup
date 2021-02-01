@@ -38,3 +38,4 @@ module.exports = new classes_1.Command({
         msg.channel.send([emb, inp, out]).catch();
     });
 });
+//# sourceMappingURL=dev_eval.js.map

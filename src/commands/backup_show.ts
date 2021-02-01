@@ -29,7 +29,7 @@ module.exports = new Command({
 
                 sendEmbeds(msg, structure);
             } catch (e) {
-                console.log(e);
+                //console.log(e);
                 return msg.channel.send(newEmb(msg).setColor(colors.error).setTitle('I don\'t have stored this guild yet._.'));
             }
         } else {

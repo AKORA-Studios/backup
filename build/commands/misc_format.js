@@ -35,3 +35,4 @@ module.exports = new classes_1.Command({
     var attachment = new discord_js_1.MessageAttachment(buffer, 'formatted.json');
     msg.channel.send([emb, attachment]);
 });
+//# sourceMappingURL=misc_format.js.map

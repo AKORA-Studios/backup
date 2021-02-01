@@ -13,3 +13,4 @@ exports.ChannelStructure = ChannelStructure;
 class RoleStructure {
 }
 exports.RoleStructure = RoleStructure;
+//# sourceMappingURL=structures.js.map

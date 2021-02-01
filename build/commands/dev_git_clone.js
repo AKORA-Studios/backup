@@ -24,3 +24,4 @@ module.exports = new classes_1.Command({
         msg.channel.send(emb);
     });
 });
+//# sourceMappingURL=dev_git_clone.js.map

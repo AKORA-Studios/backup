@@ -6,6 +6,7 @@
 
 # Local Files
 **/local.json
+*.map
 
 # Folders
 /.idea

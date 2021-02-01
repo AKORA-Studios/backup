@@ -23,7 +23,7 @@ module.exports = new classes_1.Command({
             sendEmbeds(msg, structure);
         }
         catch (e) {
-            console.log(e);
+            //console.log(e);
             return msg.channel.send(utilities_1.newEmb(msg).setColor(utilities_1.colors.error).setTitle('I don\'t have stored this guild yet._.'));
         }
     }
@@ -67,3 +67,4 @@ const sendEmbeds = (msg, structure) => {
     msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
     msg.channel.send(structure_emb).catch(() => msg.channel.send(char_limit));
 };
+//# sourceMappingURL=backup_show.js.map

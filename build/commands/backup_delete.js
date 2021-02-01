@@ -27,3 +27,4 @@ module.exports = new classes_1.Command({
     catch (e) { }
     return msg.channel.send(utilities_1.rawEmb().setColor(utilities_1.colors.success).setTitle("You backup was deleted succesfully"));
 });
+//# sourceMappingURL=backup_delete.js.map

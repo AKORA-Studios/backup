@@ -48,3 +48,4 @@ module.exports = new classes_1.Command({
         msg.channel.send(emb);
     }
 });
+//# sourceMappingURL=info_help.js.map

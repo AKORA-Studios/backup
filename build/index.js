@@ -61,3 +61,4 @@ async function guildCountUpdate(g, join) {
 client.on("guildCreate", g => guildCountUpdate(g, true));
 client.on("guildDelete", g => guildCountUpdate(g, false));
 client.login(client.token);
+//# sourceMappingURL=index.js.map

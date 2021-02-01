@@ -32,3 +32,4 @@ module.exports = new classes_1.Command({
         msg.channel.send(utilities_1.newEmb(msg).setColor(utilities_1.colors.error).setTitle("There was an error catching a Neko >~>"));
     }
 });
+//# sourceMappingURL=fun_poke.js.map

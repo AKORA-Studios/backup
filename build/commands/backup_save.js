@@ -30,3 +30,4 @@ module.exports = new classes_1.Command({
     var attachment = new discord_js_1.MessageAttachment(buffer, msg.guild.id + '.json');
     return msg.channel.send([emb, attachment]);
 });
+//# sourceMappingURL=backup_save.js.map
