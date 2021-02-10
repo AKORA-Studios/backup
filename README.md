@@ -8,9 +8,11 @@
 [![lib](https://top.gg/api/widget/lib/739905746002771990.svg?noavatar=true)](https://top.gg/bot/739905746002771990)
 -->
 
+[![Code Grade](https://www.code-inspector.com/project/18847/status/svg)](https://www.code-inspector.com/public/project/18847/dashboard)
+[![Code Score](https://www.code-inspector.com/project/18847/score/svg)](https://www.code-inspector.com/public/project/18847/dashboard)
+<br />
 [![widget](https://top.gg/api/widget/739905746002771990.svg)](https://top.gg/bot/739905746002771990)
-[![Code Grade](https://www.code-inspector.com/project/18847/status/svg)](https://frontend.code-inspector.com/public/project/18847/backup/dashboard)
-[![Code Score](https://www.code-inspector.com/project/18847/score/svg)](https://frontend.code-inspector.com/public/project/18847/backup/dashboard)
+
 
 
 # Backup Bot
