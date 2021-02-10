@@ -1,4 +1,4 @@
-import { newEmb, colors, emojis, rawEmb } from '../typescript/utilities';
+import { newEmb, colors, emojis, rawEmb, code } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import { MessageAttachment } from 'discord.js';
 
@@ -15,7 +15,7 @@ module.exports = new Command({
 },
 
     async (msg, args) => {
-        var code = args.join(' ');
+        var input = args.join(' ');
 
         let emb = newEmb(msg).setColor(colors.info),
             output = "";
@@ -33,16 +33,16 @@ module.exports = new Command({
         }
 
         try {
-            output = eval(code);
+            output = eval(input);
         } catch (e) {
             output = e;
         }
 
-        emb.addField("**Code:**", "```" + code + "```", false);
-        emb.addField("**Output:**", "```" + output + "```", false);
+        emb.addField("**Code:**", code(input), false);
+        emb.addField("**Output:**", code(output), false);
 
         msg.channel.send(emb).catch(r => {
-            var inp = new MessageAttachment(Buffer.from(code, 'utf8'), 'input.txt'),
+            var inp = new MessageAttachment(Buffer.from(input, 'utf8'), 'input.txt'),
                 out = new MessageAttachment(Buffer.from(output, 'utf8'), 'output.txt'),
                 emb = rawEmb().setColor(colors.info).setTitle('Output too large');
             msg.channel.send([emb, inp, out]).catch();

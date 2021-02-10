@@ -26,6 +26,10 @@ export const emojis = {
     bot: "<:bot:750712868814716928>"
 }
 
+export function code(str: string, single = false) {
+    return `${single ? '`' : '```'}${str}${single ? '`' : '```'}`
+}
+
 export function fancyCases(seperator: string, text: string): string {
     var arr = text.split(seperator)
     arr = arr.map(v => v.charAt(0).toUpperCase() + v.substr(1));
@@ -217,7 +221,7 @@ export async function exportGuild(guild: Guild) {
 
 
     //Save file
-    fs.writeFile('./guild_saves/' + guild.id + '.json', JSON.stringify(structure), null, () => { });
+    fs.writeFile(`./guild_saves/${guild.id}.json`, JSON.stringify(structure), null, () => { });
 
     return structure;
 }
@@ -235,7 +239,27 @@ export function assignValues<A>(a: A, b): A {
     return a;
 }
 
+export async function funCommand(msg: Message, endpoint: string) {
+    const getString = bent('string');
 
+    //Downloading the File
+    try {
+        var res = await getString(`https://nekos.life/api/v2/img/${endpoint}`)
+
+        //Parsing
+        try {
+            var json = JSON.parse(res);
+
+            msg.channel.send(newEmb(msg).setColor(colors.success).setImage(json.url).setTitle("Neko (,,◕　⋏　◕,,)"))
+        } catch (err) {
+            console.log(err);
+            msg.channel.send(newEmb(msg).setColor(colors.error).setTitle("There was an error extracting the Neko :0"));
+        }
+    } catch (err) {
+        console.log(err);
+        msg.channel.send(newEmb(msg).setColor(colors.error).setTitle("There was an error catching a Neko >~>"));
+    }
+}
 
 //Getting File
 export async function getFile(msg: Message, text: string, timeout: number, succes: (obj: object) => void, failure: () => void) {
