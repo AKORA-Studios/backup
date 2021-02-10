@@ -1,4 +1,4 @@
-import { newEmb, importGuild, getFile, colors, generateTree, rawEmb, emojis, fancyCases } from '../typescript/utilities';
+import { newEmb, importGuild, getFile, colors, generateTree, rawEmb, emojis, fancyCases, code } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import * as fs from 'fs';
 import { Message } from 'discord.js';
@@ -60,16 +60,15 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
     if (structure.channels.length) channel_count += structure.channels.length;
     for (let cat of structure.channels.filter(v => v.childs)) channel_count += cat.childs.length;
 
-    info_emb.setDescription(""
-        + `${emojis.owner} <@${structure.ownerID}>\n`
-        + `\n`
-        + `${emojis.information} **Stats**\n` + "```"
-        + `Channel ${channel_count}\n`
-        + `Roles   ${structure.roles.length}\n`
-        + `Emojis  ${structure.emojis.length}\n`
-        + "```\n"
+    info_emb.setDescription(
+        `${emojis.owner} <@${structure.ownerID}>\n\n`
+        + `${emojis.information} **Stats**\n${code(
+            `Channel ${channel_count}\n`
+            + `Roles   ${structure.roles.length}\n`
+            + `Emojis  ${structure.emojis.length}\n`
+        )}\n`
         + `${emojis.tag} **Region**\n`
-        + "`" + fancyCases("-", structure.region) + "`"
+        + code(fancyCases("-", structure.region), true)
     );
 
 
@@ -80,7 +79,7 @@ const sendEmbeds = (msg: Message, structure: GuildStructure) => {
         .setColor(colors.info)
         .setFooter(msg.client.user.tag, msg.client.user.displayAvatarURL());
 
-    structure_emb.setDescription("```" + generateTree(structure) + "```")
+    structure_emb.setDescription(code(generateTree(structure)))
         .setTimestamp(structure.savedAt);
 
     msg.channel.send(info_emb).catch(() => msg.channel.send(char_limit));
