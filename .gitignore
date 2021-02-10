@@ -6,8 +6,11 @@
 
 # Local Files
 **/local.json
+*.map
 
 # Folders
 /.idea
 /node_modules
+/build
+/dist
 **/guild_saves/**
