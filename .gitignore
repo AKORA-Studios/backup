@@ -11,4 +11,6 @@
 # Folders
 /.idea
 /node_modules
+/build
+/dist
 **/guild_saves/**
