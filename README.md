@@ -9,6 +9,8 @@
 -->
 
 [![widget](https://top.gg/api/widget/739905746002771990.svg)](https://top.gg/bot/739905746002771990)
+[![Code Grade](https://www.code-inspector.com/project/18841/status/svg)](https://www.code-inspector.com/public/project/18841/dashboard)
+
 
 # Backup Bot
 
