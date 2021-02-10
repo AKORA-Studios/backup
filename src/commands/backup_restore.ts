@@ -35,14 +35,21 @@ module.exports = new Command({
         guild = await message.guild.fetch();
 
         var emb = rawEmb().setColor(colors.success).setTitle("Restoring Backup"),
+            text = '', msg: Message, state = 0;
+
+        async function nextState() {
+            const { false: f, true: t, presence: p } = emojis;
             text =
-                emojis.false + " Emojis\n"
-                + emojis.false + " Roles\n"
-                + emojis.false + " Channels\n",
+                (state > 0 ? (state > 1 ? t : p) : f) + " Emojis\n" +
+                (state > 2 ? (state > 3 ? t : p) : f) + emojis.false + " Roles\n" +
+                (state > 4 ? (state > 5 ? t : p) : f) + emojis.false + " Channels\n";
 
-            msg = await message.channel.send(emb);
+            if (!msg) msg = await message.channel.send(emb.setDescription(text));
+            else msg = await msg.edit(emb.setDescription(text));
+            state++;
+        }
 
-
+        await nextState();
         const reason = "Loading Backup by " + message.author.tag,
             start = new Date();
 
@@ -51,12 +58,7 @@ module.exports = new Command({
 
 
         //Loading Emojis
-        text =
-            emojis.presence + " Emojis\n"
-            + emojis.false + " Roles\n"
-            + emojis.false + " Channels\n";
-
-        msg = await msg.edit(emb.setDescription(text));
+        await nextState();
 
         if (struc.emojis) {//Else Not interable
             for (let emoji of struc.emojis) {
@@ -68,16 +70,11 @@ module.exports = new Command({
             }
         }
 
-
+        await nextState();
 
 
         //Loading Roles
-        text =
-            emojis.true + " Emojis\n"
-            + emojis.presence + " Roles\n"
-            + emojis.false + " Channels\n";
-
-        await msg.edit(emb.setDescription(text));
+        await nextState();
 
         for (let i = 0; i < struc.roles.length; i++) {
             var role = struc.roles.reverse()[i];
@@ -112,17 +109,12 @@ module.exports = new Command({
             }
         }
 
-
+        await nextState();
 
 
 
         //Loading Channels
-        text =
-            emojis.true + " Emojis\n"
-            + emojis.true + " Roles\n"
-            + emojis.presence + " Channels\n";
-
-        await msg.edit(emb.setDescription(text));
+        await nextState();
 
         if (struc.channels) {//Else Not interable
             //LOOSE - Channels
@@ -213,11 +205,7 @@ module.exports = new Command({
             }
         }
 
-        text =
-            emojis.true + " Emojis\n"
-            + emojis.true + " Roles\n"
-            + emojis.true + " Channels\n";
-        await msg.edit(emb.setDescription(text));
+        await nextState();
 
 
 

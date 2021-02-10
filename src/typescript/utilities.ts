@@ -369,7 +369,7 @@ export function generateTree(structure: GuildStructure): string {
     var tree = "";
     let i = 0, x = 0, end = false;
 
-    tree += structure.name + "\n";//Linebreak
+    tree += `${structure.name}\n`;//Linebreak
 
     //Roles
     tree += "╠══ Roles \n";
