@@ -1,4 +1,4 @@
-import { newEmb, colors } from '../typescript/utilities';
+import { newEmb, colors, funCommand } from '../typescript/utilities';
 import * as bent from "bent";
 import { Command } from "../typescript/classes";
 
@@ -15,25 +15,6 @@ module.exports = new Command({
 },
 
     async (msg, args) => {
-
-        const getString = bent('string');
-
-        //Downloading the File
-        try {
-            var res = await getString("https://nekos.life/api/v2/cat")
-
-            //Parsing
-            try {
-                var json = JSON.parse(res);
-
-                msg.channel.send(newEmb(msg).setColor(colors.success).setTitle("Meow " + json.cat));
-            } catch (err) {
-                console.log(err);
-                msg.channel.send(newEmb(msg).setColor(colors.error).setTitle("There was an error extracting the Neko :0"));
-            }
-        } catch (err) {
-            console.log(err);
-            msg.channel.send(newEmb(msg).setColor(colors.error).setTitle("There was an error catching a Neko >~>"));
-        }
+        funCommand(msg, 'cat');
     }
 );

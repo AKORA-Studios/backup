@@ -22,7 +22,7 @@ module.exports = new Command({
         //Getting the file from the User
         if (args[0] && args[0].toLowerCase().includes('stored')) {
             try {
-                let str = fs.readFileSync(join(__dirname, '..', 'guild_saves', msg.guild.id + '.json')).toString('utf8');
+                let str = fs.readFileSync(join(__dirname, '..', 'guild_saves', `${msg.guild.id}.json`)).toString('utf8');
                 let json = JSON.parse(str);
 
                 var structure = importGuild(json);

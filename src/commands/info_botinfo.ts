@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { newEmb, colors } from '../typescript/utilities';
+import { newEmb, colors, code } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 import * as fs from "fs";
 import * as os from "os";
@@ -24,11 +24,11 @@ module.exports = new Command({
             used_mb = Math.round((memory.heapUsed / 1024 / 1024) * 10) / 10;
 
         exec("node -v", function (error, node_ver, stderr) {
-            emb.addField("Version", "`" + version + "`", true)
-                .addField("NodeJS", "`" + node_ver + "`", true)
-                .addField("Discord.JS", "`" + dependencies["discord.js"] + "`", true)
-                .addField("Owner", "`" + msg.client.users.resolve("387655649934311427").tag + "`", true)
-                .addField("Memory", "`" + size_gb + "GB / " + used_mb + "MB`", true)
+            emb.addField("Version", code(version, true), true)
+                .addField("NodeJS", code(node_ver, true), true)
+                .addField("Discord.JS", code(dependencies["discord.js"], true), true)
+                .addField("Owner", code(msg.client.users.resolve("387655649934311427").tag, true), true)
+                .addField("Memory", code(`${size_gb} GB / ${used_mb} MB`, true), true)
 
                 .setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/200px-Typescript_logo_2020.svg.png")
 

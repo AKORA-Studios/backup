@@ -26,7 +26,7 @@ module.exports = new Command({
         } catch (e) { }
 
         try {
-            unlinkSync('./guild_saves/' + msg.guild.id + '.json');
+            unlinkSync(`./ guild_saves / ${msg.guild.id}.json`);
         } catch (e) { }
 
         return msg.channel.send(rawEmb().setColor(colors.success).setTitle("You backup was deleted succesfully"));

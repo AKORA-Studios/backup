@@ -59,27 +59,7 @@ export class Bot extends Client {
 
             if (!command) return; //If its no Valid Command
 
-            //Check for Arguments
-            if (command.properties.args && !args.length) {
-                emb.setDescription(`Du musst Argumente angeben, ${message.member?.toString()}!`);
-                emb.addField(`Syntax`, `\`${this.prefix}${command.properties.syntax}\``);
-                return message.channel.send(emb);
-
-                //Check for Bot permissions
-            } else if (!checkPermissionOverlap(
-                command.properties.bot_permissions,
-                message.channel.permissionsFor(message.client.user).toArray())) {
-                return message.channel.send(emb.setTitle("I need more permissions for this command").setColor(colors.error));
-
-                //Check for User permissions
-            } else if (!checkPermissionOverlap(
-                command.properties.user_permissions,
-                message.channel.permissionsFor(message.author).toArray())) {
-                return message.channel.send(emb.setTitle("You need more permissions to execute this command").setColor(colors.error));
-            } else if (command.properties.module_type === 'developer' &&
-                !this.owner.includes(message.author.id)) {
-                return message.channel.send(emb.setTitle("Only Bot Owners can execute this Command").setColor(colors.error));
-            }
+            if (this.validateExecution(message, args, command, emb)) return;
 
 
             try {
@@ -112,6 +92,37 @@ export class Bot extends Client {
         });
     }
 
+    /**
+     * Returns true value if not valid
+     */
+    validateExecution(message: Message, args: string[], command: Command, emb: MessageEmbed) {
+        if (message.channel.type !== 'text') return true;
+
+        //Check for Arguments
+        if (command.properties.args && !args.length) {
+            emb.setDescription(`Du musst Argumente angeben, ${message.member?.toString()}!`);
+            emb.addField(`Syntax`, `\`${this.prefix}${command.properties.syntax}\``);
+            return message.channel.send(emb);
+
+            //Check for Bot permissions
+        } else if (!checkPermissionOverlap(
+            command.properties.bot_permissions,
+            message.channel.permissionsFor(message.client.user).toArray())) {
+            return message.channel.send(emb.setTitle("I need more permissions for this command").setColor(colors.error));
+
+            //Check for User permissions
+        } else if (!checkPermissionOverlap(
+            command.properties.user_permissions,
+            message.channel.permissionsFor(message.author).toArray())) {
+            return message.channel.send(emb.setTitle("You need more permissions to execute this command").setColor(colors.error));
+        } else if (command.properties.module_type === 'developer' &&
+            !this.owner.includes(message.author.id)) {
+            return message.channel.send(emb.setTitle("Only Bot Owners can execute this Command").setColor(colors.error));
+        }
+
+        return false;
+    }
+
     async setErrorChannel(channel_id: number | string) {
         try {
             var channel = await this.channels.fetch("714557180757409942").catch();
@@ -133,11 +144,11 @@ export class Bot extends Client {
         }
     }
 
-    loadCommands(path: string) {
+    loadCommands(path: string): void {
         const commandFiles = readdirSync(path).filter((file: string) => file.split(".").pop() == "js");
 
         for (const file of commandFiles) {
-            const command = require("." + path + "/" + file) as Command;
+            const command = require(`.${path}/${file}`) as Command;
 
             this.commands.set(command.properties.name, command);
         }

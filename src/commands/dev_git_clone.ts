@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { newEmb, colors } from '../typescript/utilities';
+import { newEmb, colors, code } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 
 
@@ -17,9 +17,9 @@ module.exports = new Command({
     async (msg, args) => {
         exec("git pull", function (error, stdout, stderr) {
             let emb = newEmb(msg).setTitle("Cloned from Git, Results:").setColor(colors.info)
-            if (error != null) emb.addField("**Error:**", "```" + error.message + "```");
-            if (stdout != "") emb.addField("**Stdout:**", "```" + stdout + "```");
-            if (stderr != "") emb.addField("**Stderr:**", "```" + stderr + "```");
+            if (error != null) emb.addField("**Error:**", code(error.message));
+            if (stdout != "") emb.addField("**Stdout:**", code(stdout));
+            if (stderr != "") emb.addField("**Stderr:**", code(stderr));
 
             msg.channel.send(emb);
         });

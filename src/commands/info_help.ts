@@ -1,4 +1,4 @@
-import { newEmb, colors } from '../typescript/utilities';
+import { newEmb, colors, code } from '../typescript/utilities';
 import { Command } from "../typescript/classes";
 
 
@@ -28,17 +28,17 @@ module.exports = new Command({
 
             emb.setTitle(props.name)
                 .setDescription(props.description + "\n\u200b")
-                .addField("**Syntax:**", "`" + props.syntax + "`", true)
-                .addField("**Triggers:**", props.triggers.map(v => "`" + v + "`").join(', '), true)
+                .addField("**Syntax:**", code(props.syntax, true), true)
+                .addField("**Triggers:**", props.triggers.map(v => code(v, true)).join(', '), true)
                 .addField("**Required Bot Permissions:**", "```"
                     + bot_perms.join(', ')
                     + (bot_perms.length > 0 ? "" : "None")
                     + "```", false)
 
-                .addField("**Required User Permissions:**", "```"
-                    + user_perms.join(', ')
+                .addField("**Required User Permissions:**", code(
+                    user_perms.join(', ')
                     + (user_perms.length > 0 ? "" : "None")
-                    + "```", false)
+                ), false)
                 .setFooter('<> required | [] optional')
                 .setColor(colors.unimportant)
 
